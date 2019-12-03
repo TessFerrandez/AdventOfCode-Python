@@ -1,3 +1,3 @@
 # AdventOfCode-Python
 
-Code for www.adventofcode.com
+Code for www.adventofcode.com in Python
