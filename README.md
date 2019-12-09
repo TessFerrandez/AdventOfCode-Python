@@ -14,3 +14,4 @@ Code for www.adventofcode.com in Python 2019.
 
 **Day 5** - Sunny with a Chance of Asteroids -- IntCode - Part II
 
+**Day 6** - Universal Orbit Map -- Calculate number of orbits A)B
