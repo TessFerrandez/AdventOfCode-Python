@@ -4,6 +4,8 @@ Code for www.adventofcode.com in Python 2019.
 
 ## 2019
 
-**Day 1** - Calculate Fuel
+**Day 1** - The Tyranny of the Rocket Equation -- Calculate Fuel
 
-**Day 2** - IntCode computer - Part 1
+**Day 2** - 1202 Programming Alarm -- IntCode computer - Part 1
+
+**Day3** - Crossing Wires -- (R32,L43...)
