@@ -1,3 +1,8 @@
+"""
+Calculate the fuel needed for the santa rocket
+"""
+
+
 def calculate_fuel(mass):
     return int(mass) // 3 - 2
 
