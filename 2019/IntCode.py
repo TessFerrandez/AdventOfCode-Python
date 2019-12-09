@@ -35,36 +35,50 @@ class IntCode:
             6: self.jmp_false_func,
             7: self.lt_func,
             8: self.eq_func,
+            9: self.rel_func,
         }
 
         self.program_string = program
         self.memory = IntCode.parse(self.program_string)
+        self.rel_instruction_ptr = 0
         self.instruction_ptr = 0
         self.done = False
         self.input_queue = deque()
         self.output_queue = deque()
 
     def mode_get(self, mode, operand):
-        if mode:
+        if mode == 1:
             return operand
+        elif mode == 2:
+            return self.memory[self.rel_instruction_ptr + operand]
         else:
             return self.memory[operand]
 
     def add_func(self, modes, operands):
         a = self.mode_get(modes[0], operands[0])
         b = self.mode_get(modes[1], operands[1])
-        self.memory[operands[2]] = a + b
+        out_ptr = operands[2]
+        if modes[2] == 2:
+            out_ptr += self.rel_instruction_ptr
+        self.memory[out_ptr] = a + b
         self.instruction_ptr += 4
 
     def multi_func(self, modes, operands):
         a = self.mode_get(modes[0], operands[0])
         b = self.mode_get(modes[1], operands[1])
-        self.memory[operands[2]] = a * b
+        out_ptr = operands[2]
+        if modes[2] == 2:
+            out_ptr += self.rel_instruction_ptr
+        self.memory[out_ptr] = a * b
         self.instruction_ptr += 4
 
     def input_func(self, modes, operands):
+        in_ptr = operands[0]
+        if modes[0] == 2:
+            in_ptr += self.rel_instruction_ptr
+
         try:
-            self.memory[operands[0]] = self.input_queue.popleft()
+            self.memory[in_ptr] = self.input_queue.popleft()
         except IndexError:
             raise InputInterrupt
         else:
@@ -91,14 +105,25 @@ class IntCode:
     def lt_func(self, modes, operands):
         a = self.mode_get(modes[0], operands[0])
         b = self.mode_get(modes[1], operands[1])
-        self.memory[operands[2]] = int(a < b)
+        out_ptr = operands[2]
+        if modes[2] == 2:
+            out_ptr += self.rel_instruction_ptr
+        self.memory[out_ptr] = int(a < b)
         self.instruction_ptr += 4
 
     def eq_func(self, modes, operands):
         a = self.mode_get(modes[0], operands[0])
         b = self.mode_get(modes[1], operands[1])
-        self.memory[operands[2]] = int(a == b)
+        out_ptr = operands[2]
+        if modes[2] == 2:
+            out_ptr += self.rel_instruction_ptr
+        self.memory[out_ptr] = int(a == b)
         self.instruction_ptr += 4
+
+    def rel_func(self, modes, operands):
+        a = self.mode_get(modes[0], operands[0])
+        self.rel_instruction_ptr += a
+        self.instruction_ptr += 2
 
     @staticmethod
     def instruction_parse(num, inputs):
@@ -124,4 +149,4 @@ class IntCode:
 
     @staticmethod
     def parse(program_string):
-        return list(map(int, program_string.split(',')))
+        return list(map(int, program_string.split(','))) + [0] * 1000
