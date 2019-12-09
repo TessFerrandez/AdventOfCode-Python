@@ -22,6 +22,24 @@ Code for www.adventofcode.com in Python 2019.
 
 **[Day 9](2019/day9.py)** - Sensor Boost -- IntCode IV
 
+## 2016
+
+**[Day 1](2016/day1.py)** - No Time for a Taxicab -- Rotate Right and Left
+
+**[Day 2](2016/day2.py)** - Bathroom Security -- Keypads
+
+**[Day 3](2016/day3.py)** - Squares With Three Sides -- Good Triangles
+
+**[Day 4](2016/day4.py)** - Security Through Obscurity -- encrypted rooms
+
+**[Day 5](2016/day5.py)** - How About a Nice Game of Chess? -- MD5
+
+**[Day 6](2016/day6.py)** - Signals and Noise -- Most common in each column
+
+**[Day 7](2016/day7.py)** - Internet Protocol Version 7 -- Validate IP address
+
+**[Day 8](2016/day8.py)** - Two-Factor Authentication -- Light screen
+
 ## 2015
 
 **[Day 1](2015/day1.py)** - Not Quite Lisp -- Calculate ())))(
@@ -37,4 +55,3 @@ Code for www.adventofcode.com in Python 2019.
 **[Day 6](2015/day6.py)** - Probably a Fire Hazard -- Grid Board
 
 **[Day 7](2015/day7.py)** - Some Assembly Required -- Bitwise Logic gates
-
