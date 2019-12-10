@@ -22,7 +22,7 @@ Code for www.adventofcode.com in Python 2019.
 
 **[Day 9](2019/day9.py)** - Sensor Boost -- IntCode IV
 
-**[Day 9](2019/day9.py)** - Monitoring Station -- Vaporize asteroids in grid
+**[Day 10](2019/day10.py)** - Monitoring Station -- Vaporize asteroids in grid
 
 ## 2018
 
@@ -31,6 +31,10 @@ Code for www.adventofcode.com in Python 2019.
 **[Day 2](2018/day2.py)** - Inventory Management System -- Candidate box IDs, and common letters
 
 **[Day 3](2018/day3.py)** - No Matter How You Slice It -- Claim santa fabric
+
+## 2017
+
+**[Day 1](2017/day1.py)** - Captcha -- Sum if same as next
 
 ## 2016
 
