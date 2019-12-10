@@ -22,6 +22,8 @@ Code for www.adventofcode.com in Python 2019.
 
 **[Day 9](2019/day9.py)** - Sensor Boost -- IntCode IV
 
+**[Day 9](2019/day9.py)** - Monitoring Station -- Vaporize asteroids in grid
+
 ## 2018
 
 **[Day 1](2018/day1.py)** - Chronal Calibration -- Frequency changes
