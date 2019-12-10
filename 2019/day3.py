@@ -25,7 +25,8 @@ def shortest_distance(locations):
 
 
 def least_steps(common, locations1, locations2):
-    steps = [locations1.index(location) + locations2.index(location) for location in common]
+    steps = [locations1.index(location) + locations2.index(location)
+             for location in common]
     return min(steps) + 2   # add the first step for each (0, 0)
 
 
@@ -36,7 +37,8 @@ def puzzle1and2():
     common = intersection(locations_wire1, locations_wire2)
 
     print("shortest distance:", shortest_distance(common))
-    print("least steps:", least_steps(common, locations_wire1, locations_wire2))
+    print("least steps:",
+          least_steps(common, locations_wire1, locations_wire2))
 
 
 if __name__ == "__main__":

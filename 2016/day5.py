@@ -1,4 +1,4 @@
-import hashlib, string
+import hashlib
 
 
 def get_code(number, room_id='wtnhxymk'):

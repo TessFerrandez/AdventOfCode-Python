@@ -1,7 +1,7 @@
 """
 IntCode computer - Part II
 """
-from IntCode import IntCode, OutputInterrupt, InputInterrupt
+from IntCode import IntCode, OutputInterrupt
 
 
 def get_last_output(input_number):

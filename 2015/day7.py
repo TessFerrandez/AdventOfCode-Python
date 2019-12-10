@@ -1,4 +1,3 @@
-import re
 calc = dict()
 results = dict()
 

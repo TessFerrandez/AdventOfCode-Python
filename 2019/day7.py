@@ -34,7 +34,8 @@ def run_sequence_v2(sequence, program):
             try:
                 computers[i].run()
             except OutputInterrupt:
-                computers[(i+1) % 5].input_queue.append(computers[i].output_queue[-1])
+                computers[(i+1) % 5].input_queue.append(
+                    computers[i].output_queue[-1])
                 continue
             except InputInterrupt:
                 break
@@ -63,4 +64,3 @@ def puzzle2():
 if __name__ == "__main__":
     puzzle1()
     puzzle2()
-

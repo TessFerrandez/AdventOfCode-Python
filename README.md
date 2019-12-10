@@ -22,6 +22,14 @@ Code for www.adventofcode.com in Python 2019.
 
 **[Day 9](2019/day9.py)** - Sensor Boost -- IntCode IV
 
+## 2018
+
+**[Day 1](2018/day1.py)** - Chronal Calibration -- Frequency changes
+
+**[Day 2](2018/day2.py)** - Inventory Management System -- Candidate box IDs, and common letters
+
+**[Day 3](2018/day3.py)** - No Matter How You Slice It -- Claim santa fabric
+
 ## 2016
 
 **[Day 1](2016/day1.py)** - No Time for a Taxicab -- Rotate Right and Left

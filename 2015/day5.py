@@ -2,15 +2,18 @@ import re
 
 
 def has_3_vowels(password):
-    return True if re.search(r"[aeiou].*[aeiou].*[aeiou]", password, re.IGNORECASE) else False
+    return True if re.search(r"[aeiou].*[aeiou].*[aeiou]",
+                             password, re.IGNORECASE) else False
 
 
 def has_doubles(password):
-    return True if re.search(r"(.)\1", password, re.IGNORECASE) else False
+    return True if re.search(r"(.)\1",
+                             password, re.IGNORECASE) else False
 
 
 def doesnt_contain_strings(password):
-    return False if re.search(r"(ab|cd|pq|xy)", password, re.IGNORECASE) else True
+    return False if re.search(r"(ab|cd|pq|xy)",
+                              password, re.IGNORECASE) else True
 
 
 def is_nice(password):
@@ -27,12 +30,14 @@ def is_nice2(password):
 
 
 def puzzle1():
-    nice_passwords = sum(is_nice(line) for line in open('input/day5.txt'))
+    nice_passwords = sum(is_nice(line) for line
+                         in open('input/day5.txt'))
     print(nice_passwords, "nice passwords")
 
 
 def puzzle2():
-    nice_passwords = sum(is_nice2(line) for line in open('input/day5.txt'))
+    nice_passwords = sum(is_nice2(line) for line
+                         in open('input/day5.txt'))
     print(nice_passwords, "extra nice passwords")
 
 

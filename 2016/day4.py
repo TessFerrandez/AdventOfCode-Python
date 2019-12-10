@@ -1,4 +1,6 @@
-import re, collections, string
+import re
+import collections
+import string
 
 
 def parse(input_line):
@@ -65,13 +67,15 @@ def puzzle2():
         for code, sid, checksum in re.findall(regex, fp.read()):
             sid = int(sid)
             letters = ''.join(c for c in code if c in string.ascii_lowercase)
-            tops = [(-n, c) for c, n in collections.Counter(letters).most_common()]
+            tops = [(-n, c) for c, n
+                    in collections.Counter(letters).most_common()]
             ranked = ''.join(c for n, c in sorted(tops))
             if ranked.startswith(checksum):
                 ans1 += sid
                 decoded = code.translate(caesar_cipher(sid))
                 if 'north' in decoded:
-                    print("decoded room:", decoded.replace('-', ' ').strip(), sid)
+                    print("decoded room:",
+                          decoded.replace('-', ' ').strip(), sid)
 
 
 if __name__ == "__main__":

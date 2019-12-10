@@ -44,7 +44,8 @@ def puzzles():
 
     for location in visited:
         if visited.count(location) > 1:
-            print("first location visited twice is", abs(location[0]) + abs(location[1]), "steps away")
+            print("first location visited twice is",
+                  abs(location[0]) + abs(location[1]), "steps away")
             return
 
 

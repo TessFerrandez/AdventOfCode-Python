@@ -18,7 +18,8 @@ def calculate_first_basement(instructions):
 
 def puzzles():
     print("floor:", calculate_floor(open('input/day1.txt').read()))
-    print("first time in basement:", calculate_first_basement(open("input/day1.txt").read()))
+    print("first time in basement:",
+          calculate_first_basement(open("input/day1.txt").read()))
 
 
 if __name__ == "__main__":
