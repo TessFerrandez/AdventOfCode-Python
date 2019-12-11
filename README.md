@@ -75,3 +75,5 @@ Code for www.adventofcode.com in Python 2019.
 **[Day 8](2015/day8.py)** - Matchsticks -- Calculate escape characters
 
 **[Day 9](2015/day9.py)** - All in a Single Night -- Shortest route between cities
+
+**[Day 10](2015/day10.py)** - Elves Look, Elves Say -- Look and say numbers
