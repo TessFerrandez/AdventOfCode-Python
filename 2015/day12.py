@@ -20,8 +20,10 @@ def get_non_red_numbers(content):
 
 
 def puzzles():
-    print("sum numbers:", sum(get_numbers(open("input/day12.txt").readline())))
-    print("sum non red numbers:", sum(get_non_red_numbers(open("input/day12.txt").readline())))
+    print("sum numbers:",
+          sum(get_numbers(open("input/day12.txt").readline())))
+    print("sum non red numbers:",
+          sum(get_non_red_numbers(open("input/day12.txt").readline())))
 
 
 if __name__ == "__main__":

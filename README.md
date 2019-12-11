@@ -83,3 +83,5 @@ Code for www.adventofcode.com in Python 2019.
 **[Day 12](2015/day12.py)** - JSAbacusFramework.io -- Finding numbers in string
 
 **[Day 13](2015/day13.py)** - Knights of the Dinner Table -- Find optimal seating
+
+**[Day 14](2015/day14.py)** - Reindeer Olympics -- How long did the winning deer travel
