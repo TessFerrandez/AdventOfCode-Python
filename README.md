@@ -79,3 +79,5 @@ Code for www.adventofcode.com in Python 2019.
 **[Day 10](2015/day10.py)** - Elves Look, Elves Say -- Look and say numbers
 
 **[Day 11](2015/day11.py)** - Corporate Policy -- Password Regexps
+
+**[Day 12](2015/day12.py)** - JSAbacusFramework.io -- Finding numbers in string
