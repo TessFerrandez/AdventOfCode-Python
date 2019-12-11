@@ -73,3 +73,5 @@ Code for www.adventofcode.com in Python 2019.
 **[Day 7](2015/day7.py)** - Some Assembly Required -- Bitwise Logic gates
 
 **[Day 8](2015/day8.py)** - Matchsticks -- Calculate escape characters
+
+**[Day 9](2015/day9.py)** - All in a Single Night -- Shortest route between cities
