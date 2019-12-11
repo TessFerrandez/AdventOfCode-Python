@@ -36,6 +36,8 @@ Code for www.adventofcode.com in Python 2019.
 
 **[Day 1](2017/day1.py)** - Captcha -- Sum if same as next
 
+**[Day 2](2017/day2.py)** - Corruption Checksum -- Sum of differences and divisors
+
 ## 2016
 
 **[Day 1](2016/day1.py)** - No Time for a Taxicab -- Rotate Right and Left

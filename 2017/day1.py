@@ -1,6 +1,3 @@
-from itertools import cycle
-
-
 def sum_of_sequence(sequence, step=1):
     sequence_len = len(sequence)
     sequence_sum = 0
