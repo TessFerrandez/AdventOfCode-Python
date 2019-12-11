@@ -81,3 +81,5 @@ Code for www.adventofcode.com in Python 2019.
 **[Day 11](2015/day11.py)** - Corporate Policy -- Password Regexps
 
 **[Day 12](2015/day12.py)** - JSAbacusFramework.io -- Finding numbers in string
+
+**[Day 13](2015/day13.py)** - Knights of the Dinner Table -- Find optimal seating
