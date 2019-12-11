@@ -71,3 +71,5 @@ Code for www.adventofcode.com in Python 2019.
 **[Day 6](2015/day6.py)** - Probably a Fire Hazard -- Grid Board
 
 **[Day 7](2015/day7.py)** - Some Assembly Required -- Bitwise Logic gates
+
+**[Day 8](2015/day8.py)** - Matchsticks -- Calculate escape characters
