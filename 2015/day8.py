@@ -11,16 +11,17 @@ def encode(code_string):
 
 def calculate_extra_escape_chars(code_string):
     encoded = encode(code_string)
-    #print(code_string)
-    #print(encoded)
     return len(encoded) - (len(code_string) - 2)
 
 
 def puzzles():
-    code_strings = [code.strip() for code in open("input/day8.txt").readlines()]
-    sum_escape_chars = sum(calculate_escape_chars(code) for code in code_strings)
+    code_strings = [code.strip() for code
+                    in open("input/day8.txt").readlines()]
+    sum_escape_chars = sum(calculate_escape_chars(code)
+                           for code in code_strings)
     print("escape chars:", sum_escape_chars)
-    sum_extra_escape_chars = sum(calculate_extra_escape_chars(code) for code in code_strings)
+    sum_extra_escape_chars = sum(calculate_extra_escape_chars(code)
+                                 for code in code_strings)
     print("extra escape chars:", sum_extra_escape_chars)
 
 

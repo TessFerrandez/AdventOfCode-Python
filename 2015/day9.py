@@ -30,8 +30,8 @@ def get_distance(travel_route):
 
 def puzzles():
     parse_input(open('input/day9.txt').readlines())
-    shortest_distance = 1000000000
-    distances = [get_distance(permutation) for permutation in permutations(cities)]
+    distances = [get_distance(permutation)
+                 for permutation in permutations(cities)]
 
     print("min distance", min(distances))
     print("max distance", max(distances))

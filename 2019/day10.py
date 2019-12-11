@@ -25,7 +25,8 @@ def angle_between(u, v):
 
 def get_direction_and_distance(asteroid_from, asteroid_to):
     north = (0, 1)
-    vector_to_asteroid = (asteroid_to[0] - asteroid_from[0], asteroid_to[1] - asteroid_from[1])
+    vector_to_asteroid = (asteroid_to[0] - asteroid_from[0],
+                          asteroid_to[1] - asteroid_from[1])
 
     distance = abs(vector_to_asteroid[0]) + abs(vector_to_asteroid[1])
 
@@ -46,7 +47,8 @@ def find_best_asteroid():
         for asteroid_target in asteroids:
             if asteroid_source == asteroid_target:
                 continue
-            direction, distance = get_direction_and_distance(asteroid_source, asteroid_target)
+            direction, distance = get_direction_and_distance(asteroid_source,
+                                                             asteroid_target)
             if direction not in directions.keys():
                 directions[direction] = True
 
