@@ -24,6 +24,10 @@ Code for www.adventofcode.com in Python 2019.
 
 **[Day 10](2019/day10.py)** - Monitoring Station -- Vaporize asteroids in grid
 
+**[Day 11](2019/day11.py)** - Space Police -- IntCode V
+
+**[Day 12](2019/day12.py)** - The N-Body Problem -- calculate orbits and gravity
+
 ## 2018
 
 **[Day 1](2018/day1.py)** - Chronal Calibration -- Frequency changes
