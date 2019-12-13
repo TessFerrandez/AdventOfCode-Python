@@ -38,6 +38,8 @@ Code for www.adventofcode.com in Python 2019.
 
 **[Day 3](2018/day3.py)** - No Matter How You Slice It -- Claim santa fabric
 
+**[Day 4](2018/day4.py)** - Repose Record -- Sleeping guard logs
+
 ## 2017
 
 **[Day 1](2017/day1.py)** - Captcha -- Sum if same as next
