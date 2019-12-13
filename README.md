@@ -40,6 +40,8 @@ Code for www.adventofcode.com in Python 2019.
 
 **[Day 4](2018/day4.py)** - Repose Record -- Sleeping guard logs
 
+**[Day 5](2018/day5.py)** - Alchemical Reduction -- Reduce strings
+
 ## 2017
 
 **[Day 1](2017/day1.py)** - Captcha -- Sum if same as next
