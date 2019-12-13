@@ -42,6 +42,8 @@ Code for www.adventofcode.com in Python 2019.
 
 **[Day 5](2018/day5.py)** - Alchemical Reduction -- Reduce strings
 
+**[Day 6](2018/day6.py)** - Chronical Coordinates -- Find largest area
+
 ## 2017
 
 **[Day 1](2017/day1.py)** - Captcha -- Sum if same as next
