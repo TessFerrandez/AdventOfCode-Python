@@ -28,6 +28,8 @@ Code for www.adventofcode.com in Python 2019.
 
 **[Day 12](2019/day12.py)** - The N-Body Problem -- calculate orbits and gravity
 
+**[Day 13](2019/day13.py)** - Care Package -- IntCode VI -- draw arcade games
+
 ## 2018
 
 **[Day 1](2018/day1.py)** - Chronal Calibration -- Frequency changes
