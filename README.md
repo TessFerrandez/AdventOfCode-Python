@@ -54,6 +54,8 @@ Code for www.adventofcode.com in Python 2019.
 
 **[Day 3](2017/day3.py)** - Spiral Memory -- Count steps from center
 
+**[Day 4](2017/day4.py)** - High-Entropy Passphrases -- Valid passphrases
+
 ## 2016
 
 **[Day 1](2016/day1.py)** - No Time for a Taxicab -- Rotate Right and Left
