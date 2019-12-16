@@ -56,6 +56,8 @@ Code for www.adventofcode.com in Python 2019.
 
 **[Day 4](2017/day4.py)** - High-Entropy Passphrases -- Valid passphrases
 
+**[Day 5](2017/day5.py)** - A Maze of Twisty Trampolines, All Alike -- Int maze
+
 ## 2016
 
 **[Day 1](2016/day1.py)** - No Time for a Taxicab -- Rotate Right and Left
