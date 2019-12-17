@@ -60,6 +60,8 @@ Code for www.adventofcode.com in Python 2019.
 
 **[Day 6](2017/day6.py)** - Memory Reallocation -- Distributing weight
 
+**[Day 7](2017/day7.py)** - Recursive Circus -- Finding chains
+
 ## 2016
 
 **[Day 1](2016/day1.py)** - No Time for a Taxicab -- Rotate Right and Left
