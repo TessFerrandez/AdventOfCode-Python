@@ -58,6 +58,8 @@ Code for www.adventofcode.com in Python 2019.
 
 **[Day 5](2017/day5.py)** - A Maze of Twisty Trampolines, All Alike -- Int maze
 
+**[Day 6](2017/day6.py)** - Memory Reallocation -- Distributing weight
+
 ## 2016
 
 **[Day 1](2016/day1.py)** - No Time for a Taxicab -- Rotate Right and Left
