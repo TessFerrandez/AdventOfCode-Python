@@ -62,6 +62,8 @@ Code for www.adventofcode.com in Python 2019.
 
 **[Day 7](2017/day7.py)** - Recursive Circus -- Finding chains
 
+**[Day 8](2017/day8.py)** - I Heard You Like Registers -- Execute jumps
+
 ## 2016
 
 **[Day 1](2016/day1.py)** - No Time for a Taxicab -- Rotate Right and Left
