@@ -64,6 +64,8 @@ Code for www.adventofcode.com in Python 2019.
 
 **[Day 8](2017/day8.py)** - I Heard You Like Registers -- Execute jumps
 
+**[Day 9](2017/day9.py)** - Stream Processing -- <garbage> {group}
+
 ## 2016
 
 **[Day 1](2016/day1.py)** - No Time for a Taxicab -- Rotate Right and Left
