@@ -66,6 +66,8 @@ Code for www.adventofcode.com in Python 2019.
 
 **[Day 9](2017/day9.py)** - Stream Processing -- <garbage> {group}
 
+**[Day 10](2017/day10.py)** - Knot Hash -- Elves hashing function
+
 ## 2016
 
 **[Day 1](2016/day1.py)** - No Time for a Taxicab -- Rotate Right and Left
