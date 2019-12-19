@@ -28,7 +28,7 @@ Code for www.adventofcode.com in Python 2019.
 
 **[Day 12](2019/day12.py)** - The N-Body Problem -- calculate orbits and gravity
 
-**[Day 13](2019/day13.py)** - Care Package -- IntCode VI -- draw arcade games
+**[Day 13-1](2019/day13.py)** - Care Package -- IntCode VI -- draw arcade games
 
 ## 2018
 
@@ -44,7 +44,7 @@ Code for www.adventofcode.com in Python 2019.
 
 **[Day 6](2018/day6.py)** - Chronical Coordinates -- Find largest area
 
-**[Day 7](2018/day7.py)** - The Sum of Its Parts -- Calculate chain of events
+**[Day 7-1](2018/day7.py)** - The Sum of Its Parts -- Calculate chain of events
 
 ## 2017
 
