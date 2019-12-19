@@ -30,6 +30,8 @@ Code for www.adventofcode.com in Python 2019.
 
 **[Day 13-1](2019/day13.py)** - Care Package -- IntCode VI -- draw arcade games
 
+**[Day 14](2019/day14.py)** - Space Stoichiometry -- Create FUEL from ORE
+
 ## 2018
 
 **[Day 1](2018/day1.py)** - Chronal Calibration -- Frequency changes
