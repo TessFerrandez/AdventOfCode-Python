@@ -70,6 +70,8 @@ Code for www.adventofcode.com in Python 2019.
 
 **[Day 11](2017/day11.py)** - Hex Ed -- Reduce hexagonal path
 
+**[Day 12](2017/day12.py)** - Digital Plumber -- Find islands of numbers
+
 ## 2016
 
 **[Day 1](2016/day1.py)** - No Time for a Taxicab -- Rotate Right and Left
