@@ -125,3 +125,5 @@ Code for www.adventofcode.com in Python 2019.
 **[Day 15](2015/day15.py)** - Science for Hungry People -- Best cookie ingredient combo
 
 **[Day 16](2015/day16.py)** - Aunt Sue -- Find out which Aunt Sues
+
+**[Day 17](2015/day17.py)** - No Such Thing as Too Much -- Combos of egg nog containers
