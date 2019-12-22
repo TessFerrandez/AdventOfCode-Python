@@ -129,3 +129,5 @@ Code for www.adventofcode.com in Python 2019.
 **[Day 17](2015/day17.py)** - No Such Thing as Too Much -- Combos of egg nog containers
 
 **[Day 18](2015/day18.py)** - Like a GIF For Your Yard -- Conways game of life
+
+**[Day 19](2015/day19.py)** - Medicine for Rudolph -- Replace substrings
