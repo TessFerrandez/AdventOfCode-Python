@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 
 def parse_initial_state():
     lines = [line.strip() for line in open("input/day18.txt").readlines()]
-    board = [[1 if char is "#" else 0 for char in line] for line in lines]
+    board = [[1 if char == "#" else 0 for char in line] for line in lines]
     return board
 
 
@@ -15,7 +15,7 @@ def in_bounds(row, col, board) -> bool:
     return True
 
 
-def get_neighbors_on(current_row: int, current_col: int, board: int) -> int:
+def get_neighbors_on(current_row: int, current_col: int, board: list) -> int:
     lights_on = 0
     for row in range(current_row - 1, current_row + 2):
         for col in range(current_col - 1, current_col + 2):

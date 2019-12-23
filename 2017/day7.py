@@ -1,4 +1,4 @@
-from anytree import Node, RenderTree
+from anytree import Node
 
 
 def get_discs() -> (dict, dict):

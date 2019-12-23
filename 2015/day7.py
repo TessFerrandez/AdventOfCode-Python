@@ -2,12 +2,13 @@ calc = dict()
 results = dict()
 
 
-def calculate(wire):
+def calculate(wire: str) -> int:
     try:
         return int(wire)
     except ValueError:
         pass
 
+    res = 0
     if wire not in results:
         ops = calc[wire]
         if len(ops) == 1:
@@ -28,14 +29,14 @@ def calculate(wire):
     return results[wire]
 
 
-def init_wiring(commands):
+def init_wiring(commands: list):
     for command in commands:
         (ops, res) = command.split('->')
         calc[res.strip()] = ops.strip().split(' ')
 
 
 def puzzle1():
-    init_wiring(open('input/day7.txt'))
+    init_wiring(open('input/day7.txt').readlines())
     print("result for a: ", calculate('a'))
     results.clear()
     results['b'] = 46065

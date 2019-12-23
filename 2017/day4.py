@@ -5,7 +5,7 @@ def has_dupe_words(pass_phrase):
     return False
 
 
-def has_anagram_words(pass_phrase):
+def has_anagram_words(pass_phrase: list) -> bool:
     for i in range(len(pass_phrase)):
         current = sorted(pass_phrase[i])
         for j in range(i + 1, len(pass_phrase)):

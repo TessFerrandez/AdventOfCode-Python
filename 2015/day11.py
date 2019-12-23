@@ -17,7 +17,7 @@ def inc(s):
     if s == '':
         return 'a'
     elif s[-1] < 'z':
-        return s[0:-1] + chr(ord(s[-1])+1)
+        return s[0:-1] + chr(ord(s[-1]) + 1)
     else:
         return inc(s[:-1]) + 'a'
 

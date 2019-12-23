@@ -40,7 +40,7 @@ def puzzle2():
     dense = []
     for i in range(16):
         sub_slice = nums[16 * i: 16 * i + 16]
-        dense.append('%02x'%reduce((lambda x, y: x ^ y), sub_slice))
+        dense.append('%02x' % reduce((lambda x, y: x ^ y), sub_slice))
     print("puzzle 2:", ''.join(dense))
 
 

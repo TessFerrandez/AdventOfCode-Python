@@ -12,7 +12,7 @@ def puzzles():
              for line in open('input/day7.txt')]
     parts = [(' '.join(p[::2]), ' '.join(p[1::2])) for p in lines]
     print("IPs:", sum(abba(sn) and not (abba(hn)) for sn, hn in parts))
-    print("IPs:", sum(any(a == c and a != b and b+a+b in hn
+    print("IPs:", sum(any(a == c and a != b and b + a + b in hn
                           for a, b, c in zip(sn, sn[1:], sn[2:]))
                       for sn, hn in parts))
 

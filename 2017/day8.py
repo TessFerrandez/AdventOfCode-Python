@@ -31,7 +31,7 @@ def result_of(left: int, op: str, right: int) -> int:
         return left - right
 
 
-def execute_instructions(instructions: list) -> dict:
+def execute_instructions(instructions: list) -> (dict, int):
     registers = dict()
 
     total_max = 0

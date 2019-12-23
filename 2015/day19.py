@@ -6,7 +6,7 @@ def get_molecules(transformation: list, original: str) -> list:
     molecules = []
     for i in range(len(original) - repl_length + 1):
         if original[i: i + repl_length] == from_str:
-            molecules.append(original[:i] + to_str + original[i+repl_length:])
+            molecules.append(original[:i] + to_str + original[i + repl_length:])
 
     return molecules
 
@@ -23,12 +23,6 @@ def replace_and_count(original: str, repl: str) -> (str, int):
 
 
 def get_steps_to_create_molecule(original: str) -> int:
-    translation = {"Rn": "(", "Y": ",", "Ar": ")",
-                   "Al": "X", "B": "X", "Ca": "X",
-                   "F": "X", "H": "X", "Mg": "X",
-                   "N": "X", "O": "X", "P": "X",
-                   "Si": "X", "Th": "X", "Ti": "X"}
-
     replaced = original.replace("Rn", "(").replace("Y", ",").replace("Ar", ")")\
         .replace("Al", "X").replace("B", "X").replace("Ca", "X").replace("C", "X")\
         .replace("F", "X").replace("H", "X").replace("H", "X").replace("Mg", "X")\
@@ -50,7 +44,8 @@ def get_steps_to_create_molecule(original: str) -> int:
             steps += count
             continue
         break
-    print(steps, "steps to molecule")
+
+    return steps
 
 
 def puzzles():
@@ -62,6 +57,7 @@ def puzzles():
     print("num molecules", len(set(molecules)))
 
     steps = get_steps_to_create_molecule(original)
+    print(steps, "steps to molecule")
 
 
 if __name__ == "__main__":

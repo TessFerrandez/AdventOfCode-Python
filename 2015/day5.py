@@ -18,8 +18,8 @@ def doesnt_contain_strings(password):
 
 def is_nice(password):
     return has_3_vowels(password) and \
-           has_doubles(password) and \
-           doesnt_contain_strings(password)
+        has_doubles(password) and \
+        doesnt_contain_strings(password)
 
 
 def is_nice2(password):

@@ -1,4 +1,6 @@
-deer = []
+from typing import List
+
+deer: List[str, int, int, int] = []
 
 
 def parse_input():

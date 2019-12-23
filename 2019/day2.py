@@ -29,7 +29,7 @@ def puzzle2():
         for verb in range(100):
             result = calculate_output(program_string, str(noun), str(verb))
             if result == 19690720:
-                print(str(noun)+str(verb), "produced 19690720")
+                print(str(noun) + str(verb), "produced 19690720")
                 return
 
 

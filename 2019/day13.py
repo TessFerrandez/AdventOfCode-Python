@@ -33,7 +33,7 @@ class Day13:
 
     def display(self):
         for row in range(self.max_row + 1):
-            print(*self.screen[row][0:self.max_col+1], sep='')
+            print(*self.screen[row][0:self.max_col + 1], sep='')
 
     def count_blocks(self):
         blocks = 0
@@ -50,5 +50,3 @@ if __name__ == "__main__":
     puzzle.run()
     puzzle.display()
     puzzle.count_blocks()
-
-

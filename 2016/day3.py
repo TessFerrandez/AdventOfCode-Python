@@ -17,7 +17,7 @@ def puzzle2():
     for x in range(3):
         y = 0
         while y < num_rows:
-            sides = [all_sides[y][x], all_sides[y+1][x], all_sides[y+2][x]]
+            sides = [all_sides[y][x], all_sides[y + 1][x], all_sides[y + 2][x]]
             sides.sort()
             if sides[0] + sides[1] > sides[2]:
                 possible += 1
