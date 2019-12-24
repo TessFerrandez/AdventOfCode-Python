@@ -131,3 +131,5 @@ Code for www.adventofcode.com in Python 2019.
 **[Day 18](2015/day18.py)** - Like a GIF For Your Yard -- Conways game of life
 
 **[Day 19](2015/day19.py)** - Medicine for Rudolph -- Replace substrings
+
+**[Day 20](2015/day20.py)** - Infinite Elves and Infinite Houses -- Prime factors
