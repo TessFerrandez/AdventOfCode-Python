@@ -141,3 +141,5 @@ Code for www.adventofcode.com in Python 2019.
 **[Day 23](2015/day23.py)** - Opening the Turning Lock -- Tiny compiler
 
 **[Day 24](2015/day24.py)** - It hangs in the balance -- Balancing packages
+
+**[Day 25](2015/day25.py)** - Let it snow -- Calculate code
