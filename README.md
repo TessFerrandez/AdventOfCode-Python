@@ -139,3 +139,5 @@ Code for www.adventofcode.com in Python 2019.
 **[Day 22](2015/day22.py)** - Wizard Simulator 20XX -- Mana and damage
 
 **[Day 23](2015/day23.py)** - Opening the Turning Lock -- Tiny compiler
+
+**[Day 24](2015/day24.py)** - It hangs in the balance -- Balancing packages
