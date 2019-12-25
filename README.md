@@ -133,3 +133,5 @@ Code for www.adventofcode.com in Python 2019.
 **[Day 19](2015/day19.py)** - Medicine for Rudolph -- Replace substrings
 
 **[Day 20](2015/day20.py)** - Infinite Elves and Infinite Houses -- Prime factors
+
+**[Day 21](2015/day21.py)** - RPG Simulator 20XX -- Armor and Damage
