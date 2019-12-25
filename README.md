@@ -137,3 +137,5 @@ Code for www.adventofcode.com in Python 2019.
 **[Day 21](2015/day21.py)** - RPG Simulator 20XX -- Armor and Damage
 
 **[Day 22](2015/day22.py)** - Wizard Simulator 20XX -- Mana and damage
+
+**[Day 23](2015/day23.py)** - Opening the Turning Lock -- Tiny compiler
