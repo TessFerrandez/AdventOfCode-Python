@@ -135,3 +135,5 @@ Code for www.adventofcode.com in Python 2019.
 **[Day 20](2015/day20.py)** - Infinite Elves and Infinite Houses -- Prime factors
 
 **[Day 21](2015/day21.py)** - RPG Simulator 20XX -- Armor and Damage
+
+**[Day 22](2015/day22.py)** - Wizard Simulator 20XX -- Mana and damage
