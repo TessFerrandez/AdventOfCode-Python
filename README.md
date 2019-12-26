@@ -96,6 +96,10 @@ Code for www.adventofcode.com in Python 2019.
 
 **[Day 10](2016/day10.py)** - Balance Bots -- Bots moving numbers
 
+**[Day 11](2016/day11.py)** - NOT COMPLETED
+
+**[Day 12](2016/day12.py)** - Leonardo's Monorail -- mini compiler
+
 ## 2015
 
 **[Day 1](2015/day1.py)** - Not Quite Lisp -- Calculate ())))(
