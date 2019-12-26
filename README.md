@@ -92,6 +92,8 @@ Code for www.adventofcode.com in Python 2019.
 
 **[Day 8](2016/day8.py)** - Two-Factor Authentication -- Light screen
 
+**[Day 9](2016/day9.py)** - Explosives in Cyberspace -- Decompressing strings
+
 ## 2015
 
 **[Day 1](2015/day1.py)** - Not Quite Lisp -- Calculate ())))(
