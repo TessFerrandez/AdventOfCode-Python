@@ -28,7 +28,10 @@ def get_maxes(coords):
 
 
 def puzzle1():
-    coords = [[int(x) for x in line.strip().split(', ')] for line in open("input/day6.txt").readlines()]
+    coords = [
+        [int(x) for x in line.strip().split(", ")]
+        for line in open("input/day6.txt").readlines()
+    ]
     num_coords = len(coords)
     coord_count = {-1: 0}
     is_excluded = {-1: True}
@@ -63,7 +66,10 @@ def get_total_distance(this_coord, coords):
 
 
 def puzzle2():
-    coords = [[int(x) for x in line.strip().split(', ')] for line in open("input/day6.txt").readlines()]
+    coords = [
+        [int(x) for x in line.strip().split(", ")]
+        for line in open("input/day6.txt").readlines()
+    ]
     max_x, max_y = get_maxes(coords)
 
     in_area = 0

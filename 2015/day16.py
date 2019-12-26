@@ -1,23 +1,32 @@
 def parse_input() -> dict:
-    lines = [line.strip().replace(":", "").replace(",", "") for line in open("input/day16.txt").readlines()]
+    lines = [
+        line.strip().replace(":", "").replace(",", "")
+        for line in open("input/day16.txt").readlines()
+    ]
     sues = dict()
     for line in lines:
         parts = line.split()
-        sues[parts[1]] = {parts[2]: int(parts[3]), parts[4]: int(parts[5]), parts[6]: int(parts[7])}
+        sues[parts[1]] = {
+            parts[2]: int(parts[3]),
+            parts[4]: int(parts[5]),
+            parts[6]: int(parts[7]),
+        }
     return sues
 
 
 def compare_sue_to_evidence(properties: dict) -> bool:
-    evidence = {"children": 3,
-                "cats": 7,
-                "samoyeds": 2,
-                "pomeranians": 3,
-                "akitas": 0,
-                "vizslas": 0,
-                "goldfish": 5,
-                "trees": 3,
-                "cars": 2,
-                "perfumes": 1}
+    evidence = {
+        "children": 3,
+        "cats": 7,
+        "samoyeds": 2,
+        "pomeranians": 3,
+        "akitas": 0,
+        "vizslas": 0,
+        "goldfish": 5,
+        "trees": 3,
+        "cars": 2,
+        "perfumes": 1,
+    }
 
     for ev in evidence:
         if ev in properties and evidence[ev] != properties[ev]:
@@ -26,12 +35,14 @@ def compare_sue_to_evidence(properties: dict) -> bool:
 
 
 def compare_sue_to_new_evidence(properties: dict) -> bool:
-    base_evidence = {"children": 3,
-                     "samoyeds": 2,
-                     "akitas": 0,
-                     "vizslas": 0,
-                     "cars": 2,
-                     "perfumes": 1}
+    base_evidence = {
+        "children": 3,
+        "samoyeds": 2,
+        "akitas": 0,
+        "vizslas": 0,
+        "cars": 2,
+        "perfumes": 1,
+    }
     greater_evidence = {"cats": 7, "trees": 3}
     lower_evidence = {"pomeranians": 3, "goldfish": 5}
 

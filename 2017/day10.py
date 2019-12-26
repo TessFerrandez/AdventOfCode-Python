@@ -18,8 +18,8 @@ def calc_knot_hash(nums: list, lengths: list, pos: int, skip: int) -> (int, int)
 
 
 def puzzle1():
-    input_string = open('input/day10.txt').read().strip()
-    lengths = [int(n) for n in input_string.split(',')]
+    input_string = open("input/day10.txt").read().strip()
+    lengths = [int(n) for n in input_string.split(",")]
 
     nums = [n for n in range(256)]
     calc_knot_hash(nums, lengths, 0, 0)
@@ -28,7 +28,7 @@ def puzzle1():
 
 
 def puzzle2():
-    input_string = open('input/day10.txt').read().strip()
+    input_string = open("input/day10.txt").read().strip()
     lengths = [ord(char) for char in input_string]
     lengths.extend([17, 31, 73, 47, 23])
     nums = [n for n in range(256)]
@@ -39,9 +39,9 @@ def puzzle2():
 
     dense = []
     for i in range(16):
-        sub_slice = nums[16 * i: 16 * i + 16]
-        dense.append('%02x' % reduce((lambda x, y: x ^ y), sub_slice))
-    print("puzzle 2:", ''.join(dense))
+        sub_slice = nums[16 * i : 16 * i + 16]
+        dense.append("%02x" % reduce((lambda x, y: x ^ y), sub_slice))
+    print("puzzle 2:", "".join(dense))
 
 
 def puzzles():

@@ -6,7 +6,7 @@ from collections import deque
 def run_sequence(sequence):
     amp = 0
     for phase in sequence:
-        computer = IntCode(open('input/day7.txt').readline())
+        computer = IntCode(open("input/day7.txt").readline())
         computer.input_queue = deque([phase, amp])
         while not computer.done:
             try:
@@ -34,8 +34,7 @@ def run_sequence_v2(sequence, program):
             try:
                 computers[i].run()
             except OutputInterrupt:
-                computers[(i + 1) % 5].input_queue.append(
-                    computers[i].output_queue[-1])
+                computers[(i + 1) % 5].input_queue.append(computers[i].output_queue[-1])
                 continue
             except InputInterrupt:
                 break
@@ -55,7 +54,7 @@ def puzzle1():
 
 def puzzle2():
     sequences = permutations(range(5, 10))
-    program = open('input/day7.txt').readline()
+    program = open("input/day7.txt").readline()
     max_sequence = max(sequences, key=lambda x: run_sequence_v2(x, program))
     print(max_sequence)
     print("generates:", run_sequence_v2(max_sequence, program))

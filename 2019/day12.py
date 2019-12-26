@@ -66,8 +66,7 @@ def apply_velocity_per_dim(planets, velocities):
 
 def matches_start_state(planets, velocities, p_dim, v_dim, dim):
     for i in range(4):
-        if planets[i][dim] != p_dim[i] or \
-           velocities[i][dim] != v_dim[i]:
+        if planets[i][dim] != p_dim[i] or velocities[i][dim] != v_dim[i]:
             return False
     return True
 
@@ -79,8 +78,10 @@ def calculate_energy(planets, velocities):
 
 
 def puzzle1():
-    planets = [[int(digit) for digit in re.findall(r'[-\d]+', line)]
-               for line in open("input/day12.txt").readlines()]
+    planets = [
+        [int(digit) for digit in re.findall(r"[-\d]+", line)]
+        for line in open("input/day12.txt").readlines()
+    ]
     velocities = [[0, 0, 0] for i in range(4)]
 
     for _ in range(1000):
@@ -91,8 +92,10 @@ def puzzle1():
 
 
 def puzzle2():
-    planets = [[int(digit) for digit in re.findall(r'[-\d]+', line)]
-               for line in open("input/day12.txt").readlines()]
+    planets = [
+        [int(digit) for digit in re.findall(r"[-\d]+", line)]
+        for line in open("input/day12.txt").readlines()
+    ]
     velocities = [[0, 0, 0] for i in range(4)]
     steps = [0, 0, 0]
 
@@ -106,7 +109,9 @@ def puzzle2():
 
             steps[dim] += 1
 
-            if matches_start_state(planets, velocities, planet_dims, velocities_dims, dim):
+            if matches_start_state(
+                planets, velocities, planet_dims, velocities_dims, dim
+            ):
                 break
 
     print("steps:", calculate_lcm(steps))

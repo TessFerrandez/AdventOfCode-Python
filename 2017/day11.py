@@ -1,10 +1,10 @@
 moves = {
-    'n': (0, 1),
-    'ne': (0.5, 0.5),
-    'nw': (-0.5, 0.5),
-    's': (0, -1),
-    'se': (0.5, -0.5),
-    'sw': (-0.5, -0.5)
+    "n": (0, 1),
+    "ne": (0.5, 0.5),
+    "nw": (-0.5, 0.5),
+    "s": (0, -1),
+    "se": (0.5, -0.5),
+    "sw": (-0.5, -0.5),
 }
 
 
@@ -22,7 +22,7 @@ def do_moves(input_steps: list) -> (int, int):
 
 
 def puzzles():
-    input_steps = open("input/day11.txt").read().strip().split(',')
+    input_steps = open("input/day11.txt").read().strip().split(",")
     end_dist, max_dist = do_moves(input_steps)
     print("end distance:", end_dist)
     print("max distance:", max_dist)

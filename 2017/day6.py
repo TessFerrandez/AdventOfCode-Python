@@ -25,7 +25,7 @@ def get_states(blocks: list) -> (list, int):
 
 
 def puzzles():
-    blocks = [int(block) for block in open("input/day6.txt").readline().split('\t')]
+    blocks = [int(block) for block in open("input/day6.txt").readline().split("\t")]
 
     blocks_after, num_states = get_states(blocks)
     print("number of states:", num_states)

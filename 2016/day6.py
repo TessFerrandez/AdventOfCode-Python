@@ -3,7 +3,7 @@ import collections
 
 def puzzle1():
     cols = [[], [], [], [], [], [], [], []]
-    with open('input/day6.txt') as f:
+    with open("input/day6.txt") as f:
         for line in f:
             for col in range(8):
                 cols[col].append(line[col])
@@ -16,7 +16,7 @@ def puzzle1():
 
 def puzzle2():
     cols = [[], [], [], [], [], [], [], []]
-    with open('input/day6.txt') as f:
+    with open("input/day6.txt") as f:
         for line in f:
             for col in range(8):
                 cols[col].append(line[col])

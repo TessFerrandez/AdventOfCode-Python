@@ -8,7 +8,7 @@ def sum_of_sequence(sequence, step=1):
 
 
 def puzzles():
-    sequence = open('input/day1.txt').readline()
+    sequence = open("input/day1.txt").readline()
     print("captcha:", sum_of_sequence(sequence))
     print("captcha:", sum_of_sequence(sequence, len(sequence) // 2))
 

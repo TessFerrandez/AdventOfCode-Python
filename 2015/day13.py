@@ -9,10 +9,9 @@ def parse_input():
     global people
     global relations
 
-    lines = [line.strip()[0:-1] for line
-             in open("input/day13.txt").readlines()]
+    lines = [line.strip()[0:-1] for line in open("input/day13.txt").readlines()]
     for line in lines:
-        parts = line.split(' ')
+        parts = line.split(" ")
         person_from = parts[0]
         person_to = parts[10]
         people.append(person_from)
@@ -43,9 +42,9 @@ def find_best_arrangement():
 
 def add_yourself():
     for person in people:
-        relations[(person, 'me')] = 0
-        relations[('me', person)] = 0
-    people.append('me')
+        relations[(person, "me")] = 0
+        relations[("me", person)] = 0
+    people.append("me")
 
 
 def puzzles():

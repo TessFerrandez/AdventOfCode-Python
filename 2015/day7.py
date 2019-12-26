@@ -15,15 +15,15 @@ def calculate(wire: str) -> int:
             res = calculate(ops[0])
         else:
             op = ops[-2]
-            if op == 'AND':
+            if op == "AND":
                 res = calculate(ops[0]) & calculate(ops[2])
-            elif op == 'OR':
+            elif op == "OR":
                 res = calculate(ops[0]) | calculate(ops[2])
-            elif op == 'NOT':
-                res = ~calculate(ops[1]) & 0xffff
-            elif op == 'RSHIFT':
+            elif op == "NOT":
+                res = ~calculate(ops[1]) & 0xFFFF
+            elif op == "RSHIFT":
                 res = calculate(ops[0]) >> calculate(ops[2])
-            elif op == 'LSHIFT':
+            elif op == "LSHIFT":
                 res = calculate(ops[0]) << calculate(ops[2])
         results[wire] = res
     return results[wire]
@@ -31,16 +31,16 @@ def calculate(wire: str) -> int:
 
 def init_wiring(commands: list):
     for command in commands:
-        (ops, res) = command.split('->')
-        calc[res.strip()] = ops.strip().split(' ')
+        (ops, res) = command.split("->")
+        calc[res.strip()] = ops.strip().split(" ")
 
 
 def puzzle1():
-    init_wiring(open('input/day7.txt').readlines())
-    print("result for a: ", calculate('a'))
+    init_wiring(open("input/day7.txt").readlines())
+    print("result for a: ", calculate("a"))
     results.clear()
-    results['b'] = 46065
-    print("result for a: ", calculate('a'))
+    results["b"] = 46065
+    print("result for a: ", calculate("a"))
 
 
 if __name__ == "__main__":

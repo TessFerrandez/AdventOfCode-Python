@@ -6,7 +6,7 @@ from IntCode import IntCode, OutputInterrupt, InputInterrupt
 
 class Day11:
     def __init__(self, start_color=0):
-        self.cpu = IntCode(open('input/day11.txt').readline())
+        self.cpu = IntCode(open("input/day11.txt").readline())
         self.position = (0, 0)
         self.direction = (0, 1)
         self.squares = {}
@@ -19,7 +19,11 @@ class Day11:
         self.start_color = start_color
 
     def get_input(self):
-        return self.start_color if self.position not in self.squares else self.squares[self.position]
+        return (
+            self.start_color
+            if self.position not in self.squares
+            else self.squares[self.position]
+        )
 
     def handle_output(self, output_val):
         if self.paint:

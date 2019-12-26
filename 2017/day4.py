@@ -1,6 +1,6 @@
 def has_dupe_words(pass_phrase):
     for i in range(len(pass_phrase)):
-        if pass_phrase[i] in pass_phrase[i + 1:]:
+        if pass_phrase[i] in pass_phrase[i + 1 :]:
             return True
     return False
 
@@ -15,12 +15,18 @@ def has_anagram_words(pass_phrase: list) -> bool:
 
 
 def puzzles():
-    pass_phrases = [[word for word in line.strip().split(" ")]
-                    for line in open("input/day4.txt").readlines()]
-    print("valid phrases:", sum(0 if has_dupe_words(pass_phrase) else 1
-                                for pass_phrase in pass_phrases))
-    print("valid phrases:", sum(0 if has_anagram_words(pass_phrase) else 1
-                                for pass_phrase in pass_phrases))
+    pass_phrases = [
+        [word for word in line.strip().split(" ")]
+        for line in open("input/day4.txt").readlines()
+    ]
+    print(
+        "valid phrases:",
+        sum(0 if has_dupe_words(pass_phrase) else 1 for pass_phrase in pass_phrases),
+    )
+    print(
+        "valid phrases:",
+        sum(0 if has_anagram_words(pass_phrase) else 1 for pass_phrase in pass_phrases),
+    )
 
 
 if __name__ == "__main__":

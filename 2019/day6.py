@@ -7,8 +7,8 @@ cache = dict()
 
 
 def parse_input():
-    for line in open('input/day6.txt').readlines():
-        orbit = line.strip().split(')')
+    for line in open("input/day6.txt").readlines():
+        orbit = line.strip().split(")")
         orbits[orbit[1]] = orbit[0]
 
 

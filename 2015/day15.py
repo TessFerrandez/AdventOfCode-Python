@@ -1,8 +1,10 @@
 def get_score(spoons: list, restrict_calories=False) -> int:
-    properties = [[4, -2, 0, 0, 5],
-                  [0, 5, -1, 0, 8],
-                  [-1, 0, 5, 0, 6],
-                  [0, 0, -2, 2, 1]]
+    properties = [
+        [4, -2, 0, 0, 5],
+        [0, 5, -1, 0, 8],
+        [-1, 0, 5, 0, 6],
+        [0, 0, -2, 2, 1],
+    ]
 
     n_items = len(spoons)
 
@@ -30,7 +32,10 @@ def find_best_combo(spoons: int, restrict_calories=False):
         for candy in range(1, spoons - frosting - 1):
             for butter in range(1, spoons - frosting - candy):
                 sugar = spoons - frosting - candy - butter
-                max_score = max(max_score, get_score([frosting, candy, butter, sugar], restrict_calories))
+                max_score = max(
+                    max_score,
+                    get_score([frosting, candy, butter, sugar], restrict_calories),
+                )
 
     return max_score
 

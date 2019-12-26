@@ -10,7 +10,7 @@ def parse_input(lines):
     global travel_routes
     global cities
 
-    routes = [re.split(' to | = ', line.strip()) for line in lines]
+    routes = [re.split(" to | = ", line.strip()) for line in lines]
     for route in routes:
         city_from, city_to, distance = route
         cities.append(city_from)
@@ -29,9 +29,8 @@ def get_distance(travel_route):
 
 
 def puzzles():
-    parse_input(open('input/day9.txt').readlines())
-    distances = [get_distance(permutation)
-                 for permutation in permutations(cities)]
+    parse_input(open("input/day9.txt").readlines())
+    distances = [get_distance(permutation) for permutation in permutations(cities)]
 
     print("min distance", min(distances))
     print("max distance", max(distances))

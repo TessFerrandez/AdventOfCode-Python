@@ -49,12 +49,12 @@ def get_num_lit(screen: np.ndarray, height=1000, width=1000) -> int:
 
 
 def puzzle1():
-    screen = execute_commands(open('input/day6.txt').readlines())
+    screen = execute_commands(open("input/day6.txt").readlines())
     print("num lit: ", get_num_lit(screen))
 
 
 def puzzle2():
-    screen = execute_commands_v2(open('input/day6.txt').readlines())
+    screen = execute_commands_v2(open("input/day6.txt").readlines())
     print("num lit: ", get_num_lit(screen))
 
 

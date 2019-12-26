@@ -1,5 +1,5 @@
 def calculate_floor(instructions):
-    return instructions.count('(') - instructions.count(")")
+    return instructions.count("(") - instructions.count(")")
 
 
 def calculate_first_basement(instructions):
@@ -17,9 +17,11 @@ def calculate_first_basement(instructions):
 
 
 def puzzles():
-    print("floor:", calculate_floor(open('input/day1.txt').read()))
-    print("first time in basement:",
-          calculate_first_basement(open("input/day1.txt").read()))
+    print("floor:", calculate_floor(open("input/day1.txt").read()))
+    print(
+        "first time in basement:",
+        calculate_first_basement(open("input/day1.txt").read()),
+    )
 
 
 if __name__ == "__main__":

@@ -1,5 +1,5 @@
 def parse_input():
-    return open('input/day1.txt').readline().split(', ')
+    return open("input/day1.txt").readline().split(", ")
 
 
 def calculate_distance(moves):
@@ -9,7 +9,7 @@ def calculate_distance(moves):
     dx, dy = 0, 1
     for move in moves:
         direction = move[0]
-        if direction == 'R':
+        if direction == "R":
             if dx == 0 and dy == 1:
                 dx, dy = 1, 0
             elif dx == 1 and dy == 0:
@@ -44,8 +44,11 @@ def puzzles():
 
     for location in visited:
         if visited.count(location) > 1:
-            print("first location visited twice is",
-                  abs(location[0]) + abs(location[1]), "steps away")
+            print(
+                "first location visited twice is",
+                abs(location[0]) + abs(location[1]),
+                "steps away",
+            )
             return
 
 

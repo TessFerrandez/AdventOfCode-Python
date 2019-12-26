@@ -5,7 +5,7 @@ from IntCode import IntCode, OutputInterrupt
 
 
 def get_last_output(input_number):
-    computer = IntCode(open('input/day5.txt').readline())
+    computer = IntCode(open("input/day5.txt").readline())
     computer.input_queue.append(input_number)
     while not computer.done:
         try:

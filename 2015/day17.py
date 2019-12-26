@@ -2,9 +2,12 @@ import itertools
 
 
 def find_combos(containers: list, target: int) -> list:
-    return [seq for i in range(len(containers), 0, -1)
-            for seq in itertools.combinations(containers, i)
-            if sum(seq) == target]
+    return [
+        seq
+        for i in range(len(containers), 0, -1)
+        for seq in itertools.combinations(containers, i)
+        if sum(seq) == target
+    ]
 
 
 def find_lowest_number_of_containers(combos) -> (int, int):

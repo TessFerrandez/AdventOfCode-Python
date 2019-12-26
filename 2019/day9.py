@@ -2,7 +2,7 @@ from IntCode import IntCode, OutputInterrupt
 
 
 def puzzle1():
-    computer = IntCode(open('input/day9.txt').readline())
+    computer = IntCode(open("input/day9.txt").readline())
     computer.input_queue.append(1)
     while not computer.done:
         try:
@@ -12,7 +12,7 @@ def puzzle1():
 
 
 def puzzle2():
-    computer = IntCode(open('input/day9.txt').readline())
+    computer = IntCode(open("input/day9.txt").readline())
     computer.input_queue.append(2)
     while not computer.done:
         try:

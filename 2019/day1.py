@@ -16,13 +16,12 @@ def calculate_fuel_v2(mass):
 
 
 def puzzle1():
-    total_fuel = sum(calculate_fuel(mass) for mass in open('input/day1.txt'))
+    total_fuel = sum(calculate_fuel(mass) for mass in open("input/day1.txt"))
     print("total fuel (v1): ", total_fuel)
 
 
 def puzzle2():
-    total_fuel = sum(calculate_fuel_v2(mass)
-                     for mass in open('input/day1.txt'))
+    total_fuel = sum(calculate_fuel_v2(mass) for mass in open("input/day1.txt"))
     print("total fuel (v2): ", total_fuel)
 
 

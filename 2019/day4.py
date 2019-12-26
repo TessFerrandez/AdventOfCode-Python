@@ -39,16 +39,17 @@ def is_good_password_v2(password):
 
 
 def puzzle1():
-    total_good = sum(int(is_good_password(potential_pwd))
-                     for potential_pwd
-                     in range(124075, 580770))
+    total_good = sum(
+        int(is_good_password(potential_pwd)) for potential_pwd in range(124075, 580770)
+    )
     print(total_good, "good passwords")
 
 
 def puzzle2():
-    total_good = sum(int(is_good_password_v2(potential_pwd))
-                     for potential_pwd
-                     in range(124075, 580770))
+    total_good = sum(
+        int(is_good_password_v2(potential_pwd))
+        for potential_pwd in range(124075, 580770)
+    )
     print(total_good, "good passwords")
 
 

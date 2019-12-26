@@ -1,8 +1,8 @@
 def remove_exclamations(input_str: str) -> str:
     while True:
         try:
-            start_excl = input_str.index('!')
-            input_str = input_str[0: start_excl] + input_str[start_excl + 2:]
+            start_excl = input_str.index("!")
+            input_str = input_str[0:start_excl] + input_str[start_excl + 2 :]
         except ValueError:
             break
 
@@ -13,10 +13,10 @@ def remove_garbage(input_str: str) -> (str, int):
     garbage_count = 0
     while True:
         try:
-            start_garbage = input_str.index('<')
+            start_garbage = input_str.index("<")
             end_garbage = input_str.index(">", start_garbage)
-            garbage_count += (end_garbage - start_garbage - 1)
-            input_str = input_str[0:start_garbage] + input_str[end_garbage + 1:]
+            garbage_count += end_garbage - start_garbage - 1
+            input_str = input_str[0:start_garbage] + input_str[end_garbage + 1 :]
         except ValueError:
             break
 

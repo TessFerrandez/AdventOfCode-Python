@@ -26,7 +26,10 @@ def get_islands(input_list: list) -> list:
 
 
 def puzzles():
-    programs_groups = [[int(number) for number in re.findall(r'[\d]+', line)] for line in open("input/day12.txt").readlines()]
+    programs_groups = [
+        [int(number) for number in re.findall(r"[\d]+", line)]
+        for line in open("input/day12.txt").readlines()
+    ]
     islands = get_islands(programs_groups)
     for island in islands:
         if 0 in island:

@@ -1,7 +1,16 @@
 # https://github.com/vesche/adventofcode-2017/blob/master/day03.py
 from typing import List, Tuple
 
-coords: List[Tuple[int, int]] = [(1, 0), (1, -1), (0, -1), (-1, -1), (-1, 0), (-1, 1), (0, 1), (1, 1)]
+coords: List[Tuple[int, int]] = [
+    (1, 0),
+    (1, -1),
+    (0, -1),
+    (-1, -1),
+    (-1, 0),
+    (-1, 1),
+    (0, 1),
+    (1, 1),
+]
 
 
 def calculate_steps(number: int) -> int:

@@ -2,9 +2,7 @@ from itertools import accumulate, cycle
 
 
 def get_changes():
-    return [int(change)
-            for change
-            in open('input/day1.txt').readlines()]
+    return [int(change) for change in open("input/day1.txt").readlines()]
 
 
 def puzzle1():
@@ -15,9 +13,10 @@ def puzzle1():
 def puzzle2():
     changes = get_changes()
     seen = set()
-    print("first frequency reached twice:",
-          next(f for f in accumulate(cycle(changes))
-               if f in seen or seen.add(f)))
+    print(
+        "first frequency reached twice:",
+        next(f for f in accumulate(cycle(changes)) if f in seen or seen.add(f)),
+    )
 
 
 if __name__ == "__main__":

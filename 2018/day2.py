@@ -30,7 +30,7 @@ def has_triple(the_input):
 def puzzle1():
     doubles = 0
     triples = 0
-    with open('input/day2.txt') as f:
+    with open("input/day2.txt") as f:
         for line in f:
             if has_double(line):
                 doubles += 1
@@ -40,15 +40,15 @@ def puzzle1():
 
 
 def common(string1, string2):
-    common_letters = ''
+    common_letters = ""
     for i in range(len(string1)):
-        common_letters += string1[i] if string1[i] == string2[i] else ''
+        common_letters += string1[i] if string1[i] == string2[i] else ""
     return common_letters
 
 
 def puzzle2():
     words = []
-    with open('input/day2.txt') as f:
+    with open("input/day2.txt") as f:
         for line in f:
             words.append(line)
 

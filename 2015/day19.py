@@ -5,8 +5,8 @@ def get_molecules(transformation: list, original: str) -> list:
 
     molecules = []
     for i in range(len(original) - repl_length + 1):
-        if original[i: i + repl_length] == from_str:
-            molecules.append(original[:i] + to_str + original[i + repl_length:])
+        if original[i : i + repl_length] == from_str:
+            molecules.append(original[:i] + to_str + original[i + repl_length :])
 
     return molecules
 
@@ -23,11 +23,25 @@ def replace_and_count(original: str, repl: str) -> (str, int):
 
 
 def get_steps_to_create_molecule(original: str) -> int:
-    replaced = original.replace("Rn", "(").replace("Y", ",").replace("Ar", ")")\
-        .replace("Al", "X").replace("B", "X").replace("Ca", "X").replace("C", "X")\
-        .replace("F", "X").replace("H", "X").replace("H", "X").replace("Mg", "X")\
-        .replace("N", "X").replace("O", "X").replace("P", "X").replace("Si", "X")\
-        .replace("Th", "X").replace("Ti", "X")
+    replaced = (
+        original.replace("Rn", "(")
+        .replace("Y", ",")
+        .replace("Ar", ")")
+        .replace("Al", "X")
+        .replace("B", "X")
+        .replace("Ca", "X")
+        .replace("C", "X")
+        .replace("F", "X")
+        .replace("H", "X")
+        .replace("H", "X")
+        .replace("Mg", "X")
+        .replace("N", "X")
+        .replace("O", "X")
+        .replace("P", "X")
+        .replace("Si", "X")
+        .replace("Th", "X")
+        .replace("Ti", "X")
+    )
 
     steps = 0
     while True:

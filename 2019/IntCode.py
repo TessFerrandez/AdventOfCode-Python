@@ -144,9 +144,9 @@ class IntCode:
             op_code = IntCode.instruction_parse(curr, 4)
             instruction(
                 op_code[1:],
-                self.memory[self.instruction_ptr + 1:self.instruction_ptr + 5]
+                self.memory[self.instruction_ptr + 1 : self.instruction_ptr + 5],
             )
 
     @staticmethod
     def parse(program_string):
-        return list(map(int, program_string.split(','))) + [0] * 1000
+        return list(map(int, program_string.split(","))) + [0] * 1000

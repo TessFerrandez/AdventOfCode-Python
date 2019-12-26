@@ -7,11 +7,11 @@ def get_discs() -> (dict, dict):
     lines = [line.strip() for line in open("input/day7.txt").readlines()]
 
     for line in lines:
-        parts = line.split(' -> ')
-        bottom_parts = parts[0].split(' ')
+        parts = line.split(" -> ")
+        bottom_parts = parts[0].split(" ")
         bottom = bottom_parts[0]
-        weights[bottom] = int(bottom_parts[1].replace('(', '').replace(')', ''))
-        tops = parts[1].split(', ') if len(parts) == 2 else None
+        weights[bottom] = int(bottom_parts[1].replace("(", "").replace(")", ""))
+        tops = parts[1].split(", ") if len(parts) == 2 else None
         discs[bottom] = tops
 
     return discs, weights

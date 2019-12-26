@@ -10,8 +10,10 @@ def puzzle1():
 
 
 def puzzle2():
-    all_sides = [[int(line[0:5]), int(line[5:10]), int(line[10:15])]
-                 for line in open('input/day3.txt').readlines()]
+    all_sides = [
+        [int(line[0:5]), int(line[5:10]), int(line[10:15])]
+        for line in open("input/day3.txt").readlines()
+    ]
     num_rows = len(all_sides)
     possible = 0
     for x in range(3):

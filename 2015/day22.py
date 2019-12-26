@@ -3,17 +3,26 @@ from sys import maxsize
 
 
 # mana, damage, hp, armour, mana, turns, index
-spells = [[53, 4, 0, 0, 0, 0, 0],
-          [73, 2, 2, 0, 0, 0, 1],
-          [113, 0, 0, 7, 0, 6, 2],
-          [173, 3, 0, 0, 0, 6, 3],
-          [229, 0, 0, 0, 101, 5, 4]]
+spells = [
+    [53, 4, 0, 0, 0, 0, 0],
+    [73, 2, 2, 0, 0, 0, 1],
+    [113, 0, 0, 7, 0, 6, 2],
+    [173, 3, 0, 0, 0, 6, 3],
+    [229, 0, 0, 0, 101, 5, 4],
+]
 
 least_mana_used = maxsize
 part_two = False
 
 
-def sim(boss_hp: int, my_hp: int, my_mana: int, active_spells: list, player_turn:bool, mana_used:int):
+def sim(
+    boss_hp: int,
+    my_hp: int,
+    my_mana: int,
+    active_spells: list,
+    player_turn: bool,
+    mana_used: int,
+):
     global least_mana_used
 
     boss_damage = 9
@@ -56,7 +65,14 @@ def sim(boss_hp: int, my_hp: int, my_mana: int, active_spells: list, player_turn
             if spell_mana_cost <= my_mana and not spell_already_active:
                 a = deepcopy(new_active_spells)
                 a.append(spell)
-                sim(boss_hp, my_hp, my_mana - spell_mana_cost, a, False, mana_used + spell_mana_cost)
+                sim(
+                    boss_hp,
+                    my_hp,
+                    my_mana - spell_mana_cost,
+                    a,
+                    False,
+                    mana_used + spell_mana_cost,
+                )
     else:
         my_hp += my_armor - boss_damage if my_armor - boss_damage < 0 else -1
         if my_hp > 0:

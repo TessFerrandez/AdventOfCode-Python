@@ -5,10 +5,12 @@ def decompress(input_string: str) -> str:
     while i < len(input_string):
         if input_string[i] == "(":
             x_index = input_string.index("x", i)
-            num_chars = int(input_string[i + 1: x_index])
+            num_chars = int(input_string[i + 1 : x_index])
             right_index = input_string.index(")", x_index)
-            times = int(input_string[x_index + 1: right_index])
-            chars_to_duplicate = input_string[right_index + 1: right_index + 1 + num_chars]
+            times = int(input_string[x_index + 1 : right_index])
+            chars_to_duplicate = input_string[
+                right_index + 1 : right_index + 1 + num_chars
+            ]
             output_string += chars_to_duplicate * times
             i = right_index + 1 + num_chars
         else:
@@ -24,11 +26,15 @@ def decompress_recursive_count(input_string: str) -> int:
     while i < len(input_string):
         if input_string[i] == "(":
             x_index = input_string.index("x", i)
-            num_chars = int(input_string[i + 1: x_index])
+            num_chars = int(input_string[i + 1 : x_index])
             right_index = input_string.index(")", x_index)
-            times = int(input_string[x_index + 1: right_index])
-            chars_to_duplicate = input_string[right_index + 1: right_index + 1 + num_chars]
-            decompressed_length += times * decompress_recursive_count(chars_to_duplicate)
+            times = int(input_string[x_index + 1 : right_index])
+            chars_to_duplicate = input_string[
+                right_index + 1 : right_index + 1 + num_chars
+            ]
+            decompressed_length += times * decompress_recursive_count(
+                chars_to_duplicate
+            )
             i = right_index + 1 + num_chars
         else:
             decompressed_length += 1

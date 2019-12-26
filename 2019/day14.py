@@ -13,12 +13,12 @@ def parse_reactions(lines: list) -> dict:
     for line in lines:
         inputs, result_str = line.split(" => ")
         ingredients = []
-        for ingredient in inputs.split(', '):
+        for ingredient in inputs.split(", "):
             ingredients.append(parse_ingredient(ingredient))
         result = parse_ingredient(result_str)
         reactions[result["ingredient"]] = {
             "servings": result["amount"],
-            "ingredients": ingredients
+            "ingredients": ingredients,
         }
     return reactions
 
@@ -41,8 +41,12 @@ def make_fuel(amount: int, reactions: dict) -> int:
             reaction = reactions[order["ingredient"]]
             batches = ceil(amount_needed / reaction["servings"])
             for ingredient in reaction["ingredients"]:
-                orders.put({"ingredient": ingredient["ingredient"],
-                            "amount": ingredient["amount"] * batches})
+                orders.put(
+                    {
+                        "ingredient": ingredient["ingredient"],
+                        "amount": ingredient["amount"] * batches,
+                    }
+                )
                 leftover_amount = batches * reaction["servings"] - amount_needed
                 supply[order["ingredient"]] = leftover_amount
 

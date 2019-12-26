@@ -6,9 +6,8 @@ deer: List[str, int, int, int] = []
 def parse_input():
     global deer
 
-    lines = [line.split(' ') for line in open("input/day14.txt").readlines()]
-    deer = [[line[0], int(line[3]), int(line[6]), int(line[13])]
-            for line in lines]
+    lines = [line.split(" ") for line in open("input/day14.txt").readlines()]
+    deer = [[line[0], int(line[3]), int(line[6]), int(line[13])] for line in lines]
 
 
 def traveled_after(deer_info, num_seconds):
@@ -48,8 +47,7 @@ def puzzles():
     for i in range(2503):
         second_distances = [all_distances[j][i] for j in range(num_deer)]
         best_distance = max(second_distances)
-        leaders = [i for i, x in enumerate(second_distances)
-                   if x == best_distance]
+        leaders = [i for i, x in enumerate(second_distances) if x == best_distance]
         for doe in leaders:
             deer_points[doe] += 1
 

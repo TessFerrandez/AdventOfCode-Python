@@ -50,7 +50,7 @@ def parse_log(log_lines):
 
 def puzzles():
     log_lines = open("input/day4.txt").readlines()
-    log_lines = sorted(log_lines, key=lambda x: x[1: 17])
+    log_lines = sorted(log_lines, key=lambda x: x[1:17])
     parse_log(log_lines)
 
 

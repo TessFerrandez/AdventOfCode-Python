@@ -9,8 +9,10 @@ def quote_of(numbers):
 
 
 def puzzles():
-    lines = [sorted([int(x) for x in line.split('\t')], reverse=True)
-             for line in open('input/day2.txt').readlines()]
+    lines = [
+        sorted([int(x) for x in line.split("\t")], reverse=True)
+        for line in open("input/day2.txt").readlines()
+    ]
     min_max_sum = sum(max(numbers) - min(numbers) for numbers in lines)
     quote_sum = sum(quote_of(numbers) for numbers in lines)
     print("sum of max-min:", min_max_sum)
