@@ -94,6 +94,8 @@ Code for www.adventofcode.com in Python 2019.
 
 **[Day 9](2016/day9.py)** - Explosives in Cyberspace -- Decompressing strings
 
+**[Day 10](2016/day10.py)** - Balance Bots -- Bots moving numbers
+
 ## 2015
 
 **[Day 1](2015/day1.py)** - Not Quite Lisp -- Calculate ())))(
