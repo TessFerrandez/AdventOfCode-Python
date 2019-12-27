@@ -100,6 +100,8 @@ Code for www.adventofcode.com in Python 2019.
 
 **[Day 12](2016/day12.py)** - Leonardo's Monorail -- mini compiler
 
+**[Day 13](2016/day13.py)** - A Maze of Twisty Little Cubicles -- maze
+
 ## 2015
 
 **[Day 1](2015/day1.py)** - Not Quite Lisp -- Calculate ())))(
