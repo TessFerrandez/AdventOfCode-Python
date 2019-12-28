@@ -112,6 +112,8 @@ Code for www.adventofcode.com in Python 2019.
 
 **[Day 18](2016/day18.py)** - Like a Rogue -- Traps and Safes
 
+**[Day 19](2016/day19.py)** - An Elephant Named Joseph -- Stealing gifts in a circle
+
 ## 2015
 
 **[Day 1](2015/day1.py)** - Not Quite Lisp -- Calculate ())))(
