@@ -104,6 +104,8 @@ Code for www.adventofcode.com in Python 2019.
 
 **[Day 14](2016/day14.py)** - One-Time Pad -- MD5 hash
 
+**[Day 15](2016/day15.py)** - Timing is everything -- Rotating discs
+
 ## 2015
 
 **[Day 1](2015/day1.py)** - Not Quite Lisp -- Calculate ())))(
