@@ -102,6 +102,8 @@ Code for www.adventofcode.com in Python 2019.
 
 **[Day 13](2016/day13.py)** - A Maze of Twisty Little Cubicles -- maze
 
+**[Day 14](2016/day14.py)** - One-Time Pad -- MD5 hash
+
 ## 2015
 
 **[Day 1](2015/day1.py)** - Not Quite Lisp -- Calculate ())))(
