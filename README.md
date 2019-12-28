@@ -108,6 +108,8 @@ Code for www.adventofcode.com in Python 2019.
 
 **[Day 16](2016/day16.py)** - Dragon Checksum -- Dragon curve random data
 
+**[Day 17](2016/day17.py)** - Two Steps Forward -- Path to Vault
+
 ## 2015
 
 **[Day 1](2015/day1.py)** - Not Quite Lisp -- Calculate ())))(
