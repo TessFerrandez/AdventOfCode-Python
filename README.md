@@ -106,6 +106,8 @@ Code for www.adventofcode.com in Python 2019.
 
 **[Day 15](2016/day15.py)** - Timing is everything -- Rotating discs
 
+**[Day 16](2016/day16.py)** - Dragon Checksum -- Dragon curve random data
+
 ## 2015
 
 **[Day 1](2015/day1.py)** - Not Quite Lisp -- Calculate ())))(
