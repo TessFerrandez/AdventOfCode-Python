@@ -114,6 +114,8 @@ Code for www.adventofcode.com in Python 2019.
 
 **[Day 19](2016/day19.py)** - An Elephant Named Joseph -- Stealing gifts in a circle
 
+**[Day 20](2016/day20.py)** - Firewall Rules -- Count available IPs
+
 ## 2015
 
 **[Day 1](2015/day1.py)** - Not Quite Lisp -- Calculate ())))(
