@@ -116,6 +116,8 @@ Code for www.adventofcode.com in Python 2019.
 
 **[Day 20](2016/day20.py)** - Firewall Rules -- Count available IPs
 
+**[Day 21](2016/day21.py)** - Scrambled Letters and Hash -- Scramble letters according to instructions
+
 ## 2015
 
 **[Day 1](2015/day1.py)** - Not Quite Lisp -- Calculate ())))(
