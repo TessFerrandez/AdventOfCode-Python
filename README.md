@@ -118,6 +118,8 @@ Code for www.adventofcode.com in Python 2019.
 
 **[Day 21](2016/day21.py)** - Scrambled Letters and Hash -- Scramble letters according to instructions
 
+**[Day 22](2016/day22.py)** - Grid Computing -- Sliding puzzle
+
 ## 2015
 
 **[Day 1](2015/day1.py)** - Not Quite Lisp -- Calculate ())))(
