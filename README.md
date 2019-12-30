@@ -120,6 +120,8 @@ Code for www.adventofcode.com in Python 2019.
 
 **[Day 22](2016/day22.py)** - Grid Computing -- Sliding puzzle
 
+**[Day 23](2016/day23.py)** - Safe Cracking -- Simple compiler with toggle
+
 ## 2015
 
 **[Day 1](2015/day1.py)** - Not Quite Lisp -- Calculate ())))(
