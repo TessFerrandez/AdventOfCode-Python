@@ -124,6 +124,8 @@ Code for www.adventofcode.com in Python 2019.
 
 **[Day 24](2016/day24.py)** - Air Duct Spelunking -- Find best path visiting all numbers
 
+**[Day 25](2016/day25.py)** - Clock Signal -- More bunny compiler
+
 ## 2015
 
 **[Day 1](2015/day1.py)** - Not Quite Lisp -- Calculate ())))(

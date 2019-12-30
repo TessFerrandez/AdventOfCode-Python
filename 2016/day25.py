@@ -4,15 +4,16 @@ from collections import defaultdict
 def read_input() -> list:
     instructions = [
         instruction.strip().split()
-        for instruction in open("input/day23.txt").readlines()
+        for instruction in open("input/day25.txt").readlines()
     ]
     return instructions
 
 
 def execute_program(instructions: list, r: dict):
     regs = "abcd"
+    output = []
     i = 0
-    while i < len(instructions):
+    while i < len(instructions) and len(output) < 10:
         instr = instructions[i]
         op = instr[0]
         p1 = instr[1]
@@ -89,19 +90,24 @@ def execute_program(instructions: list, r: dict):
                 else:
                     target[0] = "cpy" if target[0] == "jnz" else "jnz"
             i += 1
+        elif op == "out":
+            p1 = r[p1] if p1 in regs else int(p1)
+            output.append(p1)
+            i += 1
+
+    return output
 
 
 def puzzles():
-    registers = defaultdict()
-    registers["a"] = 7
     instructions = read_input()
-    execute_program(instructions, registers)
-    print("reg a:", registers["a"])
-    registers = defaultdict()
-    registers["a"] = 12
-    instructions = read_input()
-    execute_program(instructions, registers)
-    print("reg a:", registers["a"])
+    output = []
+    i = 0
+    while output != [0, 1, 0, 1, 0, 1, 0, 1, 0, 1]:
+        registers = defaultdict()
+        registers["a"] = i
+        output = execute_program(instructions, registers)
+        i += 1
+    print("first i:", i - 1)
 
 
 if __name__ == "__main__":
