@@ -122,6 +122,8 @@ Code for www.adventofcode.com in Python 2019.
 
 **[Day 23](2016/day23.py)** - Safe Cracking -- Simple compiler with toggle
 
+**[Day 24](2016/day24.py)** - Air Duct Spelunking -- Find best path visiting all numbers
+
 ## 2015
 
 **[Day 1](2015/day1.py)** - Not Quite Lisp -- Calculate ())))(
