@@ -96,7 +96,7 @@ Code for www.adventofcode.com in Python 2019.
 
 **[Day 10](2016/day10.py)** - Balance Bots -- Bots moving numbers
 
-**[Day 11](2016/day11.py)** - NOT COMPLETED
+**[Day 11](2016/day11.py)** - Radioisotope Thermoelectric Generators - Move elevator up and down (other peoples code)
 
 **[Day 12](2016/day12.py)** - Leonardo's Monorail -- mini compiler
 
