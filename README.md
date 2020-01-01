@@ -82,6 +82,8 @@ Code for www.adventofcode.com in Python 2019.
 
 **[Day 16](2017/day16.py)** - Permutation Promenade -- Compiler for program dance
 
+**[Day 17](2017/day17.py)** - Spinlock -- Crazy spinlock algorithm
+
 ## 2016
 
 **[Day 1](2016/day1.py)** - No Time for a Taxicab -- Rotate Right and Left
