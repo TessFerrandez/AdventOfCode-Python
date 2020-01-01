@@ -74,6 +74,10 @@ Code for www.adventofcode.com in Python 2019.
 
 **[Day 12](2017/day12.py)** - Digital Plumber -- Find islands of numbers
 
+**[Day 13](2017/day13.py)** - Packet Scanners -- Scan layers of packages
+
+**[Day 14](2017/day14.py)** - Disk Defragmentation -- Knot Hash, and clustering binary regions
+
 ## 2016
 
 **[Day 1](2016/day1.py)** - No Time for a Taxicab -- Rotate Right and Left
