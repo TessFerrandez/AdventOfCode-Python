@@ -80,6 +80,8 @@ Code for www.adventofcode.com in Python 2019.
 
 **[Day 15](2017/day15.py)** - Dueling Generators -- Checking pairs of binary numbers
 
+**[Day 16](2017/day16.py)** - Permutation Promenade -- Compiler for program dance
+
 ## 2016
 
 **[Day 1](2016/day1.py)** - No Time for a Taxicab -- Rotate Right and Left
