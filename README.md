@@ -84,6 +84,8 @@ Code for www.adventofcode.com in Python 2019.
 
 **[Day 17](2017/day17.py)** - Spinlock -- Crazy spinlock algorithm
 
+**[Day 18](2017/day18.py)** - Duet -- Compiler for sender/receiver
+
 ## 2016
 
 **[Day 1](2016/day1.py)** - No Time for a Taxicab -- Rotate Right and Left
