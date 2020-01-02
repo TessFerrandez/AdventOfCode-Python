@@ -86,6 +86,8 @@ Code for www.adventofcode.com in Python 2019.
 
 **[Day 18](2017/day18.py)** - Duet -- Compiler for sender/receiver
 
+**[Day 19](2017/day19.py)** - A Series of Tubes -- Follow a path
+
 ## 2016
 
 **[Day 1](2016/day1.py)** - No Time for a Taxicab -- Rotate Right and Left
