@@ -92,6 +92,8 @@ Code for www.adventofcode.com in Python 2019.
 
 **[Day 21](2017/day21.py)** - Fractal Art -- Replace rows by rules
 
+**[Day 22](2017/day22.py)** - Sporifica Virus -- Virus infection
+
 ## 2016
 
 **[Day 1](2016/day1.py)** - No Time for a Taxicab -- Rotate Right and Left
