@@ -94,6 +94,8 @@ Code for www.adventofcode.com in Python 2019.
 
 **[Day 22](2017/day22.py)** - Sporifica Virus -- Virus infection
 
+**[Day 23](2017/day23.py)** - Coprocessor Conflagation -- Simple compiler
+
 ## 2016
 
 **[Day 1](2016/day1.py)** - No Time for a Taxicab -- Rotate Right and Left
