@@ -90,6 +90,8 @@ Code for www.adventofcode.com in Python 2019.
 
 **[Day 20](2017/day20.py)** - Particle Swarm -- Accelerate Particles
 
+**[Day 21](2017/day21.py)** - Fractal Art -- Replace rows by rules
+
 ## 2016
 
 **[Day 1](2016/day1.py)** - No Time for a Taxicab -- Rotate Right and Left
