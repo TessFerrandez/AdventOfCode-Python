@@ -98,6 +98,8 @@ Code for www.adventofcode.com in Python 2019.
 
 **[Day 24](2017/day24.py)** - Electromagnetic Moat -- Domino chain
 
+**[Day 25](2017/day25.py)** - The Halting Problem -- Turing machine
+
 ## 2016
 
 **[Day 1](2016/day1.py)** - No Time for a Taxicab -- Rotate Right and Left
