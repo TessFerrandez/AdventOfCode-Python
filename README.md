@@ -46,7 +46,7 @@ Code for www.adventofcode.com in Python 2019.
 
 **[Day 6](2018/day6.py)** - Chronical Coordinates -- Find largest area
 
-**[Day 7-1](2018/day7.py)** - The Sum of Its Parts -- Calculate chain of events
+**[Day 7](2018/day7.py)** - The Sum of Its Parts -- Calculate chain of events
 
 ## 2017
 
