@@ -48,6 +48,8 @@ Code for www.adventofcode.com in Python 2019.
 
 **[Day 7](2018/day7.py)** - The Sum of Its Parts -- Calculate chain of events
 
+**[Day 8](2018/day8.py)** - Memory Maneuver -- Read file contents with meta data
+
 ## 2017
 
 **[Day 1](2017/day1.py)** - Captcha -- Sum if same as next
