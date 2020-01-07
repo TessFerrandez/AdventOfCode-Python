@@ -52,6 +52,12 @@ Code for www.adventofcode.com in Python 2019.
 
 **[Day 9](2018/day9.py)** - Marble Mania -- Play a game of % 23 marbles
 
+**[Day 10](2018/day10.py)** - The stars align -- Stars moving to show a message
+
+**[Day 11](2018/day11.py)** - Chronal Charge -- Sum of 3x3 area
+
+**[Day 12-1](2018/day12.py)** - Subterranean Sustainability -- ##..# => .
+
 ## 2017
 
 **[Day 1](2017/day1.py)** - Captcha -- Sum if same as next
