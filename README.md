@@ -50,6 +50,8 @@ Code for www.adventofcode.com in Python 2019.
 
 **[Day 8](2018/day8.py)** - Memory Maneuver -- Read file contents with meta data
 
+**[Day 9](2018/day9.py)** - Marble Mania -- Play a game of % 23 marbles
+
 ## 2017
 
 **[Day 1](2017/day1.py)** - Captcha -- Sum if same as next
