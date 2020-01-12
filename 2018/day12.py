@@ -21,7 +21,8 @@ def iterate_rows(
                 next_row += "."
         next_row += ".."
         row = next_row
-        print(get_row_sum(row))
+        if debug:
+            print(get_row_sum(row))
 
     if debug:
         print(iterations, row)
@@ -37,13 +38,15 @@ def get_row_sum(row):
 
 
 def puzzles():
-    row = "#.####...##..#....#####.##.......##.#..###.#####.###.##.###.###.#...#...##.#.##.#...#..#.##..##.#.##"
+    initial_row = "#.####...##..#....#####.##.......##.#..###.#####.###.##.###.###.#...#...##.#.##.#...#..#.##..##.#.##"
     rules = get_rules()
 
     # puzzle 1
     left_buffer = 20
     right_buffer = 40
-    row = iterate_rows(row, 20, rules, buffer_l=left_buffer, buffer_r=right_buffer)
+    row = iterate_rows(
+        initial_row, 20, rules, buffer_l=left_buffer, buffer_r=right_buffer, debug=False
+    )
     row_sum = get_row_sum(row[left_buffer:])
     print("20 iterations:", row_sum)
 
@@ -51,12 +54,31 @@ def puzzles():
     # visually after 71+ rows a gliding pattern emerges
     # every row adds a sum of 72
     left_buffer = 20
-    right_buffer = 100
-    row = iterate_rows(row, 100, rules, buffer_l=left_buffer, buffer_r=right_buffer)
-    row_sum = get_row_sum(row[left_buffer:])
-    print("100 iterations:", row_sum)
-    # 90 - 8574
-    print("after 50 bill:", (50000000000 - 101) * 72 + 12102)
+    right_buffer = 180
+    row = iterate_rows(
+        initial_row,
+        100,
+        rules,
+        buffer_l=left_buffer,
+        buffer_r=right_buffer,
+        debug=False,
+    )
+    row_sum_100 = get_row_sum(row[left_buffer:])
+    print("100 iterations:", row_sum_100)
+    row = iterate_rows(
+        initial_row,
+        101,
+        rules,
+        buffer_l=left_buffer,
+        buffer_r=right_buffer,
+        debug=False,
+    )
+    row_sum_101 = get_row_sum(row[left_buffer:])
+    print("100 iterations:", row_sum_101)
+    print(
+        "after 50 bill:",
+        (50000000000 - 100) * (row_sum_101 - row_sum_100) + row_sum_100,
+    )
 
 
 if __name__ == "__main__":
