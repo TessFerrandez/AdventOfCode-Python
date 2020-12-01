@@ -1,23 +1,29 @@
 from typing import List
 
 
-def puzzle1(input_values: List[int]) -> int:
-    for i in range(len(input_values)):
-        value1 = input_values[i]
-        if 2020 - value1 in input_values[i:]:
-            return value1 * (2020 - value1)
+def puzzle1(expenses: List[int]) -> int:
+    for i, expense in enumerate(expenses[:-1]):
+        expense2 = 2020 - expense
+        if expense2 in expenses[i:]:
+            return expense * expense2
 
 
-def puzzle2(input_values: List[int]) -> int:
-    return 0
+def puzzle2(expenses: List[int]) -> int:
+    for i in range(len(expenses) - 2):
+        expense1 = expenses[i]
+        for j in range(i, len(expenses) - 1):
+            expense2 = expenses[j]
+            expense3 = 2020 - expense1 - expense2
+            if expense3 in expenses[j:]:
+                return expense1 * expense2 * expense3
 
 
 def main():
     with open("input/day1.txt") as f:
-        input_values = [int(line.strip()) for line in f.readlines()]
-    puzzle1_result = puzzle1(input_values)
+        expenses = [int(line.strip()) for line in f.readlines()]
+    puzzle1_result = puzzle1(expenses)
     print(f"Puzzle1: {puzzle1_result}")
-    puzzle2_result = puzzle2(input_values)
+    puzzle2_result = puzzle2(expenses)
     print(f"Puzzle2: {puzzle2_result}")
 
 
