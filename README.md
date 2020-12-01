@@ -60,7 +60,7 @@ Code for www.adventofcode.com in Python 2019.
 
 **[Day 11](2018/day11.py)** - Chronal Charge -- Sum of 3x3 area
 
-**[Day 12-1](2018/day12.py)** - Subterranean Sustainability -- ##..# => .
+**[Day 12](2018/day12.py)** - Subterranean Sustainability -- ##..# => .
 
 ## 2017
 
