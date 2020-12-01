@@ -4,6 +4,10 @@ Code for www.adventofcode.com in Python 2019.
 
 ## 2019
 
+**[Day 1](2020/day1.py)** - Report Repair -- Find expenses adding up to 2020
+
+## 2019
+
 **[Day 1](2019/day1.py)** - The Tyranny of the Rocket Equation -- Calculate Fuel
 
 **[Day 2](2019/day2.py)** - 1202 Programming Alarm -- IntCode computer - Part I
