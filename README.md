@@ -1,8 +1,8 @@
 # AdventOfCode-Python
 
-Code for www.adventofcode.com in Python 2019.
+Code for www.adventofcode.com in Python.
 
-## 2019
+## 2020
 
 **[Day 1](2020/day1.py)** - Report Repair -- Find expenses adding up to 2020
 
@@ -63,6 +63,8 @@ Code for www.adventofcode.com in Python 2019.
 **[Day 12](2018/day12.py)** - Subterranean Sustainability -- ##..# => .
 
 **[Day 13](2018/day13.py)** - Mine cart madness -- Train tracks.
+
+**[Day 14](2018/day14.py)** - Chocolate Charts -- Calculate recipe sums.
 
 ## 2017
 
