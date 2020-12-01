@@ -62,7 +62,7 @@ Code for www.adventofcode.com in Python 2019.
 
 **[Day 12](2018/day12.py)** - Subterranean Sustainability -- ##..# => .
 
-**[Day 13](2018/day13.py)** - Mine cart madness -- Train tracks
+**[Day 13](2018/day13.py)** - Mine cart madness -- Train tracks.
 
 ## 2017
 
