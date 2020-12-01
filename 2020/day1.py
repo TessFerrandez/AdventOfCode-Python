@@ -2,19 +2,17 @@ from typing import List
 
 
 def puzzle1(expenses: List[int]) -> int:
-    for i, expense in enumerate(expenses[:-1]):
+    for i, expense in enumerate(expenses):
         expense2 = 2020 - expense
         if expense2 in expenses[i:]:
             return expense * expense2
 
 
 def puzzle2(expenses: List[int]) -> int:
-    for i in range(len(expenses) - 2):
-        expense1 = expenses[i]
-        for j in range(i, len(expenses) - 1):
-            expense2 = expenses[j]
+    for i, expense1 in enumerate(expenses):
+        for j, expense2 in enumerate(expenses[i:]):
             expense3 = 2020 - expense1 - expense2
-            if expense3 in expenses[j:]:
+            if expense3 in expenses[i + j :]:
                 return expense1 * expense2 * expense3
 
 
