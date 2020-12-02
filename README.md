@@ -68,6 +68,8 @@ Code for www.adventofcode.com in Python.
 
 **[Day 14](2018/day14.py)** - Chocolate Charts -- Calculate recipe sums.
 
+**[Day 16](2018/day16.py)** - Chronal Classification -- Register program.
+
 ## 2017
 
 **[Day 1](2017/day1.py)** - Captcha -- Sum if same as next
