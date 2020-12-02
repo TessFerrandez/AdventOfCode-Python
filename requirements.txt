@@ -5,3 +5,4 @@ matplotlib==3.1.2
 sympy==1.5.1
 treelib==1.5.5
 pygame~=2.0.0
+pytest~=6.1.2

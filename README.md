@@ -6,6 +6,8 @@ Code for www.adventofcode.com in Python.
 
 **[Day 1](2020/day1.py)** - Report Repair -- Find expenses adding up to 2020
 
+**[Day 2](2020/day2.py)** - Password Philosophy -- Password validation
+
 ## 2019
 
 **[Day 1](2019/day1.py)** - The Tyranny of the Rocket Equation -- Calculate Fuel
