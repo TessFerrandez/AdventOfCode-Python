@@ -8,6 +8,8 @@ Code for www.adventofcode.com in Python.
 
 **[Day 2](2020/day2.py)** - Password Philosophy -- Password validation
 
+**[Day 3](2020/day3.py)** - Toboggan Trajectory -- Count trees
+
 ## 2019
 
 **[Day 1](2019/day1.py)** - The Tyranny of the Rocket Equation -- Calculate Fuel
