@@ -10,6 +10,8 @@ Code for www.adventofcode.com in Python.
 
 **[Day 3](2020/day3.py)** - Toboggan Trajectory -- Count trees
 
+**[Day 4](2020/day4.py)** - Passport Processing -- Validate Passports
+
 ## 2019
 
 **[Day 1](2019/day1.py)** - The Tyranny of the Rocket Equation -- Calculate Fuel
