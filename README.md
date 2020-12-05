@@ -76,6 +76,10 @@ Code for www.adventofcode.com in Python.
 
 **[Day 16](2018/day16.py)** - Chronal Classification -- Register program.
 
+**[Day 16](2018/day16.py)** - Chronal Classification -- Register program.
+
+**[Day 17](2018/day17.py)** - Resevoir Research -- Water flow (with pygame animations)
+
 ## 2017
 
 **[Day 1](2017/day1.py)** - Captcha -- Sum if same as next
