@@ -12,6 +12,8 @@ Code for www.adventofcode.com in Python.
 
 **[Day 4](2020/day4.py)** - Passport Processing -- Validate Passports
 
+**[Day 5](2020/day5.py)** - Binary Boarding -- Binary boarding passes
+
 ## 2019
 
 **[Day 1](2019/day1.py)** - The Tyranny of the Rocket Equation -- Calculate Fuel
