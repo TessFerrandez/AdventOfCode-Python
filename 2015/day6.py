@@ -1,63 +1,81 @@
-import re
+import pytest
 import numpy as np
+from common.helpers import extract_numbers
+from typing import List
 
 
-def execute_commands(commands: list) -> np.ndarray:
-    height = 1000
-    width = 1000
-    screen = np.zeros((height, width))
-    for command in commands:
-        p = re.split(r"[ ,]", command)
-        if p[0] == "toggle":
-            for x in range(int(p[1]), int(p[4]) + 1):
-                for y in range(int(p[2]), int(p[5]) + 1):
-                    screen[x][y] = 1 - screen[x][y]
+TURN_ON = 0
+TURN_OFF = 1
+TOGGLE = 2
+
+
+@pytest.mark.parametrize('data, expected',
+                         [
+                             ([[0, 0, 999, 999, TURN_ON]], 1000000),
+                             ([[0, 0, 999, 0, TOGGLE]], 1000),
+                             ([[0, 0, 999, 999, TURN_ON], [499, 499, 500, 500, TURN_OFF]], 999996),
+                         ])
+def test_part1(data: List[List[int]], expected: int):
+    assert part1(data) == expected
+
+
+@pytest.mark.parametrize('data, expected',
+                         [
+                             ([[0, 0, 0, 0, TURN_ON]], 1),
+                             ([[0, 0, 999, 999, TOGGLE]], 2000000),
+                         ])
+def test_part2(data: List[List[int]], expected: int):
+    assert part2(data) == expected
+
+
+def parse_input(filename: str):
+    instructions = []
+    lines = [line.strip() for line in open(filename).readlines()]
+    for line in lines:
+        digits = extract_numbers(line)
+        if line.startswith('turn on'):
+            digits.append(TURN_ON)
+        elif line.startswith('turn off'):
+            digits.append(TURN_OFF)
         else:
-            val: int = 0
-            if p[1] == "on":
-                val = 1
-            for x in range(int(p[2]), int(p[5]) + 1):
-                for y in range(int(p[3]), int(p[6]) + 1):
-                    screen[x][y] = val
-    return screen
+            digits.append(TOGGLE)
+        instructions.append(digits)
+    return instructions
 
 
-def execute_commands_v2(commands: list, height=1000, width=1000) -> np.ndarray:
-    screen = np.zeros((height, width))
-    for command in commands:
-        p = re.split(r"[ ,]", command)
-        if p[0] == "toggle":
-            for x in range(int(p[1]), int(p[4]) + 1):
-                for y in range(int(p[2]), int(p[5]) + 1):
-                    screen[x][y] += 2
+def part1(data: List[List[int]]) -> int:
+    grid = np.zeros((1000, 1000))
+    for instruction in data:
+        x1, y1, x2, y2, op = instruction
+        if op == TURN_ON:
+            grid[y1: y2 + 1, x1: x2 + 1] = 1
+        elif op == TURN_OFF:
+            grid[y1: y2 + 1, x1: x2 + 1] = 0
         else:
-            val = -1
-            if p[1] == "on":
-                val = 1
-            for x in range(int(p[2]), int(p[5]) + 1):
-                for y in range(int(p[3]), int(p[6]) + 1):
-                    screen[x][y] = max(screen[x][y] + val, 0)
-    return screen
+            grid[y1: y2 + 1, x1: x2 + 1] = 1 - grid[y1: y2 + 1, x1: x2 + 1]
+    return np.count_nonzero(grid == 1)
 
 
-def get_num_lit(screen: np.ndarray, height=1000, width=1000) -> int:
-    num_lit = 0
-    for x in range(0, height):
-        for y in range(0, width):
-            num_lit += screen[x][y]
-    return num_lit
+def part2(data: List[List[int]]) -> int:
+    grid = np.zeros((1000, 1000))
+    for instruction in data:
+        x1, y1, x2, y2, op = instruction
+        if op == TURN_ON:
+            grid[y1: y2 + 1, x1: x2 + 1] = grid[y1: y2 + 1, x1: x2 + 1] + 1
+        elif op == TURN_OFF:
+            for y in range(y1, y2 + 1):
+                for x in range(x1, x2 + 1):
+                    grid[y][x] = max(0, grid[y][x] - 1)
+        else:
+            grid[y1: y2 + 1, x1: x2 + 1] = grid[y1: y2 + 1, x1: x2 + 1] + 2
+    return int(np.sum(grid))
 
 
-def puzzle1():
-    screen = execute_commands(open("input/day6.txt").readlines())
-    print("num lit: ", get_num_lit(screen))
-
-
-def puzzle2():
-    screen = execute_commands_v2(open("input/day6.txt").readlines())
-    print("num lit: ", get_num_lit(screen))
+def main():
+    data = parse_input('input/day6.txt')
+    print(f'Part 1: {part1(data)}')
+    print(f'Part 2: {part2(data)}')
 
 
 if __name__ == "__main__":
-    puzzle1()
-    puzzle2()
+    main()

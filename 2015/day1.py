@@ -1,7 +1,7 @@
 import pytest
 
 
-@pytest.mark.parametrize('input_str, expected',
+@pytest.mark.parametrize('data, expected',
                          [
                              ('(())', 0),
                              ('()()', 0),
@@ -13,44 +13,40 @@ import pytest
                              (')))', -3),
                              (')())())', -3),
                          ])
-def test_calculate_floor(input_str: str, expected: int):
-    assert calculate_floor(input_str) == expected
+def test_part1(data: str, expected: int):
+    assert part1(data) == expected
 
 
-@pytest.mark.parametrize('input_str, expected',
+@pytest.mark.parametrize('data, expected',
                          [
                              (')', 1),
                              ('()())', 5),
                          ])
-def test_calculate_first_basement(input_str: str, expected: int):
-    assert calculate_first_basement(input_str) == expected
+def test_part2(data: str, expected: int):
+    assert part2(data) == expected
 
 
-def calculate_floor(instructions: str) -> int:
-    return instructions.count('(') - instructions.count(')')
+def parse_input(filename: str) -> str:
+    return open(filename).read().strip()
 
 
-def calculate_first_basement(instructions: str) -> int:
+def part1(directions: str) -> int:
+    return directions.count('(') - directions.count(')')
+
+
+def part2(directions: str) -> int:
     floor = 0
-    for i, ch in enumerate(instructions):
+    for i, ch in enumerate(directions):
         floor += 1 if ch == '(' else -1
         if floor == -1:
             return i + 1
     return -1
 
 
-def puzzle1(instructions: str) -> int:
-    return calculate_floor(instructions)
-
-
-def puzzle2(instructions: str) -> int:
-    return calculate_first_basement(instructions)
-
-
 def main():
-    instructions = open('input/day1.txt').read().strip()
-    print(f'Puzzle 1: {puzzle1(instructions)}')
-    print(f'Puzzle 2: {puzzle2(instructions)}')
+    directions = parse_input('input/day1.txt')
+    print(f'Part 1: {part2(directions)}')
+    print(f'Part 2: {part2(directions)}')
 
 
 if __name__ == "__main__":

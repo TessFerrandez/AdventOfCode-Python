@@ -1,27 +1,41 @@
+import pytest
 import hashlib
 
 
-def hash_starts_with(number, start_with="00000", secret_key="ckczppom"):
+@pytest.mark.parametrize('data, expected',
+                         [
+                             ('abcdef', 609043),
+                             ('pqrstuv', 1048970),
+                         ])
+def test_part1(data: str, expected: int):
+    assert part1(data) == expected
+
+
+def hash_starts_with(number: int, secret_key: str, starts_with='00000') -> int:
     string_to_hash = secret_key + str(number)
-    hash_object = hashlib.md5(str(string_to_hash).encode("utf-8"))
-    hex_hash = hash_object.hexdigest()
-    return hex_hash.startswith(start_with)
+    hashed = hashlib.md5(str(string_to_hash).encode('utf-8')).hexdigest()
+    return hashed.startswith(starts_with)
 
 
-def puzzle1():
+def part1(data: str) -> int:
     number = 0
-    while not hash_starts_with(number):
+    while not hash_starts_with(number, data, '00000'):
         number += 1
-    print("lowest number 00000: ", number)
+    return number
 
 
-def puzzle2():
+def part2(data: str) -> int:
     number = 0
-    while not hash_starts_with(number, start_with="000000"):
+    while not hash_starts_with(number, data, '000000'):
         number += 1
-    print("lowest number 000000: ", number)
+    return number
+
+
+def main():
+    data = 'ckczppom'
+    print(f'Part 1: {part1(data)}')
+    print(f'Part 2: {part2(data)}')
 
 
 if __name__ == "__main__":
-    puzzle1()
-    puzzle2()
+    main()

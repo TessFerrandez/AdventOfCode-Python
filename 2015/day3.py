@@ -1,35 +1,60 @@
-def deliver_gifts(path):
-    visited = [(0, 0)]
-    x = 0
-    y = 0
-    for direction in path:
-        if direction == ">":
-            x += 1
-        elif direction == "<":
-            x -= 1
-        elif direction == "^":
-            y += 1
-        else:
-            y -= 1
-        visited.append((x, y))
-    unique_visited = list(set(visited))
-    return unique_visited
+import pytest
 
 
-def puzzle1():
-    print("Day 3 - Puzzle 1")
-    houses_visited = deliver_gifts(open("input/day3.txt").read())
-    print("houses visited: ", len(houses_visited))
+@pytest.mark.parametrize('data, expected',
+                         [
+                             ('>', 2),
+                             ('^>v<', 4),
+                             ('^v^v^v^v^v', 2),
+                         ])
+def test_part1(data: str, expected: int):
+    assert part1(data) == expected
 
 
-def puzzle2():
-    print("Day 3 - Puzzle 2")
-    path = open("input/day3.txt").read()
-    houses_visited = deliver_gifts(path[::2])
-    robo_houses_visited = deliver_gifts(path[1::2])
-    print("houses visited: ", len(set(houses_visited + robo_houses_visited)))
+@pytest.mark.parametrize('data, expected',
+                         [
+                             ('^v', 3),
+                             ('^>v<', 3),
+                             ('^v^v^v^v^v', 11),
+                         ])
+def test_part2(data: str, expected: int):
+    assert part2(data) == expected
+
+
+def parse_input(filename: str):
+    return open(filename).read().strip()
+
+
+def deliver_packages(moves: str) -> set:
+    directions = {'>': 1, '<': -1, '^': -1j, 'v': 1j}
+
+    houses = set()
+    houses.add(0)
+
+    current = 0
+    for move in moves:
+        current = current + directions[move]
+        houses.add(current)
+
+    return houses
+
+
+def part1(data: str) -> int:
+    return len(deliver_packages(data))
+
+
+def part2(data: str) -> int:
+    robot1_houses = deliver_packages(data[::2])
+    robot2_houses = deliver_packages(data[1::2])
+    all_houses = robot1_houses.union(robot2_houses)
+    return len(all_houses)
+
+
+def main():
+    data = parse_input('input/day3.txt')
+    print(f'Part 1: {part1(data)}')
+    print(f'Part 2: {part2(data)}')
 
 
 if __name__ == "__main__":
-    puzzle1()
-    puzzle2()
+    main()
