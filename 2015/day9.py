@@ -1,40 +1,75 @@
-import re
+import pytest
+from collections import defaultdict
 from itertools import permutations
 
 
-travel_routes = dict()
-cities = []
+@pytest.mark.parametrize('data, expected',
+                         [
+                             ({'London': {'Dublin': 464, 'Belfast': 518},
+                               'Dublin': {'London': 464, 'Belfast': 141},
+                               'Belfast': {'London': 518, 'Dublin': 141}},
+                              605),
+                         ])
+def test_part1(data: dict, expected: int):
+    assert part1(data) == expected
 
 
-def parse_input(lines):
-    global travel_routes
-    global cities
+@pytest.mark.parametrize('data, expected',
+                         [
+                             ({'London': {'Dublin': 464, 'Belfast': 518},
+                               'Dublin': {'London': 464, 'Belfast': 141},
+                               'Belfast': {'London': 518, 'Dublin': 141}},
+                              982),
+                         ])
+def test_part2(data: dict, expected: int):
+    assert part2(data) == expected
 
-    routes = [re.split(" to | = ", line.strip()) for line in lines]
+
+def parse_input(filename: str) -> dict:
+    lines = [line.strip() for line in open(filename).readlines()]
+    routes = defaultdict(dict)
+    for line in lines:
+        city1, _, city2, _, distance = line.split(' ')
+        routes[city1][city2] = int(distance)
+        routes[city2][city1] = int(distance)
+    return routes
+
+
+def part1(data: dict) -> int:
+    cities = data.keys()
+    num_cities = len(cities)
+    routes = permutations(cities)
+
+    best_distance = float('inf')
     for route in routes:
-        city_from, city_to, distance = route
-        cities.append(city_from)
-        cities.append(city_to)
-        travel_routes[(city_from, city_to)] = int(distance)
-        travel_routes[(city_to, city_from)] = int(distance)
-    cities = list(set(cities))
+        distance = 0
+        for i in range(num_cities - 1):
+            distance += data[route[i]][route[i + 1]]
+        if distance < best_distance:
+            best_distance = distance
+    return best_distance
 
 
-def get_distance(travel_route):
-    num_locations = len(travel_route)
-    distance = 0
-    for i in range(num_locations - 1):
-        distance += travel_routes[(travel_route[i], travel_route[i + 1])]
-    return distance
+def part2(data: dict) -> int:
+    cities = data.keys()
+    num_cities = len(cities)
+    routes = permutations(cities)
+
+    best_distance = 0
+    for route in routes:
+        distance = 0
+        for i in range(num_cities - 1):
+            distance += data[route[i]][route[i + 1]]
+        if distance > best_distance:
+            best_distance = distance
+    return best_distance
 
 
-def puzzles():
-    parse_input(open("input/day9.txt").readlines())
-    distances = [get_distance(permutation) for permutation in permutations(cities)]
-
-    print("min distance", min(distances))
-    print("max distance", max(distances))
+def main():
+    data = parse_input('input/day9.txt')
+    print(f'Part 1: {part1(data)}')
+    print(f'Part 2: {part2(data)}')
 
 
 if __name__ == "__main__":
-    puzzles()
+    main()

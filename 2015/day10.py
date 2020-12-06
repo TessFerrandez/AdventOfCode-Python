@@ -1,31 +1,60 @@
-def elves_say(number):
-    last_digit = ""
-    num_copies = 0
-    out_string = ""
-
-    for digit in number:
-        num_copies += 1
-        if last_digit != digit:
-            if last_digit != "":
-                out_string += str(num_copies) + last_digit
-            num_copies = 0
-        last_digit = digit
-    out_string += str(num_copies + 1) + last_digit
-
-    return out_string
+import pytest
+import time
 
 
-def puzzles():
-    number = "1113122113"
+@pytest.mark.parametrize('data, expected',
+                         [
+                             ('1', '11'),
+                             ('11', '21'),
+                             ('21', '1211'),
+                             ('1211', '111221'),
+                             ('111221', '312211'),
+                         ])
+def test_look_and_say(data: str, expected: str):
+    assert look_and_say(data) == expected
+
+
+def look_and_say(digits: str) -> str:
+    current_digit = ''
+    current_streak = 0
+    result = []
+
+    for digit in digits:
+        current_streak += 1
+        if current_digit != digit:
+            if current_digit != '':
+                result.append(str(current_streak))
+                result.append(current_digit)
+            current_streak = 0
+        current_digit = digit
+    result.append(str(current_streak + 1))
+    result.append(current_digit)
+    return ''.join(result)
+
+
+def part1(input_digits: str) -> int:
+    start_time = time.perf_counter()
+    digits = input_digits
     for i in range(40):
-        number = elves_say(number)
-    print("length of result:", len(number))
+        digits = look_and_say(digits)
+    print(time.perf_counter() - start_time, "seconds")
+    return len(digits)
 
-    number = "1113122113"
+
+def part2(input_digits: str) -> int:
+    start_time = time.perf_counter()
+    digits = input_digits
     for i in range(50):
-        number = elves_say(number)
-    print("length of result:", len(number))
+        digits = look_and_say(digits)
+    print(time.perf_counter() - start_time, "seconds")
+    return len(digits)
+
+
+def main():
+    input_digits = '1113122113'
+    print(f'Part 1: {part1(input_digits)}')
+    print(f'Part 2: {part2(input_digits)}')
 
 
 if __name__ == "__main__":
-    puzzles()
+    main()

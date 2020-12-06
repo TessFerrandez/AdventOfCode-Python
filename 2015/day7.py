@@ -1,47 +1,60 @@
-calc = dict()
-results = dict()
+CIRCUIT = {}
+EVALUATED = {}
 
 
-def calculate(wire: str) -> int:
+def parse_input(filename: str):
+    lines = [line.strip() for line in open(filename)]
+
+    for line in lines:
+        ops, wire = line.split(' -> ')
+        CIRCUIT[wire] = ops.split(' ')
+
+
+def evaluate(wire: str) -> int:
     try:
         return int(wire)
     except ValueError:
         pass
 
-    res = 0
-    if wire not in results:
-        ops = calc[wire]
+    result = 0
+    if wire not in EVALUATED:
+        ops = CIRCUIT[wire]
+
+        # single value
         if len(ops) == 1:
-            res = calculate(ops[0])
+            result = evaluate(ops[0])
         else:
             op = ops[-2]
-            if op == "AND":
-                res = calculate(ops[0]) & calculate(ops[2])
-            elif op == "OR":
-                res = calculate(ops[0]) | calculate(ops[2])
-            elif op == "NOT":
-                res = ~calculate(ops[1]) & 0xFFFF
-            elif op == "RSHIFT":
-                res = calculate(ops[0]) >> calculate(ops[2])
-            elif op == "LSHIFT":
-                res = calculate(ops[0]) << calculate(ops[2])
-        results[wire] = res
-    return results[wire]
+            if op == 'AND':
+                result = evaluate(ops[0]) & evaluate(ops[2])
+            if op == 'OR':
+                result = evaluate(ops[0]) | evaluate(ops[2])
+            if op == 'NOT':
+                result = ~evaluate(ops[1]) & 0xFFFF
+            if op == 'RSHIFT':
+                result = evaluate(ops[0]) >> evaluate(ops[2])
+            if op == 'LSHIFT':
+                result = evaluate(ops[0]) << evaluate(ops[2])
+        EVALUATED[wire] = result
+    return EVALUATED[wire]
 
 
-def init_wiring(commands: list):
-    for command in commands:
-        (ops, res) = command.split("->")
-        calc[res.strip()] = ops.strip().split(" ")
+def part1() -> int:
+    return evaluate('a')
 
 
-def puzzle1():
-    init_wiring(open("input/day7.txt").readlines())
-    print("result for a: ", calculate("a"))
-    results.clear()
-    results["b"] = 46065
-    print("result for a: ", calculate("a"))
+def part2() -> int:
+    a = EVALUATED['a']
+    EVALUATED.clear()
+    EVALUATED['b'] = a
+    return evaluate('a')
+
+
+def main():
+    parse_input('input/day7.txt')
+    print(f'Part 1: {part1()}')
+    print(f'Part 2: {part2()}')
 
 
 if __name__ == "__main__":
-    puzzle1()
+    main()
