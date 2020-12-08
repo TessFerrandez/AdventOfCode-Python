@@ -1,58 +1,53 @@
+from collections import defaultdict
 from itertools import permutations
 
 
-people = []
-relations = dict()
+def parse_input(filename: str) -> dict:
+    rules = defaultdict(dict)
+    lines = [line.strip() for line in open(filename).readlines()]
 
-
-def parse_input():
-    global people
-    global relations
-
-    lines = [line.strip()[0:-1] for line in open("input/day13.txt").readlines()]
     for line in lines:
-        parts = line.split(" ")
-        person_from = parts[0]
-        person_to = parts[10]
-        people.append(person_from)
-        people.append(person_to)
-
-        happiness = int(parts[3])
-        if parts[2] == "lose":
-            happiness = 0 - happiness
-
-        relations[(person_from, person_to)] = happiness
-
-    people = list(set(people))
+        parts = line.split(' ')
+        person1 = parts[0]
+        person2 = parts[10][:-1]
+        happiness = int(parts[3]) if parts[2] == 'gain' else -int(parts[3])
+        rules[person1][person2] = happiness
+    return rules
 
 
-def calculate_happiness(table):
-    happiness = 0
-    num_people = len(table)
-    for i in range(num_people):
-        happiness += relations[(table[i], table[(i - 1) % num_people])]
-        happiness += relations[(table[i], table[(i + 1) % num_people])]
-    return happiness
+def calculate_happines(rules: dict) -> int:
+    people = rules.keys()
+    arrangements = permutations(people)
+    max_happiness = 0
+    for arrangement in arrangements:
+        happiness = 0
+        for i in range(len(arrangement) - 1):
+            happiness += rules[arrangement[i]][arrangement[i + 1]]
+            happiness += rules[arrangement[i + 1]][arrangement[i]]
+        happiness += rules[arrangement[-1]][arrangement[0]]
+        happiness += rules[arrangement[0]][arrangement[-1]]
+        max_happiness = max(max_happiness, happiness)
+    return max_happiness
 
 
-def find_best_arrangement():
-    tables = [calculate_happiness(table) for table in permutations(people)]
-    return max(tables)
+def part1(rules: dict) -> int:
+    return calculate_happines(rules)
 
 
-def add_yourself():
+def part2(rules: dict) -> int:
+    people = list(rules.keys())
     for person in people:
-        relations[(person, "me")] = 0
-        relations[("me", person)] = 0
-    people.append("me")
+        rules[person]['me'] = 0
+    for person in people:
+        rules['me'][person] = 0
+    return calculate_happines(rules)
 
 
-def puzzles():
-    parse_input()
-    print("best table:", find_best_arrangement())
-    add_yourself()
-    print("best table:", find_best_arrangement())
+def main():
+    rules = parse_input('input/day13.txt')
+    print(f'Part 1: {part1(rules)}')
+    print(f'Part 2: {part2(rules)}')
 
 
 if __name__ == "__main__":
-    puzzles()
+    main()
