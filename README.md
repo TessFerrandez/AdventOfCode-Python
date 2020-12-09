@@ -14,6 +14,14 @@ Code for www.adventofcode.com in Python.
 
 **[Day 5](2020/day5.py)** - Binary Boarding -- Binary boarding passes
 
+**[Day 6](2020/day6.py)** - Custom Customs -- Find commonalities in groups of answers
+
+**[Day 7](2020/day7.py)** - Handy Haversacks -- Calculating recursive bags needed
+
+**[Day 8](2020/day8.py)** - Handheld Halting -- Implement a basic assembly compiler
+
+**[Day 9](2020/day9.py)** - Encoding Error -- Find sums in lists
+
 ## 2019
 
 **[Day 1](2019/day1.py)** - The Tyranny of the Rocket Equation -- Calculate Fuel
