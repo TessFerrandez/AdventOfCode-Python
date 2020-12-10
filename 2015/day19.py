@@ -1,78 +1,67 @@
-def get_molecules(transformation: list, original: str) -> list:
-    from_str = transformation[0]
-    to_str = transformation[1]
-    repl_length = len(from_str)
-
-    molecules = []
-    for i in range(len(original) - repl_length + 1):
-        if original[i : i + repl_length] == from_str:
-            molecules.append(original[:i] + to_str + original[i + repl_length :])
-
-    return molecules
+import pytest
+import re
+from collections import defaultdict
+from typing import List
 
 
-def replace_and_count(original: str, repl: str) -> (str, int):
-    len_before = len(original)
-    replaced = original.replace(repl, "X")
-    len_after = len(replaced)
-    while len_before != len_after:
-        len_before = len(replaced)
-        replaced = replaced.replace(repl, "X")
-        len_after = len(replaced)
-    return replaced, (len(original) - len(replaced)) // (len(repl) - 1)
+@pytest.mark.parametrize('replacements, molecule, expected',
+                         [
+                             ([['H', 'HO'], ['H', 'OH'], ['O', 'HH']], 'HOH', 4),
+                         ])
+def test_part1(replacements: List[List[str]], molecule: str, expected: int):
+    assert part1(replacements, molecule) == expected
 
 
-def get_steps_to_create_molecule(original: str) -> int:
-    replaced = (
-        original.replace("Rn", "(")
-        .replace("Y", ",")
-        .replace("Ar", ")")
-        .replace("Al", "X")
-        .replace("B", "X")
-        .replace("Ca", "X")
-        .replace("C", "X")
-        .replace("F", "X")
-        .replace("H", "X")
-        .replace("H", "X")
-        .replace("Mg", "X")
-        .replace("N", "X")
-        .replace("O", "X")
-        .replace("P", "X")
-        .replace("Si", "X")
-        .replace("Th", "X")
-        .replace("Ti", "X")
-    )
+@pytest.mark.parametrize('replacements, molecule, expected',
+                         [
+                             ([['e', 'H'], ['e', 'O'], ['H', 'HO'], ['H', 'OH'], ['O', 'HH']], 'HOH', 3),
+                         ])
+def test_part2(replacements: List[List[str]], molecule: str, expected: int):
+    assert part2(replacements, molecule) == expected
+
+
+def parse_input(filename: str) -> (dict, str):
+    *lines, _, molecule = open(filename).readlines()
+    replacements = [line.strip().split(' => ') for line in lines]
+    return replacements, molecule
+
+
+def part1(replacements: List[List[str]], molecule: str) -> int:
+    generated = set()
+    for before, after in replacements:
+        for i in range(len(molecule)):
+            if molecule[i: i + len(before)] == before:
+                generated.add(molecule[: i] + after + molecule[i + len(before):])
+    return len(generated)
+
+
+def part2(replacements: List[List[str]], molecule: str) -> int:
+    original_replacements = replacements.copy()
 
     steps = 0
-    while True:
-        replaced, count = replace_and_count(replaced, "XX")
-        if count > 0:
-            steps += count
-            continue
-        replaced, count = replace_and_count(replaced, "X(X)")
-        if count > 0:
-            steps += count
-            continue
-        replaced, count = replace_and_count(replaced, "X(X,X)")
-        if count > 0:
-            steps += count
-            continue
-        break
+    current_molecule = molecule
 
+    while current_molecule != 'e':
+        try:
+            replacement = max(replacements, key=lambda x: len(x[1]))
+        except ValueError:
+            replacements = original_replacements.copy()
+            replacement = max(replacements, key=lambda x: len(x[1]))
+        before, after = replacement
+        new_molecule = current_molecule.replace(after, before, 1)
+        if current_molecule != new_molecule:
+            steps += 1
+        else:
+            replacements.remove(replacement)
+        current_molecule = new_molecule
     return steps
 
 
-def puzzles():
-    transformations = [line.strip().split(" => ") for line in open("input/day19.txt")]
-    molecules = []
-    original = "CRnCaCaCaSiRnBPTiMgArSiRnSiRnMgArSiRnCaFArTiTiBSiThFYCaFArCaCaSiThCaPBSiThSiThCaCaPTiRnPBSiThRnFArArCaCaSiThCaSiThSiRnMgArCaPTiBPRnFArSiThCaSiRnFArBCaSiRnCaPRnFArPMgYCaFArCaPTiTiTiBPBSiThCaPTiBPBSiRnFArBPBSiRnCaFArBPRnSiRnFArRnSiRnBFArCaFArCaCaCaSiThSiThCaCaPBPTiTiRnFArCaPTiBSiAlArPBCaCaCaCaCaSiRnMgArCaSiThFArThCaSiThCaSiRnCaFYCaSiRnFYFArFArCaSiRnFYFArCaSiRnBPMgArSiThPRnFArCaSiRnFArTiRnSiRnFYFArCaSiRnBFArCaSiRnTiMgArSiThCaSiThCaFArPRnFArSiRnFArTiTiTiTiBCaCaSiRnCaCaFYFArSiThCaPTiBPTiBCaSiThSiRnMgArCaF"
-    for transformation in transformations:
-        molecules += get_molecules(transformation, original)
-    print("num molecules", len(set(molecules)))
-
-    steps = get_steps_to_create_molecule(original)
-    print(steps, "steps to molecule")
+def main():
+    replacements, molecule = parse_input('input/day19.txt')
+    print(f'Part 1: {part1(replacements, molecule)}')
+    print(f'Part 2: {part2(replacements, molecule)}')
 
 
 if __name__ == "__main__":
-    puzzles()
+    main()
