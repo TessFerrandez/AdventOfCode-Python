@@ -22,6 +22,8 @@ Code for www.adventofcode.com in Python.
 
 **[Day 9](2020/day9.py)** - Encoding Error -- Find sums in lists
 
+**[Day 10](2020/day10.py)** - Adapter Array -- Find combinations of adapters
+
 ## 2019
 
 **[Day 1](2019/day1.py)** - The Tyranny of the Rocket Equation -- Calculate Fuel

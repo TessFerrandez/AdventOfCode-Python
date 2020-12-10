@@ -1,18 +1,46 @@
-def get_score(spoons: list, restrict_calories=False) -> int:
-    properties = [
-        [4, -2, 0, 0, 5],
-        [0, 5, -1, 0, 8],
-        [-1, 0, 5, 0, 6],
-        [0, 0, -2, 2, 1],
-    ]
+import pytest
+from common.helpers import extract_numbers
+from typing import List
 
+
+@pytest.mark.parametrize('data, expected', [([[-1, -2, 6, 3, 8], [2, 3, -2, -1, 3]], 62842880)])
+def test_part1(data: List[List[int]], expected: int):
+    assert part1(data) == expected
+
+
+@pytest.mark.parametrize('data, expected', [([[-1, -2, 6, 3, 8], [2, 3, -2, -1, 3]], 57600000)])
+def test_part2(data: List[List[int]], expected: int):
+    assert part2(data) == expected
+
+
+def parse_input(filename: str) -> List[List[int]]:
+    lines = [line.strip() for line in open(filename).readlines()]
+    ingredients = [extract_numbers(line) for line in lines]
+    return ingredients
+
+
+def mixtures(n: int, total: int):
+    if n == 1:
+        start = total
+    else:
+        start = 0
+
+    for i in range(start, total + 1):
+        left = total - i
+        if n - 1:
+            for y in mixtures(n - 1, left):
+                yield [i] + y
+        else:
+            yield [i]
+
+
+def get_score(spoons, ingredients, restrict_calories=False) -> int:
     n_items = len(spoons)
 
     if restrict_calories:
         calorie_count = 0
         for ingredient in range(n_items):
-            calorie_count += spoons[ingredient] * properties[ingredient][4]
-
+            calorie_count += spoons[ingredient] * ingredients[ingredient][4]
         if calorie_count != 500:
             return 0
 
@@ -20,32 +48,34 @@ def get_score(spoons: list, restrict_calories=False) -> int:
     for prop in range(4):
         score = 0
         for ingredient in range(n_items):
-            score += spoons[ingredient] * properties[ingredient][prop]
+            score += spoons[ingredient] * ingredients[ingredient][prop]
         score = max(score, 0)
         total_score *= score
     return total_score
 
 
-def find_best_combo(spoons: int, restrict_calories=False):
+def part1(ingredients: List[List[int]]) -> int:
     max_score = 0
-    for frosting in range(1, spoons - 2):
-        for candy in range(1, spoons - frosting - 1):
-            for butter in range(1, spoons - frosting - candy):
-                sugar = spoons - frosting - candy - butter
-                max_score = max(
-                    max_score,
-                    get_score([frosting, candy, butter, sugar], restrict_calories),
-                )
-
+    n_ingredients = len(ingredients)
+    for mixture in mixtures(n_ingredients, 100):
+        max_score = max(max_score, get_score(mixture, ingredients))
     return max_score
 
 
-def puzzles():
-    max_score = find_best_combo(100, restrict_calories=False)
-    print("max score", max_score)
-    max_score = find_best_combo(100, restrict_calories=True)
-    print("max score", max_score)
+def part2(ingredients: List[List[int]]) -> int:
+    max_score = 0
+    n_ingredients = len(ingredients)
+    for mixture in mixtures(n_ingredients, 100):
+        max_score = max(max_score, get_score(mixture, ingredients, True))
+    return max_score
+
+
+def main():
+    ingredients = parse_input('input/day15.txt')
+    print(ingredients)
+    print(f'Part 1: {part1(ingredients)}')
+    print(f'Part 2: {part2(ingredients)}')
 
 
 if __name__ == "__main__":
-    puzzles()
+    main()
