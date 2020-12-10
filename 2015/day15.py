@@ -72,7 +72,6 @@ def part2(ingredients: List[List[int]]) -> int:
 
 def main():
     ingredients = parse_input('input/day15.txt')
-    print(ingredients)
     print(f'Part 1: {part1(ingredients)}')
     print(f'Part 2: {part2(ingredients)}')
 

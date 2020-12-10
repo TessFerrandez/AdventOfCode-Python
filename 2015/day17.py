@@ -1,36 +1,54 @@
-import itertools
+import pytest
+from itertools import combinations
+from typing import List
 
 
-def find_combos(containers: list, target: int) -> list:
-    return [
-        seq
-        for i in range(len(containers), 0, -1)
-        for seq in itertools.combinations(containers, i)
-        if sum(seq) == target
-    ]
+@pytest.mark.parametrize('data, target, expected',
+                         [
+                             ([20, 15, 10, 5, 5], 25, 4),
+                         ])
+def test_part1(data: List[int], target: int, expected: int):
+    assert part1(data, target) == expected
 
 
-def find_lowest_number_of_containers(combos) -> (int, int):
-    combo_count = dict()
-    for combo in combos:
-        combo_len = len(combo)
-        if combo_len in combo_count:
-            combo_count[combo_len] += 1
-        else:
-            combo_count[combo_len] = 1
-
-    n_lowest_cont = sorted(combo_count)[0]
-    n_combos = combo_count[n_lowest_cont]
-    return n_lowest_cont, n_combos
+@pytest.mark.parametrize('data, target, expected',
+                         [
+                             ([20, 15, 10, 5, 5], 25, 3),
+                         ])
+def test_part2(data: List[int], target: int, expected: int):
+    assert part2(data, target) == expected
 
 
-def puzzles():
-    containers = [int(num) for num in open("input/day17.txt").readlines()]
-    combos = find_combos(containers, 150)
-    print("number of combos", len(combos))
-    n_containers, n_combos = find_lowest_number_of_containers(combos)
-    print(n_combos, "combos with", n_containers, "containers")
+def parse_input(filename: str):
+    return [int(line) for line in open(filename).readlines()]
+
+
+def find_sum_combos(data: List[int], target: int) -> List[List[int]]:
+    combos = []
+    for i in range(len(data)):
+        for combo in combinations(data, i):
+            if sum(combo) == target:
+                combos.append(combo)
+    return combos
+
+
+def part1(data: List[int], target: int) -> int:
+    combos = find_sum_combos(data, target)
+    return len(combos)
+
+
+def part2(data: List[int], target: int) -> int:
+    combos = find_sum_combos(data, target)
+    lengths = [len(combo) for combo in combos]
+    lengths.sort()
+    return lengths.count(lengths[0])
+
+
+def main():
+    data = parse_input('input/day17.txt')
+    print(f'Part 1: {part1(data, 150)}')
+    print(f'Part 2: {part2(data, 150)}')
 
 
 if __name__ == "__main__":
-    puzzles()
+    main()
