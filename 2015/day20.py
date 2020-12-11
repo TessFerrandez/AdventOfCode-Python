@@ -1,43 +1,47 @@
-from itertools import count
-from math import sqrt
-from progressbar import ProgressBar
+import pytest
+import progressbar
+from sympy import primefactors, divisors
 
 
-def get_factors(n: int) -> set:
-    factors = set()
-    for i in range(1, int(sqrt(n)) + 1):
-        div, mod = divmod(n, i)
-        if mod == 0:
-            factors.add(i)
-            factors.add(div)
-    return factors
+@pytest.mark.parametrize('data, expected',
+                         [
+                             (130, 8),
+                         ])
+def test_part1(data: int, expected: int):
+    assert part1(data) == expected
 
 
-def get_gifts(number: int, gifts_per_number=10, limit=None) -> int:
-    if limit is None:
-        n_visits = sum(i for i in get_factors(number))
+def calculate_presents(house_number, presents_per_house, limit: int = None) -> int:
+    if limit:
+        visits = sum(elf for elf in divisors(house_number) if house_number <= elf * limit)
     else:
-        n_visits = sum(i for i in get_factors(number) if number <= i * limit)
-    return n_visits * gifts_per_number
+        visits = sum(divisors(house_number))
+    return visits * presents_per_house
 
 
-def get_house(target: int, gifts_per_number=10, limit=None) -> int:
-    pbar = ProgressBar(maxval=1000000)
-    pbar.start()
-
-    for i in count(1):
-        if i % 100000 == 0:
-            pbar.update(i)
-        if get_gifts(i, gifts_per_number, limit) >= target:
-            return i
-
-    pbar.finish()
+def part1(target: int) -> int:
+    house_number = 1
+    with progressbar.ProgressBar(max_value=776160, redirect_stdout=True) as p:
+        while calculate_presents(house_number, 10) < target:
+            house_number += 1
+            p.update(house_number)
+    return house_number
 
 
-def puzzles():
-    print("house:", get_house(33100000))
-    print("house:", get_house(33100000, 11, 50))
+def part2(target: int) -> int:
+    house_number = 1
+    with progressbar.ProgressBar(max_value=786240, redirect_stdout=True) as p:
+        while calculate_presents(house_number, 11, 50) < target:
+            house_number += 1
+            p.update(house_number)
+    return house_number
+
+
+def main():
+    target = 33100000
+    print(f'Part 1: {part1(target)}')
+    print(f'Part 2: {part2(target)}')
 
 
 if __name__ == "__main__":
-    puzzles()
+    main()
