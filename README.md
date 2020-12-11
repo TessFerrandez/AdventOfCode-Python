@@ -24,6 +24,8 @@ Code for www.adventofcode.com in Python.
 
 **[Day 10](2020/day10.py)** - Adapter Array -- Find combinations of adapters
 
+**[Day 11](2020/day11.py)** - Seating System -- Alternate grid based on adjacent and visible
+
 ## 2019
 
 **[Day 1](2019/day1.py)** - The Tyranny of the Rocket Equation -- Calculate Fuel
