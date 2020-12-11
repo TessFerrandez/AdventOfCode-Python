@@ -1,12 +1,9 @@
 import pytest
 import progressbar
-from sympy import primefactors, divisors
+from sympy import divisors
 
 
-@pytest.mark.parametrize('data, expected',
-                         [
-                             (130, 8),
-                         ])
+@pytest.mark.parametrize('data, expected', [(130, 8)])
 def test_part1(data: int, expected: int):
     assert part1(data) == expected
 
