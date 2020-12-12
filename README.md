@@ -26,6 +26,8 @@ Code for www.adventofcode.com in Python.
 
 **[Day 11](2020/day11.py)** - Seating System -- Alternate grid based on adjacent and visible
 
+**[Day 12](2020/day12.py)** - Rain Risk -- moves and directions
+
 ## 2019
 
 **[Day 1](2019/day1.py)** - The Tyranny of the Rocket Equation -- Calculate Fuel
