@@ -1,59 +1,60 @@
-def read_instructions() -> list:
-    lines = open("input/day23.txt").readlines()
-    instructions = []
-    for line in lines:
-        line = line.strip()
-        op = line[0:3]
-        instruction = [op] + line[4:].split(", ")
-        instructions.append(instruction)
-    return instructions
+from typing import List
 
 
-def execute_instructions(instructions: list, registers: dict):
-    instr_ptr = 0
-    while instr_ptr < len(instructions):
-        instruction = instructions[instr_ptr]
-        op = instruction[0]
-        if op == "inc":
-            registers[instruction[1]] += 1
-            instr_ptr += 1
-        elif op == "tpl":
-            registers[instruction[1]] *= 3
-            instr_ptr += 1
-        elif op == "hlf":
-            registers[instruction[1]] /= 2
-            instr_ptr += 1
-        elif op == "jio":
-            offset = int(instruction[2])
-            reg = instruction[1]
-            if registers[reg] == 1:
-                instr_ptr += offset
-            else:
-                instr_ptr += 1
-        elif op == "jmp":
-            offset = int(instruction[1])
-            instr_ptr += offset
-        elif op == "jie":
-            offset = int(instruction[2])
-            reg = instruction[1]
-            if registers[reg] % 2 == 0:
-                instr_ptr += offset
-            else:
-                instr_ptr += 1
-        else:
-            print(instruction)
-            raise Exception
+class Computer:
+    def __init__(self, instructions):
+        self.ptr = 0
+        self.regs = [0, 0]
+        self.instructions = instructions
+        self.end = len(self.instructions)
+
+    def run(self):
+        while self.ptr != self.end:
+            # compute instructions
+            op, reg, offset = self.instructions[self.ptr]
+            if op == 'hlf':
+                self.regs[reg] /= 2
+                self.ptr += 1
+            elif op == 'tpl':
+                self.regs[reg] *= 3
+                self.ptr += 1
+            elif op == 'inc':
+                self.regs[reg] += 1
+                self.ptr += 1
+            elif op == 'jmp':
+                self.ptr += offset
+            elif op == 'jie':
+                if self.regs[reg] % 2 == 0:
+                    self.ptr += offset
+                else:
+                    self.ptr += 1
+            elif op == 'jio':
+                if self.regs[reg] % 2 == 1:
+                    self.ptr += offset
+                else:
+                    self.ptr += 1
 
 
-def puzzles():
-    instructions = read_instructions()
-    registers = {"a": 0, "b": 0}
-    execute_instructions(instructions, registers)
-    print("b register:", registers["b"])
-    registers = {"a": 1, "b": 0}
-    execute_instructions(instructions, registers)
-    print("b register:", registers["b"])
+def parse_input(filename: str):
+    return ''
+
+
+def part1(instructions: List[List]) -> int:
+    computer = Computer(instructions)
+    computer.run()
+    return computer.regs[0]
+
+
+def part2(instructions: List[List]) -> int:
+    return 0
+
+
+def main():
+    # data = parse_input('input/dayX.txt')
+    instructions = [['inc', 0, 0], ['jio', 0, 2], ['tpl', 0, 0], ['inc', 0, 0]]
+    print(f'Part 1: {part1(instructions)}')
+    print(f'Part 2: {part2(instructions)}')
 
 
 if __name__ == "__main__":
-    puzzles()
+    main()

@@ -28,6 +28,8 @@ Code for www.adventofcode.com in Python.
 
 **[Day 12](2020/day12.py)** - Rain Risk -- moves and directions
 
+**[Day 13](2020/day13.py)** - Shuttle Search -- chinese remainders and modulo operations
+
 ## 2019
 
 **[Day 1](2019/day1.py)** - The Tyranny of the Rocket Equation -- Calculate Fuel
