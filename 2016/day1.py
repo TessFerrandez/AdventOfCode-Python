@@ -1,56 +1,67 @@
-def parse_input():
-    return open("input/day1.txt").readline().split(", ")
+import pytest
+from typing import List
 
 
-def calculate_distance(moves):
-    x, y = 0, 0
-    visited = []
+@pytest.mark.parametrize('instructions, expected',
+                         [
+                             (['R2', 'L3'], 5),
+                             (['R2', 'R2', 'R2'], 2),
+                             (['R5', 'L5', 'R5', 'R3'], 12),
+                         ])
+def test_part1(instructions: List[str], expected: int):
+    assert part1(instructions) == expected
 
-    dx, dy = 0, 1
-    for move in moves:
-        direction = move[0]
-        if direction == "R":
-            if dx == 0 and dy == 1:
-                dx, dy = 1, 0
-            elif dx == 1 and dy == 0:
-                dx, dy = 0, -1
-            elif dx == 0 and dy == -1:
-                dx, dy = -1, 0
-            else:
-                dx, dy = 0, 1
+
+@pytest.mark.parametrize('instructions, expected',
+                         [
+                             (['R8', 'R4', 'R4', 'R8'], 4),
+                         ])
+def test_part2(instructions: List[str], expected: int):
+    assert part2(instructions) == expected
+
+
+def parse_input(filename: str) -> List[str]:
+    return open(filename).read().strip().split(', ')
+
+
+def part2(instructions: List[str]) -> int:
+    position = 0
+    visited = [position]
+    direction = 1j
+
+    for instruction in instructions:
+        turn = instruction[0]
+        steps = int(instruction[1:])
+        if turn == 'R':
+            direction *= -1j
         else:
-            if dx == 0 and dy == 1:
-                dx, dy = -1, 0
-            elif dx == 1 and dy == 0:
-                dx, dy = 0, 1
-            elif dx == 0 and dy == -1:
-                dx, dy = 1, 0
-            else:
-                dx, dy = 0, -1
-
-        steps = int(move[1:])
-        for i in range(0, steps):
-            x += dx
-            y += dy
-            visited.append((x, y))
-
-    return abs(x) + abs(y), visited
+            direction *= 1j
+        for _ in range(steps):
+            position += direction
+            if position in visited:
+                return int(abs(position.real) + abs(position.imag))
+            visited.append(position)
 
 
-def puzzles():
-    moves = parse_input()
-    distance, visited = calculate_distance(moves)
-    print("Easter Bunny HQ is", distance, "blocks away")
+def part1(instructions: List[str]) -> int:
+    position = 0
+    direction = 1j
+    for instruction in instructions:
+        turn = instruction[0]
+        steps = int(instruction[1:])
+        if turn == 'R':
+            direction *= -1j
+        else:
+            direction *= 1j
+        position += direction * steps
+    return int(abs(position.real) + abs(position.imag))
 
-    for location in visited:
-        if visited.count(location) > 1:
-            print(
-                "first location visited twice is",
-                abs(location[0]) + abs(location[1]),
-                "steps away",
-            )
-            return
+
+def main():
+    directions = parse_input('input/day1.txt')
+    print(f'Part 1: {part1(directions)}')
+    print(f'Part 2: {part2(directions)}')
 
 
 if __name__ == "__main__":
-    puzzles()
+    main()

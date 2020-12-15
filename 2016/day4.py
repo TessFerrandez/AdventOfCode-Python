@@ -1,81 +1,87 @@
-import re
-import collections
-import string
+import pytest
+from collections import Counter
+from typing import List, Tuple
 
 
-def parse(input_line):
-    input_line = input_line.strip()
-    checksum = input_line.split("[")[1][:-1]
-    code = input_line.split("[")[0]
-    room_id = int(code.split("-")[-1])
-    room_code = code[0:-3]
-    return room_code, checksum, room_id
+@pytest.mark.parametrize('room_name, checksum, expected',
+                         [
+                             ('aaaaa-bbb-z-y-x', 'abxyz', True),
+                             ('a-b-c-d-e-f-g-h', 'abcde', True),
+                             ('not-a-real-room', 'oarel', True),
+                             ('totally-real-room', 'decoy', False)
+                         ])
+def test_is_real_room(room_name: str, checksum: str, expected: int):
+    assert is_real_room(room_name, checksum) == expected
 
 
-def validate(room_code, checksum):
-    room_code = room_code.replace("-", "")
-    uniq = set(room_code)
-    frequencies = []
-    for letter in uniq:
-        frequencies.append((letter, room_code.count(letter)))
-    frequencies = sorted(frequencies, key=lambda tup: (-tup[1], tup[0]))
-
-    my_checksum = ""
-    for i in range(0, 5):
-        my_checksum += frequencies[i][0]
-
-    return my_checksum == checksum
+@pytest.mark.parametrize('room_name, room_id, expected',
+                         [
+                             ('qzmt-zixmtkozy-ivhz', 343, 'very encrypted name'),
+                         ])
+def test_decode(room_name: str, room_id: int, expected: str):
+    assert decode(room_name, room_id) == expected
 
 
-def puzzle1():
-    sum_ids = 0
+def parse_input(filename: str) -> List[Tuple[int, str, str]]:
+    rooms = []
+    lines = [line.strip() for line in open(filename).readlines()]
+    for line in lines:
+        room, checksum = line[:-1].split('[')
+        *room_name_parts, room_id = room.split('-')
+        room_name = '-'.join(room_name_parts)
+        room_id = int(room_id)
+        rooms.append((room_id, room_name, checksum))
+    return rooms
 
-    with open("input/day4.txt") as f:
-        for line in f:
-            room_code, checksum, room_id = parse(line)
-            if validate(room_code, checksum):
-                sum_ids += room_id
 
-    print("sum of IDs", sum_ids)
-
-
-def decrypt(encrypted, room_id):
-    alphabet = "abcdefghijklmnopqrstuvwxyz"
-    shift = room_id % 26 + -10
-    cipher = alphabet[-shift:] + alphabet[:-shift]
-
-    decrypted = ""
-    for letter in encrypted:
-        if letter == "-":
-            decrypted += " "
+def decode(room_name: str, room_id: int) -> str:
+    decoded = ''
+    for ch in room_name:
+        if ch == '-':
+            decoded += ' '
         else:
-            decrypted += cipher[alphabet.index(letter)]
-
-    return decrypted
-
-
-def caesar_cipher(n):
-    az = string.ascii_lowercase
-    x = n % len(az)
-    return str.maketrans(az, az[x:] + az[:x])
+            val = ord(ch) - ord('a')
+            val = (val + room_id) % 26 + ord('a')
+            decoded += chr(val)
+    return decoded
 
 
-def puzzle2():
-    ans1 = 0
-    regex = r"([a-z-]+)(\d+)\[(\w+)\]"
-    with open("input/day4.txt") as fp:
-        for code, sid, checksum in re.findall(regex, fp.read()):
-            sid = int(sid)
-            letters = "".join(c for c in code if c in string.ascii_lowercase)
-            tops = [(-n, c) for c, n in collections.Counter(letters).most_common()]
-            ranked = "".join(c for n, c in sorted(tops))
-            if ranked.startswith(checksum):
-                ans1 += sid
-                decoded = code.translate(caesar_cipher(sid))
-                if "north" in decoded:
-                    print("decoded room:", decoded.replace("-", " ").strip(), sid)
+def is_real_room(room_name: str, checksum: str) -> bool:
+    counts = Counter(room_name)
+    counts['-'] = 0
+    letters = sorted(counts.items(), key=lambda x: (-x[1], x[0]))
+
+    room_checksum = ''
+    for i in range(5):
+        room_checksum += letters[i][0]
+
+    return room_checksum == checksum
+
+
+def part1(rooms: List[Tuple[int, str, str]]) -> int:
+    total = 0
+    for room in rooms:
+        room_id, room_name, checksum = room
+        if is_real_room(room_name, checksum):
+            total += room_id
+    return total
+
+
+def part2(rooms: List[Tuple[int, str, str]]) -> int:
+    for room in rooms:
+        room_id, room_name, _ = room
+        decoded_room_name = decode(room_name, room_id)
+        if 'north' in decoded_room_name:
+            print(room_id, decoded_room_name)
+            return room_id
+    return 0
+
+
+def main():
+    rooms = parse_input('input/day4.txt')
+    print(f'Part 1: {part1(rooms)}')
+    print(f'Part 2: {part2(rooms)}')
 
 
 if __name__ == "__main__":
-    puzzle1()
-    puzzle2()
+    main()

@@ -1,62 +1,75 @@
-PAD = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
+import pytest
+from typing import List
 
 
-PAD2 = [
-    ["X", "X", "1", "X", "X"],
-    ["X", "2", "3", "4", "X"],
-    ["5", "6", "7", "8", "9"],
-    ["X", "A", "B", "C", "X"],
-    ["X", "X", "D", "X", "X"],
-]
+@pytest.mark.parametrize('data, expected',
+                         [
+                             (['ULL', 'RRDDD', 'LURDL', 'UUUUD'], 1985),
+                         ])
+def test_part1(data: List[str], expected: int):
+    assert part1(data) == expected
 
 
-INSTR = {"U": (0, -1), "D": (0, 1), "L": (-1, 0), "R": (1, 0)}
+@pytest.mark.parametrize('data, expected',
+                         [
+                             (['ULL', 'RRDDD', 'LURDL', 'UUUUD'], '5DB3'),
+                         ])
+def test_part2(data: List[str], expected: int):
+    assert part2(data) == expected
 
 
-def clamp(n, smallest, largest):
-    return max(smallest, min(n, largest))
+def parse_input(filename: str) -> List[str]:
+    return [line.strip() for line in open(filename).readlines()]
 
 
-def is_valid(x, y):
-    if 0 <= x < 5:
-        if 0 <= y < 5:
-            if PAD2[x][y] != "X":
-                return True
-    return False
+def part1(instructions: List[str]) -> int:
+    dirs = {'R': (1, 0), 'L': (-1, 0), 'U': (0, -1), 'D': (0, 1)}
+    code_pad = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
+    button = (1, 1)
+    code = []
+
+    for instruction in instructions:
+        for d in instruction:
+            dx, dy = dirs[d]
+            button = (max(min(button[0] + dx, 2), 0), max(min(button[1] + dy, 2), 0))
+        x, y = button
+        code.append(code_pad[y][x])
+    return int(''.join(str(c) for c in code))
 
 
-def puzzle1():
-    # start at 5
-    cur = (1, 1)
+def part2(instructions: List[str]) -> str:
+    dirs = {'R': (1, 0), 'L': (-1, 0), 'U': (0, -1), 'D': (0, 1)}
+    code_pad = [['X', 'X', 'X', 'X', 'X', 'X', 'X'],
+                ['X', 'X', 'X', '1', 'X', 'X', 'X'],
+                ['X', 'X', '2', '3', '4', 'X', 'X'],
+                ['X', '5', '6', '7', '8', '9', 'X'],
+                ['X', 'X', 'A', 'B', 'C', 'X', 'X'],
+                ['X', 'X', 'X', 'D', 'X', 'X', 'X'],
+                ['X', 'X', 'X', 'X', 'X', 'X', 'X']]
 
-    code = ""
-    with open("input/day2.txt") as f:
-        for line in f:
-            for direction in line.strip():
-                x = clamp(cur[0] + INSTR[direction][0], 0, 2)
-                y = clamp(cur[1] + INSTR[direction][1], 0, 2)
-                cur = (x, y)
-            code += str(PAD[cur[1]][cur[0]])
-    print("code:", code)
+    button = (1, 3)
+    code = []
+
+    for instruction in instructions:
+        for d in instruction:
+            dx, dy = dirs[d]
+            x, y = button
+            x += dx
+            y += dy
+            if code_pad[y][x] != 'X':
+                button = (x, y)
+
+        x, y = button
+        code.append(code_pad[y][x])
+
+    return ''.join(code)
 
 
-def puzzle2():
-    # start at 5
-    cur = (0, 2)
-
-    code = ""
-    with open("input/day2.txt") as f:
-        for line in f:
-            for direction in line.strip():
-                x = cur[0] + INSTR[direction][0]
-                y = cur[1] + INSTR[direction][1]
-                if is_valid(x, y):
-                    cur = (x, y)
-
-            code += str(PAD2[cur[1]][cur[0]])
-        print("code:", code)
+def main():
+    data = parse_input('input/day2.txt')
+    print(f'Part 1: {part1(data)}')
+    print(f'Part 2: {part2(data)}')
 
 
 if __name__ == "__main__":
-    puzzle1()
-    puzzle2()
+    main()
