@@ -34,6 +34,8 @@ Code for www.adventofcode.com in Python.
 
 **[Day 15](2020/day15.py)** - Rambunctious Recitation -- Calculate when a number was last seen
 
+**[Day 16](2020/day15.py)** - Ticket Translation -- Validate unreadable flight tickets
+
 ## 2019
 
 **[Day 1](2019/day1.py)** - The Tyranny of the Rocket Equation -- Calculate Fuel
