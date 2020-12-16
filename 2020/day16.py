@@ -1,3 +1,4 @@
+import time
 from typing import List, Tuple
 
 
@@ -97,6 +98,8 @@ def map_field_to_position(valid_rules: dict) -> dict:
 
 
 def part2(rules: dict, nearby: List[List[int]], ticket: List[int]) -> int:
+    tic = time.perf_counter()
+
     # map columns to fields
     remove_invalid_tickets(rules, nearby)
     valid_rules = get_valid_rules_by_position(rules, nearby, ticket)
@@ -107,6 +110,9 @@ def part2(rules: dict, nearby: List[List[int]], ticket: List[int]) -> int:
     result = 1
     for position in positions:
         result *= ticket[position]
+
+    toc = time.perf_counter()
+    print(f'{toc - tic: 0.4f} seconds')
 
     return result
 

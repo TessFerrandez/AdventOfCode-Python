@@ -1,54 +1,79 @@
-def decompress(input_string: str) -> str:
-    output_string = ""
-
-    i = 0
-    while i < len(input_string):
-        if input_string[i] == "(":
-            x_index = input_string.index("x", i)
-            num_chars = int(input_string[i + 1 : x_index])
-            right_index = input_string.index(")", x_index)
-            times = int(input_string[x_index + 1 : right_index])
-            chars_to_duplicate = input_string[
-                right_index + 1 : right_index + 1 + num_chars
-            ]
-            output_string += chars_to_duplicate * times
-            i = right_index + 1 + num_chars
-        else:
-            output_string += input_string[i]
-            i += 1
-
-    return output_string
+import pytest
 
 
-def decompress_recursive_count(input_string: str) -> int:
-    decompressed_length = 0
-    i = 0
-    while i < len(input_string):
-        if input_string[i] == "(":
-            x_index = input_string.index("x", i)
-            num_chars = int(input_string[i + 1 : x_index])
-            right_index = input_string.index(")", x_index)
-            times = int(input_string[x_index + 1 : right_index])
-            chars_to_duplicate = input_string[
-                right_index + 1 : right_index + 1 + num_chars
-            ]
-            decompressed_length += times * decompress_recursive_count(
-                chars_to_duplicate
-            )
-            i = right_index + 1 + num_chars
-        else:
-            decompressed_length += 1
-            i += 1
-    return decompressed_length
+@pytest.mark.parametrize('input_str, expected',
+                         [
+                             ('ADVENT', 'ADVENT'),
+                             ('A(1x5)BC', 'ABBBBBC'),
+                             ('(3x3)XYZ', 'XYZXYZXYZ'),
+                             ('A(2x2)BCD(2x2)EFG', 'ABCBCDEFEFG'),
+                             ('(6x1)(1x3)A', '(1x3)A'),
+                             ('X(8x2)(3x3)ABCY', 'X(3x3)ABC(3x3)ABCY')
+                         ])
+def test_decompress(input_str: str, expected: str):
+    assert decompress(input_str) == expected
 
 
-def puzzles():
-    input_string = open("input/day9.txt").readline().strip()
-    out = decompress(input_string)
-    print("decompressed length:", len(out))
-    input_string = open("input/day9.txt").readline().strip()
-    print("decompressed length (V2):", decompress_recursive_count(input_string))
+@pytest.mark.parametrize('input_str, expected',
+                         [
+                             ('(3x3)XYZ', 9),
+                             ('X(8x2)(3x3)ABCY', 20),
+                             ('(27x12)(20x12)(13x14)(7x10)(1x12)A', 241920),
+                             ('(25x3)(3x3)ABC(2x3)XY(5x2)PQRSTX(18x9)(3x2)TWO(5x7)SEVEN', 445),
+                         ])
+def test_decompress_count(input_str: str, expected: int):
+    assert decompress_count(input_str) == expected
+
+
+def decompress(input_str: str) -> str:
+    try:
+        marker_start = input_str.index('(')
+        marker_end = input_str.index(')')
+        before = input_str[:marker_start]
+        marker = input_str[marker_start + 1: marker_end]
+        after = input_str[marker_end + 1:]
+
+        n_values, n_times = [int(val) for val in marker.split('x')]
+
+        decompressed = before + after[:n_values] * n_times + decompress(after[n_values:])
+    except ValueError:
+        decompressed = input_str
+    return decompressed
+
+
+def decompress_count(input_str: str) -> int:
+    try:
+        marker_start = input_str.index('(')
+        marker_end = input_str.index(')')
+        before = input_str[:marker_start]
+        marker = input_str[marker_start + 1: marker_end]
+        after = input_str[marker_end + 1:]
+
+        n_values, n_times = [int(val) for val in marker.split('x')]
+
+        decompressed_count = len(before) + decompress_count(after[:n_values]) * n_times + decompress_count(after[n_values:])
+    except ValueError:
+        decompressed_count = len(input_str)
+    return decompressed_count
+
+
+def parse_input(filename: str):
+    return open(filename).read().strip()
+
+
+def part1(data: str) -> int:
+    return len(decompress(data))
+
+
+def part2(data: str) -> int:
+    return decompress_count(data)
+
+
+def main():
+    data = parse_input('input/day9.txt')
+    print(f'Part 1: {part1(data)}')
+    print(f'Part 2: {part2(data)}')
 
 
 if __name__ == "__main__":
-    puzzles()
+    main()

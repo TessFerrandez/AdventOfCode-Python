@@ -1,76 +1,80 @@
-bots = dict()
-outputs = [0] * 210
-instructions = dict()
+from collections import defaultdict
+from typing import List
 
 
-def give_value_to_bot(bot, value):
-    if bot in bots:
-        bots[bot].append(value)
-        bots[bot].sort()
-    else:
-        bots[bot] = [value]
+def value_to_bot(bot: int, value: int, bots: dict):
+    bots[bot].append(value)
+    bots[bot].sort()
 
 
-def parse_input():
-    lines = [line.strip().split() for line in open("input/day10.txt").readlines()]
+def parse_input(filename: str) -> (dict, dict):
+    bots = defaultdict(lambda: [])
+    instructions = {}
+
+    lines = [line.strip().split() for line in open(filename).readlines()]
+
     for line in lines:
-        if line[0] == "value":
-            bot = int(line[5])
-            value = int(line[1])
-            give_value_to_bot(bot, value)
+        if line[0] == 'value':
+            bot, value = int(line[5]), int(line[1])
+            value_to_bot(bot, value, bots)
         else:
             bot = int(line[1])
-            if line[5] == "output":
-                low_bot = int(line[6])
-                low_out = True
+            if line[5] == 'output':
+                low_bot, low_out = int(line[6]), True
             else:
-                low_bot = int(line[6])
-                low_out = False
-            if line[10] == "output":
-                high_bot = int(line[11])
-                high_out = True
+                low_bot, low_out = int(line[6]), False
+            if line[10] == 'output':
+                high_bot, high_out = int(line[11]), True
             else:
-                high_bot = int(line[11])
-                high_out = False
+                high_bot, high_out = int(line[11]), False
             instructions[bot] = [low_bot, low_out, high_bot, high_out]
+    return bots, instructions
 
 
-def process_bot(bot):
-    values = bots[bot]
-    if values == [17, 61]:
-        print("bot", bot, "compares 17 and 61")
-    instruction = instructions[bot]
-    if instruction[1]:
-        outputs[instruction[0]] = values[0]
+def process_bot(bot: int, bots: dict, outputs: List[int], instructions: dict):
+    low_bot, low_out, high_bot, high_out = instructions[bot]
+    low, high = bots[bot]
+    if low_out:
+        outputs[low_bot] = low
     else:
-        give_value_to_bot(instruction[0], values[0])
-    if instruction[3]:
-        outputs[instruction[2]] = values[1]
+        value_to_bot(low_bot, low, bots)
+    if high_out:
+        outputs[high_bot] = high
     else:
-        give_value_to_bot(instruction[2], values[1])
+        value_to_bot(high_bot, high, bots)
+    bots[bot] = []
 
 
-def follow_instructions():
+def part1(bots: dict, instructions: dict, outputs: List[int]) -> int:
+    bot_processing_17_61 = 0
+
     while True:
-        bot_to_process = -1
+        bots_to_process = []
         for bot in bots:
             if len(bots[bot]) == 2:
-                bot_to_process = bot
-                break
+                bots_to_process.append(bot)
 
-        if bot_to_process == -1:
+        if not bots_to_process:
             break
 
-        process_bot(bot_to_process)
-        bots[bot_to_process] = []
+        for bot in bots_to_process:
+            if bots[bot] == [17, 61]:
+                bot_processing_17_61 = bot
+            process_bot(bot, bots, outputs, instructions)
+
+    return bot_processing_17_61
 
 
-def puzzles():
-    parse_input()
-    follow_instructions()
-    print(outputs[0:3])
-    print("multiply:", outputs[0] * outputs[1] * outputs[2])
+def part2(outputs: List[int]) -> int:
+    return outputs[0] * outputs[1] * outputs[2]
+
+
+def main():
+    bots, instructions = parse_input('input/day10.txt')
+    outputs = [0] * 210
+    print(f'Part 1: {part1(bots, instructions, outputs)}')
+    print(f'Part 2: {part2(outputs)}')
 
 
 if __name__ == "__main__":
-    puzzles()
+    main()
