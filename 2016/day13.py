@@ -1,59 +1,38 @@
-def count_set_bits(n: int) -> int:
-    count = 0
-    while n:
-        count += n & 1
-        n >>= 1
-    return count
+from typing import List, Tuple
 
 
-def is_on(square: list, offset: int) -> bool:
-    val = (
-        square[0] * square[0]
-        + 3 * square[0]
-        + 2 * square[0] * square[1]
-        + square[1]
-        + square[1] * square[1]
-        + offset
-    )
-    bits = count_set_bits(val)
-    if bits % 2 == 0:
-        return False
-    return True
+def is_wall(square: Tuple[int, int], offset: int) -> bool:
+    x, y = square
+    val = x * x + 3 * x + 2 * x * y + y + y * y + offset
+    ones = '{0:b}'.format(val).count('1')
+    return ones % 2 != 0
 
 
-def generate_board(rows: int, cols: int, offset: int):
-    board = []
-    for row_no in range(rows):
-        row = []
-        for col_no in range(cols):
-            row.append("#" if is_on([col_no, row_no], offset) else ".")
-        board.append(row)
-    return board
+def generate_board(rows: int, cols: int, offset: int) -> List[List[str]]:
+    return [['#' if is_wall((x, y), offset) else '.' for x in range(cols)]
+            for y in range(rows)]
 
 
-def get_moves(board: list, point: list) -> list:
-    poss_moves = [
-        [point[0], point[1] - 1],
-        [point[0] + 1, point[1]],
-        [point[0], point[1] + 1],
-        [point[0] - 1, point[1]],
-    ]
+def get_moves(board: List[List[str]], point: Tuple[int, int]) -> List:
+    x, y = point
+    possible_moves = [(x, y - 1), (x + 1, y), (x, y + 1), (x - 1, y)]
     moves = []
-    max_row = len(board)
-    max_col = len(board[0])
-    for move in poss_moves:
-        if move[0] < 0 or move[1] < 0:
+
+    height, width = len(board), len(board[0])
+    for move in possible_moves:
+        x, y = move
+        if x < 0 or y < 0:
             pass
-        elif move[0] == max_col or move[1] == max_row:
+        elif x == width or y == height:
             pass
-        elif board[move[1]][move[0]] == "#":
+        elif board[y][x] == '#':
             pass
         else:
             moves.append(move)
     return moves
 
 
-def bfs_shortest_path(board: list, start: list, goal: list) -> list:
+def bfs_shortest_path(board: List[List[str]], start: Tuple[int, int], goal: Tuple[int, int]) -> List:
     visited = []
     to_visit = [[start]]
 
@@ -75,7 +54,7 @@ def bfs_shortest_path(board: list, start: list, goal: list) -> list:
     return []
 
 
-def bfs_visited(board: list, start: list, max_path=10) -> list:
+def bfs_visited(board: List[List[str]], start: Tuple[int, int], max_path) -> List:
     visited = []
     to_visit = [start]
     next_steps = []
@@ -93,13 +72,21 @@ def bfs_visited(board: list, start: list, max_path=10) -> list:
     return visited
 
 
-def puzzles():
+def part1(board: List[List[str]]) -> int:
+    path = bfs_shortest_path(board, (1, 1), (31, 39))
+    return len(path) - 1
+
+
+def part2(board: List[List[str]]) -> int:
+    visited = bfs_visited(board, (1, 1), 50)
+    return len(visited)
+
+
+def main():
     board = generate_board(50, 50, 1364)
-    path = bfs_shortest_path(board, [1, 1], [31, 39])
-    print("lowest number of steps:", len(path) - 1)
-    visited = bfs_visited(board, [1, 1], 50)
-    print("squares visited in less than 50 moves:", len(visited))
+    print(f'Part 1: {part1(board)}')
+    print(f'Part 2: {part2(board)}')
 
 
 if __name__ == "__main__":
-    puzzles()
+    main()
