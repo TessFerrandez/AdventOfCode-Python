@@ -13,3 +13,16 @@ def test_extract_numbers(data: str, expected: List[int]):
 
 def extract_numbers(data: str) -> List[int]:
     return list(map(int, re.findall(r'[-\d]+', data)))
+
+
+def parenthetic_contents(expression: str) -> (int, str):
+    """
+    generate parenthesized content in string as pairs (level, contents)
+    """
+    stack = []
+    for i, c in enumerate(expression):
+        if c == '(':
+            stack.append(i)
+        elif c == ')' and stack:
+            start = stack.pop()
+            yield len(stack), expression[start + 1: i]

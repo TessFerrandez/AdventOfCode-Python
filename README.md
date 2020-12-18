@@ -34,7 +34,11 @@ Code for www.adventofcode.com in Python.
 
 **[Day 15](2020/day15.py)** - Rambunctious Recitation -- Calculate when a number was last seen
 
-**[Day 16](2020/day15.py)** - Ticket Translation -- Validate unreadable flight tickets
+**[Day 16](2020/day16.py)** - Ticket Translation -- Validate unreadable flight tickets
+
+**[Day 17](2020/day17.py)** - Conway Cubes -- 3D and 4D Conway Cubes
+
+**[Day 18](2020/day18.py)** - Operation Order -- Build a calculator with reverse operator order
 
 ## 2019
 
