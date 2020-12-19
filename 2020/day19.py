@@ -72,19 +72,8 @@ def get_solved_rules(rule_strings: List[str]) -> dict:
 
 
 def part1(solved: dict, strings: List[str]) -> int:
-    # generate a set of all valid strings
-    valid_strings = set()
-    for rule in solved:
-        for valid in solved[rule]:
-            valid_strings.add(valid)
-
-    # count strings that are valid
-    valid = []
-    for string in strings:
-        if string in valid_strings:
-            valid.append(string)
-
-    return len(valid)
+    valid_strings = set(solved['0'])
+    return sum(1 for string in strings if string in valid_strings)
 
 
 def is_valid_p2(string: str, rule_42: Set[str], rule_31: Set[str]) -> bool:
@@ -125,12 +114,7 @@ def part2(solved: dict, strings: List[str]) -> int:
     rule_42 = set(solved['42'])
     rule_31 = set(solved['31'])
 
-    valid = []
-    for string in strings:
-        if is_valid_p2(string, rule_42, rule_31):
-            valid.append(string)
-
-    return len(valid)
+    return sum(1 for string in strings if is_valid_p2(string, rule_42, rule_31))
 
 
 def main():
