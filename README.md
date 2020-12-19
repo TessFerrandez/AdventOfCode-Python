@@ -40,6 +40,8 @@ Code for www.adventofcode.com in Python.
 
 **[Day 18](2020/day18.py)** - Operation Order -- Build a calculator with reverse operator order
 
+**[Day 19](2020/day19.py)** - Monster Messages -- Rules Engine
+
 ## 2019
 
 **[Day 1](2019/day1.py)** - The Tyranny of the Rocket Equation -- Calculate Fuel
