@@ -11,17 +11,17 @@ def parse_input(filename: str) -> (List[str], List[str]):
 
 def all_solved(rules: List[List[int]], solved: List[int]) -> bool:
     for part in rules:
-        for r in part:
-            if r not in solved:
+        for section in part:
+            if section not in solved:
                 return False
     return True
 
 
 def solve(rule_id: int, unsolved_rules: dict, solved: dict):
-    # print('solving rule', rule_id)
     rule = unsolved_rules[rule_id]
     for part in rule:
         if len(part) == 1:
+            # one item
             p1 = part[0]
             for s1 in solved[p1]:
                 solved[rule_id].append(s1)
@@ -51,10 +51,10 @@ def get_solved_rules(rule_strings: List[str]) -> dict:
         rule_parts = rule.split(' | ')
         for rule_part in rule_parts:
             if '"' in rule_part:
-                solved[int(identifier)].append(rule_part[1])
+                solved[identifier].append(rule_part[1])
             else:
-                rule_bits = [int(number) for number in rule_part.split(' ')]
-                unsolved_rules[int(identifier)].append(rule_bits)
+                rule_bits = rule_part.split(' ')
+                unsolved_rules[identifier].append(rule_bits)
 
     print('SOLVING RULES')
 
@@ -122,8 +122,8 @@ def is_valid_p2(string: str, rule_42: Set[str], rule_31: Set[str]) -> bool:
 
 
 def part2(solved: dict, strings: List[str]) -> int:
-    rule_42 = set(solved[42])
-    rule_31 = set(solved[31])
+    rule_42 = set(solved['42'])
+    rule_31 = set(solved['31'])
 
     valid = []
     for string in strings:
