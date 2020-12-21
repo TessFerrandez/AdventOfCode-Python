@@ -42,6 +42,8 @@ Code for www.adventofcode.com in Python.
 
 **[Day 19](2020/day19.py)** - Monster Messages -- Rules Engine
 
+**[Day 20](2020/day20.py)** - Jurassic Jigsaw -- rotate pieces, find sea monsters - P2 Incomplete
+
 ## 2019
 
 **[Day 1](2019/day1.py)** - The Tyranny of the Rocket Equation -- Calculate Fuel

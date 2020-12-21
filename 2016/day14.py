@@ -1,61 +1,63 @@
 from hashlib import md5
+from typing import List, Set
 from collections import defaultdict
 
 
-def matches_3(hash_string):
-    for i in range(len(hash_string) - 2):
-        if hash_string[i] == hash_string[i + 1] == hash_string[i + 2]:
-            return hash_string[i]
+def find_5_match(s: str) -> str:
+    for i in range(len(s) - 4):
+        if s[i] == s[i + 1] == s[i + 2] == s[i + 3] == s[i + 4]:
+            return s[i]
     return None
 
 
-def matches_5(hash_string):
-    for i in range(len(hash_string) - 4):
-        if (
-            hash_string[i]
-            == hash_string[i + 1]
-            == hash_string[i + 2]
-            == hash_string[i + 3]
-            == hash_string[i + 4]
-        ):
-            return hash_string[i]
+def find_3_match(s: str) -> str:
+    for i in range(len(s) - 2):
+        if s[i] == s[i + 1] == s[i + 2]:
+            return s[i]
     return None
 
 
-def get_64th_hash(salt="ahsbgdzn", stretch=2016):
-    i = 0
+def get_64th_key(salt: str, stretch: int = 0) -> int:
     keys = []
+    i = 0
     threes = defaultdict(list)
 
     while not (len(keys) > 64 and (i - keys[-1][0]) > 1000):
-        key_hash = md5(("%s%s" % (salt, i)).encode("utf-8")).hexdigest()
+        key_hash = md5(('%s%s' % (salt, i)).encode('utf-8')).hexdigest()
+
         for _ in range(stretch):
-            key_hash = md5(key_hash.encode("utf-8")).hexdigest()
+            key_hash = md5(key_hash.encode('utf-8')).hexdigest()
 
-        match = matches_5(key_hash)
-
-        if match is not None:
-            for (m_idx, value) in threes[match]:
-                if (i - m_idx) <= 1000:
-                    keys.append((m_idx, key_hash))
-                    # print("Found: ", m_idx)
+        match = find_5_match(key_hash)
+        if match:
+            for idx, value in threes[match]:
+                if (i - idx) <= 1000:
+                    keys.append((idx, key_hash))
             keys.sort()
             threes[match] = []
 
-        match = matches_3(key_hash)
-        if match is not None:
+        match = find_3_match(key_hash)
+        if match:
             threes[match].append((i, key_hash))
 
         i += 1
 
-    print("Last hash", keys[63])
+    return keys[63][0]
 
 
-def puzzles():
-    salt = "ahsbgdzn"
-    get_64th_hash(salt, 0)
-    get_64th_hash(salt, 2016)
+def part1(salt: str) -> int:
+    return get_64th_key(salt)
+
+
+def part2(salt: str, stretch: int = 2016) -> int:
+    return get_64th_key(salt, stretch)
+
+
+def main():
+    input_string = 'ahsbgdzn'
+    print(f'Part 1: {part1(input_string)}')
+    print(f'Part 2: {part2(input_string)}')
 
 
 if __name__ == "__main__":
-    puzzles()
+    main()
