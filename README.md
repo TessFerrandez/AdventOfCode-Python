@@ -44,6 +44,8 @@ Code for www.adventofcode.com in Python.
 
 **[Day 20](2020/day20.py)** - Jurassic Jigsaw -- rotate pieces, find sea monsters - P2 Incomplete
 
+**[Day 21](2020/day20.py)** - Allergen Assessment -- finding allergens, list intersections
+
 ## 2019
 
 **[Day 1](2019/day1.py)** - The Tyranny of the Rocket Equation -- Calculate Fuel
