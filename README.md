@@ -42,7 +42,7 @@ Code for www.adventofcode.com in Python.
 
 **[Day 19](2020/day19.py)** - Monster Messages -- Rules Engine
 
-**[Day 20](2020/day20.py)** - Jurassic Jigsaw -- rotate pieces, find sea monsters - P2 Incomplete
+**[Day 20](2020/day20.py)** - Jurassic Jigsaw -- rotate pieces, find sea monsters - This one was a nightmare
 
 **[Day 21](2020/day20.py)** - Allergen Assessment -- finding allergens, list intersections
 

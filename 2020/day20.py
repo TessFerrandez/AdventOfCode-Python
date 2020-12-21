@@ -167,20 +167,21 @@ def build_image(tile_grid: List[List[int]], edges: dict, tiles: dict) -> List[st
             tile_id = tile_grid[row][col]
             flip = get_flip(tile_id, tile_grid, edges, row, col, size)
             grid = tiles[tile_id][1:9, 1:9]
+
             if flip == '12':
                 grid = np.rot90(grid)
             elif flip == '23':
-                grid = np.flipud(grid)
+                grid = np.rot90(np.rot90(grid))
             elif flip == '30':
                 grid = np.rot90(np.rot90(np.rot90(grid)))
             elif flip == '03':
                 grid = np.fliplr(grid)
             elif flip == '10':
-                grid = np.rot90(np.fliplr(grid))
+                grid = np.rot90(np.flipud(grid))
             elif flip == '21':
                 grid = np.rot90(np.rot90(np.fliplr(grid)))
             elif flip == '32':
-                grid = np.rot90(np.rot90(np.rot90(np.fliplr(grid))))
+                grid = np.rot90(np.fliplr(grid))
 
             if col == 0:
                 row_grid = grid
@@ -245,49 +246,41 @@ def part2(matches: dict, edges: dict, tiles: dict) -> int:
     image = build_image(tile_grid, edges, tiles)
     hashes_left, found = find_sea_monsters(image)
     if found:
-        print(image)
         return hashes_left
 
     image = np.rot90(image)
     hashes_left, found = find_sea_monsters(image)
     if found:
-        print(image)
         return hashes_left
 
     image = np.rot90(image)
     hashes_left, found = find_sea_monsters(image)
     if found:
-        print(image)
         return hashes_left
 
     image = np.rot90(image)
     hashes_left, found = find_sea_monsters(image)
     if found:
-        print(image)
         return hashes_left
 
     image = np.fliplr(np.rot90(image))
     hashes_left, found = find_sea_monsters(image)
     if found:
-        print(image)
         return hashes_left
 
     image = np.rot90(image)
     hashes_left, found = find_sea_monsters(image)
     if found:
-        print(image)
         return hashes_left
 
     image = np.rot90(image)
     hashes_left, found = find_sea_monsters(image)
     if found:
-        print(image)
         return hashes_left
 
     image = np.rot90(image)
     hashes_left, found = find_sea_monsters(image)
     if found:
-        print(image)
         return hashes_left
 
     return hashes_left
