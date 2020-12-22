@@ -44,7 +44,9 @@ Code for www.adventofcode.com in Python.
 
 **[Day 20](2020/day20.py)** - Jurassic Jigsaw -- rotate pieces, find sea monsters - This one was a nightmare
 
-**[Day 21](2020/day20.py)** - Allergen Assessment -- finding allergens, list intersections
+**[Day 21](2020/day21.py)** - Allergen Assessment -- finding allergens, list intersections
+
+**[Day 22](2020/day22.py)** - Crab Combat -- simple card game
 
 ## 2019
 

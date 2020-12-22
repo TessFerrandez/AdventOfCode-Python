@@ -1,40 +1,41 @@
-def disc_in_position(disc: int, positions: int, position: int, time: int) -> bool:
-    if (disc + position + time) % positions == 0:
-        return True
-    return False
+from typing import List, Tuple
 
 
-def read_input() -> list:
+def parse_input(filename: str) -> List[Tuple[int, int, int]]:
     discs = []
-    lines = [line.strip().split() for line in open("input/day15.txt").readlines()]
+    lines = [line.strip().split() for line in open(filename).readlines()]
     for line in lines:
-        disc = [int(line[1][1:]), int(line[3]), int(line[11][:-1])]
+        disc = (int(line[1][1:]), int(line[3]), int(line[11][:-1]))
         discs.append(disc)
     return discs
 
 
-def puzzle1(discs: list) -> int:
-    i = 0
+def disc_in_position(disc: Tuple[int, int, int], time) -> bool:
+    disc_num, positions, position = disc
+    return (disc_num + position + time) % positions == 0
+
+
+def falls_through(discs: List[Tuple[int, int, int]], time: int) -> bool:
+    for disc in discs:
+        if not disc_in_position(disc, time):
+            return False
+    return True
+
+
+def part1(discs: List[Tuple[int, int, int]]) -> int:
+    time = 0
     while True:
-        i += 1
-        ok = True
-        for disc in discs:
-            if not disc_in_position(disc[0], disc[1], disc[2], i):
-                ok = False
-                break
-        if ok:
-            return i
+        time += 1
+        if falls_through(discs, time):
+            return time
 
 
-def puzzles():
-    discs = read_input()
-    first = puzzle1(discs)
-    print("first button press:", first)
-    new_disc = [7, 11, 0]
-    discs.append(new_disc)
-    first = puzzle1(discs)
-    print("first button press:", first)
+def main():
+    discs = parse_input('input/day15.txt')
+    print(f'Part 1: {part1(discs)}')
+    discs.append((7, 11, 0))
+    print(f'Part 2: {part1(discs)}')
 
 
 if __name__ == "__main__":
-    puzzles()
+    main()
