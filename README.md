@@ -48,6 +48,8 @@ Code for www.adventofcode.com in Python.
 
 **[Day 22](2020/day22.py)** - Crab Combat -- simple card game
 
+**[Day 23](2020/day23.py)** - Crab Cups -- circular game of cups - slow with list, super fast with dicts
+
 ## 2019
 
 **[Day 1](2019/day1.py)** - The Tyranny of the Rocket Equation -- Calculate Fuel

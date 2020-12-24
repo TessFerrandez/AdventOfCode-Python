@@ -1,23 +1,31 @@
-def quote_of(numbers):
-    num_numbers = len(numbers)
-    for i in range(num_numbers - 1):
-        for j in range(i + 1, num_numbers):
-            if numbers[i] % numbers[j] == 0:
-                quote = int(numbers[i] / numbers[j])
-                return quote
-    return 0
+from common.helpers import extract_numbers
+from typing import List
 
 
-def puzzles():
-    lines = [
-        sorted([int(x) for x in line.split("\t")], reverse=True)
-        for line in open("input/day2.txt").readlines()
-    ]
-    min_max_sum = sum(max(numbers) - min(numbers) for numbers in lines)
-    quote_sum = sum(quote_of(numbers) for numbers in lines)
-    print("sum of max-min:", min_max_sum)
-    print("sum of divisions:", quote_sum)
+def parse_input(filename: str) -> List[List[int]]:
+    return [extract_numbers(line.strip()) for line in open(filename).readlines()]
+
+
+def part1(data: List[List[int]]) -> int:
+    return sum([max(line) - min(line) for line in data])
+
+
+def find_divisible(line: List[int]) -> int:
+    for num1 in line:
+        for num2 in line:
+            if num1 != num2 and num1 % num2 == 0:
+                return num1 // num2
+
+
+def part2(data: List[List[int]]) -> int:
+    return sum([find_divisible(line) for line in data])
+
+
+def main():
+    data = parse_input('input/day2.txt')
+    print(f'Part 1: {part1(data)}')
+    print(f'Part 2: {part2(data)}')
 
 
 if __name__ == "__main__":
-    puzzles()
+    main()
