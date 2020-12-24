@@ -50,6 +50,8 @@ Code for www.adventofcode.com in Python.
 
 **[Day 23](2020/day23.py)** - Crab Cups -- circular game of cups - slow with list, super fast with dicts
 
+**[Day 24](2020/day24.py)** - Lobby Layout -- hexagonal tiles and paths - reducing paths
+
 ## 2019
 
 **[Day 1](2019/day1.py)** - The Tyranny of the Rocket Equation -- Calculate Fuel
