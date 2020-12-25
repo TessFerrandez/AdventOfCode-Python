@@ -52,6 +52,8 @@ Code for www.adventofcode.com in Python.
 
 **[Day 24](2020/day24.py)** - Lobby Layout -- hexagonal tiles and paths - reducing paths
 
+**[Day 25](2020/day25.py)** - Combo Breaker -- RFID decryption
+
 ## 2019
 
 **[Day 1](2019/day1.py)** - The Tyranny of the Rocket Equation -- Calculate Fuel
