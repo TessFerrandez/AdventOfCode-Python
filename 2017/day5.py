@@ -1,36 +1,41 @@
-def execute_jumps(pointers: list) -> int:
-    ptr, steps = 0, 0
-    max_ptr = len(pointers)
-    while ptr < max_ptr:
-        next_move = pointers[ptr]
-        pointers[ptr] += 1
-        ptr += next_move
-        steps += 1
+from typing import List
 
+
+def parse_input(filename: str) -> List[int]:
+    return [int(line.strip()) for line in open(filename).readlines()]
+
+
+def part1(instructions: List[int]) -> int:
+    in_ptr = 0
+    steps = 0
+    while in_ptr < len(instructions):
+        steps += 1
+        jump = instructions[in_ptr]
+        instructions[in_ptr] += 1
+        in_ptr += jump
     return steps
 
 
-def execute_jumps_v2(pointers: list) -> int:
-    ptr, steps = 0, 0
-    max_ptr = len(pointers)
-    while ptr < max_ptr:
-        next_move = pointers[ptr]
-        if next_move >= 3:
-            pointers[ptr] -= 1
+def part2(instructions: List[int]) -> int:
+    in_ptr = 0
+    steps = 0
+    while in_ptr < len(instructions):
+        steps += 1
+        jump = instructions[in_ptr]
+        if jump >= 3:
+            instructions[in_ptr] -= 1
         else:
-            pointers[ptr] += 1
-        ptr += next_move
-        steps += 1
-
+            instructions[in_ptr] += 1
+        in_ptr += jump
     return steps
 
 
-def puzzles():
-    pointers = [int(line) for line in open("input/day5.txt").readlines()]
-    print("steps:", execute_jumps(pointers))
-    pointers = [int(line) for line in open("input/day5.txt").readlines()]
-    print("steps:", execute_jumps_v2(pointers))
+def main():
+    instructions = parse_input('input/day5.txt')
+    print(f'Part 1: {part1(instructions)}')
+    instructions = parse_input('input/day5.txt')
+    print(f'Part 2: {part2(instructions)}')
 
 
 if __name__ == "__main__":
-    puzzles()
+    main()

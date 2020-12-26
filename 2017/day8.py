@@ -1,57 +1,46 @@
-from Instruction import Instruction
+from typing import List
+from collections import defaultdict
 
 
-def get_register(registers, register) -> int:
-    if register in registers:
-        return registers[register]
-    else:
-        return 0
+def parse_input(filename: str) -> List[List[str]]:
+    return [[part for part in line.strip().split(' ')] for line in open(filename).readlines()]
 
 
-def compare(left: int, op: str, right: int) -> bool:
-    if op == ">":
-        return left > right
-    if op == "<":
-        return left < right
-    if op == ">=":
-        return left >= right
-    if op == "<=":
-        return left <= right
-    if op == "==":
-        return left == right
-    if op == "!=":
-        return left != right
-    return False
+def run(instructions: List[List[str]]) -> (dict, int):
+    max_reg = 0
+    ops1 = {'inc': 1, 'dec': -1}
+    ops2 = {'<=': lambda x, y: x <= y,
+            '!=': lambda x, y: x != y,
+            '>': lambda x, y: x > y,
+            '<': lambda x, y: x < y,
+            '>=': lambda x, y: x >= y,
+            '==': lambda x, y: x == y}
+    registers = defaultdict(int)
+    for instruction in instructions:
+        reg, op1, num, _, left, op2, right = instruction
+        do_op = ops2[op2](registers[left], int(right))
+        if do_op:
+            registers[reg] += ops1[op1] * int(num)
+            if registers[reg] > max_reg:
+                max_reg = registers[reg]
+    return registers, max_reg
 
 
-def result_of(left: int, op: str, right: int) -> int:
-    if op == "inc":
-        return left + right
-    else:
-        return left - right
+def part1(instructions: List[List[str]]) -> int:
+    registers, _ = run(instructions)
+    return max(registers.values())
 
 
-def execute_instructions(instructions: list) -> (dict, int):
-    registers = dict()
-
-    total_max = 0
-    for instr in instructions:
-        left_reg = get_register(registers, instr.left_comp)
-        if compare(left_reg, instr.comp, instr.right_comp):
-            dest_reg = get_register(registers, instr.dest)
-            result = result_of(dest_reg, instr.op, instr.by)
-            registers[instr.dest] = result
-            total_max = max(total_max, result)
-
-    return registers, total_max
+def part2(instructions: List[List[str]]) -> int:
+    registers, max_reg = run(instructions)
+    return max_reg
 
 
-def puzzles():
-    instructions = [Instruction(line) for line in open("input/day8.txt").readlines()]
-    registers, total_max = execute_instructions(instructions)
-    print("max register:", max([registers[reg] for reg in registers]))
-    print("all time max register:", total_max)
+def main():
+    instructions = parse_input('input/day8.txt')
+    print(f'Part 1: {part1(instructions)}')
+    print(f'Part 2: {part2(instructions)}')
 
 
 if __name__ == "__main__":
-    puzzles()
+    main()

@@ -1,58 +1,53 @@
-# https://github.com/vesche/adventofcode-2017/blob/master/day03.py
-from typing import List, Tuple
-
-coords: List[Tuple[int, int]] = [
-    (1, 0),
-    (1, -1),
-    (0, -1),
-    (-1, -1),
-    (-1, 0),
-    (-1, 1),
-    (0, 1),
-    (1, 1),
-]
+from collections import defaultdict
 
 
-def calculate_steps(number: int) -> int:
-    x = y = dx = 0
-    dy = -1
-    step = 0
+def part1(number: int) -> int:
+    position = 0
+    direction = -1j
+    for i in range(1, number):
+        x, y = position.real, position.imag
+        # turn at the corners
+        if x == y or (x == -y and x < 0) or (x == 1 - y and x > 0):
+            direction *= 1j
 
-    while True:
-        step += 1
-        if number == step:
-            return abs(x) + abs(y)
-        if (x == y) or (x < 0 and x == -y) or (x > 0 and x == 1 - y):
-            dx, dy = -dy, dx
-        x, y = x + dx, y + dy
+        # move forward
+        position += direction
+
+    return abs(int(position.real)) + abs(int(position.imag))
 
 
-def calculate_next_num(number: int) -> int:
-    x = y = dx = 0
-    dy = -1
-    grid = {}
+def part2(number: int) -> int:
+    neighbors = [-1, -1 + 1j, 1j, 1 + 1j, 1, 1 - 1j, -1j, -1 - 1j]
+    values = defaultdict(int)
+
+    position = 0
+    values[0] = 1
+    direction = -1j
 
     while True:
-        total = 0
-        for offset in coords:
-            ox, oy = offset
-            if (x + ox, y + oy) in grid:
-                total += grid[(x + ox, y + oy)]
-        if total > int(number):
-            return total
-        if (x, y) == (0, 0):
-            grid[(0, 0)] = 1
+        x, y = position.real, position.imag
+        # turn at the corners
+        if x == y or (x == -y and x < 0) or (x == 1 - y and x > 0):
+            direction *= 1j
+
+        # move forward
+        position += direction
+
+        # calculate value based on neighbor positions
+        pos_value = 0
+        for neighbor in neighbors:
+            pos_value += values[position + neighbor]
+        if pos_value > number:
+            return pos_value
         else:
-            grid[(x, y)] = total
-        if (x == y) or (x < 0 and x == -y) or (x > 0 and x == 1 - y):
-            dx, dy = -dy, dx
-        x, y = x + dx, y + dy
+            values[position] = pos_value
 
 
-def puzzles():
-    print("steps:", calculate_steps(368078))
-    print("next num:", calculate_next_num(368078))
+def main():
+    puzzle_input = 368078
+    print(f'Part 1: {part1(puzzle_input)}')
+    print(f'Part 2: {part2(puzzle_input)}')
 
 
 if __name__ == "__main__":
-    puzzles()
+    main()

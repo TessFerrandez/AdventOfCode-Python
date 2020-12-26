@@ -1,81 +1,74 @@
-from anytree import Node
+from typing import List
+from collections import Counter
 
 
-def get_discs() -> (dict, dict):
-    discs = dict()
-    weights = dict()
-    lines = [line.strip() for line in open("input/day7.txt").readlines()]
-
+def parse_input(filename: str) -> dict:
+    programs = {}
+    lines = [line.strip() for line in open(filename).readlines()]
     for line in lines:
-        parts = line.split(" -> ")
-        bottom_parts = parts[0].split(" ")
-        bottom = bottom_parts[0]
-        weights[bottom] = int(bottom_parts[1].replace("(", "").replace(")", ""))
-        tops = parts[1].split(", ") if len(parts) == 2 else None
-        discs[bottom] = tops
-
-    return discs, weights
-
-
-def get_bottom_disc(discs: dict) -> str:
-    sub_discs = []
-    for disc in discs:
-        if discs[disc]:
-            sub_discs += discs[disc]
-
-    for disc in discs:
-        if disc not in sub_discs:
-            return disc
+        parts = line.split(' -> ')
+        program, weight = parts[0].split(' ')
+        weight = int(weight[1:-1])
+        if len(parts) == 2:
+            children = parts[1].split(', ')
+        else:
+            children = []
+        programs[program] = [weight, children]
+    return programs
 
 
-def add_children(discs: dict, weights: dict, parent: Node):
-    children = discs[parent.name]
-    total = 0
-    if children is None:
-        return 0
-    for child in children:
-        child_node = Node(child, weight=weights[child], parent=parent)
-        child_total = add_children(discs, weights, child_node)
-        this_total = weights[child] + child_total
-        child_node.total = this_total
-        total += this_total
-    return total
+def part1(programs: dict) -> str:
+    all_children = []
+    for program in programs:
+        all_children += programs[program][1]
+    for program in programs:
+        if program not in all_children:
+            return program
+    return ''
 
 
-def generate_tree(discs: dict, weights: dict, bottom_disc: str) -> Node:
-    root = Node(bottom_disc, weight=weights[bottom_disc])
-    root.total = weights[bottom_disc] + add_children(discs, weights, root)
-    return root
-
-
-def get_unbalanced(root: Node) -> Node:
-    totals = [child.total for child in root.children]
-    for child in root.children:
-        if totals.count(child.total) == 1:
-            unbalanced_child = get_unbalanced(child)
-            if unbalanced_child is None:
-                return child
+def is_balanced(weights: List[int]) -> (bool, int, int):
+    if not weights:
+        return True, 0, 0
+    weight_count = Counter(weights)
+    if len(weight_count) != 1:
+        odd_number, num_of_most = 0, 0
+        for num in weight_count:
+            if weight_count[num] == 1:
+                odd_number = num
             else:
-                return unbalanced_child
-    return None
+                num_of_most = num
+        diff = num_of_most - odd_number
+        idx = weights.index(odd_number)
+        return False, diff, idx
+    return True, 0, 0
 
 
-def puzzles():
-    discs, weights = get_discs()
-    bottom_disc = get_bottom_disc(discs)
-    print("bottom disc:", bottom_disc)
-    root = generate_tree(discs, weights, bottom_disc)
+def calculate_weights(programs: dict, root: str) -> int:
+    my_weight = programs[root][0]
+    children = programs[root][1]
+    child_weights = []
+    for child in children:
+        child_weights.append(calculate_weights(programs, child))
+    balanced, diff, idx = is_balanced(child_weights)
+    if not balanced:
+        unbalanced_child = children[idx]
+        after_balance = programs[unbalanced_child][0] + diff
+        print(f'Part 2: Balance: {children[idx]} by: {diff} resulting in: {after_balance}')
+        exit(0)
+    return my_weight + sum(child_weights)
 
-    # print(RenderTree(root).by_attr(lambda n: n.name + " (" + str(n.total) + ":" + str(n.weight) + ")"))
-    unbalanced_child = get_unbalanced(root)
-    unbalanced_total = unbalanced_child.total
-    for child in unbalanced_child.parent.children:
-        if child.total != unbalanced_total:
-            diff = unbalanced_total - child.total
-            print("unbalanced weight:", unbalanced_child.weight)
-            print("adjusted weight:", unbalanced_child.weight - diff)
-            break
+
+def part2(programs: dict, root: str):
+    calculate_weights(programs, root)
+
+
+def main():
+    programs = parse_input('input/day7.txt')
+    root = part1(programs)
+    print(f'Part 1: {root}')
+    part2(programs, root)
 
 
 if __name__ == "__main__":
-    puzzles()
+    main()
