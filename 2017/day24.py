@@ -1,72 +1,50 @@
-def read_input() -> list:
-    return [
-        [int(num) for num in line.strip().split("/")]
-        for line in open("input/day24.txt").readlines()
-    ]
+from typing import List
 
 
-def find_chains(dominoes: list, last_num: int) -> list:
-    chains = []
-    possible = [domino for domino in dominoes if last_num in domino]
-    for domino in possible:
-        dominoes_left = [d for d in dominoes if d != domino]
-        if domino[0] == last_num:
-            chains.append([domino])
-            for chain in find_chains(dominoes_left, domino[1]):
-                chains.append([domino] + chain)
-        else:
-            chains.append([[domino[1], domino[0]]])
-            for chain in find_chains(dominoes_left, domino[0]):
-                chains.append([[domino[1], domino[0]]] + chain)
-    return chains
+def parse_input(filename: str):
+    return [[int(d) for d in line.strip().split('/')] for line in open(filename).readlines()]
 
 
-def find_totals(dominoes: list, last_num: int) -> list:
+def get_totals(components: List[List[int]], start: int) -> List[int]:
     totals = []
-    possible = [domino for domino in dominoes if last_num in domino]
-    for domino in possible:
-        dominoes_left = [d for d in dominoes if d != domino]
-        if domino[0] == last_num:
-            totals.append(sum(domino))
-            for total in find_totals(dominoes_left, domino[1]):
-                totals.append(sum(domino) + total)
-        else:
-            totals.append(sum(domino))
-            for total in find_totals(dominoes_left, domino[0]):
-                totals.append(sum(domino) + total)
+    possible = [c for c in components if start in c]
+    for component in possible:
+        components_left = [c for c in components if c != component]
+        next_val = component[1] if component[0] == start else component[0]
+        totals.append(sum(component))
+        for total in get_totals(components_left, next_val):
+            totals.append(sum(component) + total)
     return totals
 
 
-def puzzle1(dominoes: list):
-    totals = find_totals(dominoes, 0)
-    print("max sum:", max(totals))
+def part1(components: List[List[int]]) -> int:
+    return max(get_totals(components, 0))
 
 
-def puzzle2(dominoes: list):
-    chains = find_chains(dominoes, 0)
-    max_len = 0
-    max_chains = []
-    for chain in chains:
-        if len(chain) > max_len:
-            max_chains = [chain]
-            max_len = len(chain)
-        if len(chain) == max_len:
-            max_chains.append(chain)
-
-    max_strength = 0
-    for chain in max_chains:
-        chain_strength = 0
-        for domino in chain:
-            chain_strength += sum(domino)
-        max_strength = max(max_strength, chain_strength)
-    print("max strength:", max_strength)
+def get_bridges(components: List[List[int]], start: int):
+    bridges = []
+    possible = [c for c in components if start in c]
+    for component in possible:
+        components_left = [c for c in components if c != component]
+        next_val = component[1] if component[0] == start else component[0]
+        bridges.append([component])
+        for bridge in get_bridges(components_left, next_val):
+            bridges.append([component] + bridge)
+    return bridges
 
 
-def puzzles():
-    dominoes = read_input()
-    puzzle1(dominoes)
-    puzzle2(dominoes)
+def part2(components: List[List[int]]) -> int:
+    bridges = get_bridges(components, 0)
+    max_len = max(len(bridge) for bridge in bridges)
+    longest_bridges = [bridge for bridge in bridges if len(bridge) == max_len]
+    return max([sum([sum(c) for c in bridge]) for bridge in longest_bridges])
+
+
+def main():
+    components = parse_input('input/day24.txt')
+    print(f'Part 1: {part1(components)}')
+    print(f'Part 2: {part2(components)}')
 
 
 if __name__ == "__main__":
-    puzzles()
+    main()

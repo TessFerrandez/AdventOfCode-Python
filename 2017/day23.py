@@ -1,58 +1,86 @@
+from typing import List
 from collections import defaultdict
-from sympy import isprime
+from progressbar import ProgressBar
 
 
-def read_input() -> list:
-    instructions = [
-        instruction.strip().split(" ")
-        for instruction in open("input/day23.txt").readlines()
-    ]
-    return instructions
+class Computer:
+    def __init__(self, instructions: List[List[str]]):
+        self.ptr = 0
+        self.instructions = instructions
+        self.max_ptr = len(instructions)
+        self.registers = defaultdict(int)
+
+    def run(self) -> int:
+        num_mul = 0
+
+        while self.ptr < self.max_ptr:
+            op, x, y = self.instructions[self.ptr]
+            # print(self.ptr, op, x, y)
+            if op == 'set':
+                self.registers[x] = self.val(y)
+                self.ptr += 1
+            elif op == 'sub':
+                self.registers[x] -= self.val(y)
+                self.ptr += 1
+            elif op == 'mul':
+                self.registers[x] *= self.val(y)
+                self.ptr += 1
+                num_mul += 1
+            elif op == 'jnz':
+                if self.val(x) != 0:
+                    self.ptr += self.val(y)
+                else:
+                    self.ptr += 1
+
+        return num_mul
+
+    def val(self, y):
+        if y in 'abcdefgh':
+            return self.registers[y]
+        else:
+            return int(y)
 
 
-def execute_instructions(instructions: list, r: dict) -> int:
-    regs = "abcdefgh"
-    ptr = 0
-    num_muls = 0
-
-    while ptr < len(instructions):
-        op, p1, p2 = instructions[ptr]
-        p2 = r[p2] if p2 in regs else int(p2)
-
-        if op == "set":
-            r[p1] = p2
-        if op == "sub":
-            r[p1] -= p2
-        if op == "mul":
-            r[p1] *= p2
-            num_muls += 1
-        if op == "jnz":
-            p1 = r[p1] if p1 in regs else int(p1)
-            if p1 != 0:
-                ptr += p2 - 1
-        ptr += 1
-
-    return num_muls
+def parse_input(filename: str):
+    return [line.strip().split(' ') for line in open(filename).readlines()]
 
 
-def puzzle2():
+def part1(instructions: List[List[str]]) -> int:
+    c = Computer(instructions)
+    num_mul = c.run()
+    return num_mul
+
+
+def part2() -> int:
+    """
     b = 65 * 100 + 100000  # 106500
-    c = b + 17000  # 123500
+    c = b + 17000
     h = 0
 
     for b in range(106500, c + 1, 17):
-        if not isprime(b):
+        f = 1
+        # check for prime
+        for d in range(2, b + 1):
+            for e in range(2, b + 1):
+                if d * e == b:
+                    f = 0
+        if f == 0:
             h += 1
-    print("h:", h)
+    """
+    h = 0
+    for b in range(106500, 106500 + 17000 + 1, 17):
+        for i in range(2, b):
+            if b % i == 0:
+                h += 1
+                break
+    return h
 
 
-def puzzles():
-    instructions = read_input()
-    regs = defaultdict(int)
-    num_muls = execute_instructions(instructions, regs)
-    print("multiplications:", num_muls)
-    puzzle2()
+def main():
+    instructions = parse_input('input/day23.txt')
+    print(f'Part 1: {part1(instructions)}')
+    print(f'Part 2: {part2()}')
 
 
 if __name__ == "__main__":
-    puzzles()
+    main()

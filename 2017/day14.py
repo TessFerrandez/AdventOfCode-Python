@@ -1,28 +1,19 @@
+import numpy as np
 from utils import knot_hash
 
 
-def assemble_board(data: str) -> list:
-    board = []
-    for i in range(128):
-        row_hash = knot_hash(data + "-" + str(i))
-        integer = int(row_hash, 16)
-        board.append(format(integer, "0>128b"))
-    return board
+def part1(grid: np.array) -> int:
+    return int(np.sum(grid))
 
 
-def count_filled(board: list) -> int:
-    row_sum = 0
-    for row in board:
-        row_sum += sum([1 if num == "1" else 0 for num in row])
-    return row_sum
-
-
-def find_regions(board: list) -> list:
+def part2(grid: np.array) -> int:
     regions = []
-    for y in range(len(board)):
-        for x in range(len(board[0])):
+
+    size = len(grid)
+    for y in range(size):
+        for x in range(size):
             combine = []
-            if board[y][x] == "1":
+            if grid[y][x] == 1:
                 for j in range(len(regions)):
                     if (x - 1, y) in regions[j]:
                         combine.append(j)
@@ -39,17 +30,59 @@ def find_regions(board: list) -> list:
                         regions[combine[0]] += regions[combine[1]]
                         regions.pop(combine[1])
 
-    return regions
+    return len(regions)
 
 
-def puzzles():
-    board = assemble_board("stpzcrnm")
-    #    for row in board:
-    #        print(row)
-    print("filled:", count_filled(board))
-    regions = find_regions(board)
-    print("number of regions:", len(regions))
+def build_grid(input_str: str) -> np.array:
+    grid = np.zeros((128, 128))
+    for y in range(128):
+        hash_result = bin(int(knot_hash(f'{input_str}-{y}'), 16))[2:].zfill(128)
+        for x, ch in enumerate(hash_result):
+            if ch == '1':
+                grid[y][x] = 1
+    return grid
+
+
+def build_sample_grid() -> np.array:
+    grid = np.zeros((8, 8))
+    grid[0][0] = 1
+    grid[0][1] = 1
+    grid[0][3] = 1
+    grid[0][5] = 1
+    grid[1][1] = 1
+    grid[1][3] = 1
+    grid[1][5] = 1
+    grid[1][7] = 1
+    grid[2][4] = 1
+    grid[2][6] = 1
+    grid[3][0] = 1
+    grid[3][2] = 1
+    grid[3][4] = 1
+    grid[3][5] = 1
+    grid[3][7] = 1
+    grid[4][1] = 1
+    grid[4][2] = 1
+    grid[4][4] = 1
+    grid[5][0] = 1
+    grid[5][1] = 1
+    grid[5][4] = 1
+    grid[5][7] = 1
+    grid[6][1] = 1
+    grid[6][5] = 1
+    grid[7][0] = 1
+    grid[7][1] = 1
+    grid[7][3] = 1
+    grid[7][5] = 1
+    grid[7][6] = 1
+    return grid
+
+
+def main():
+    input_str = 'stpzcrnm'
+    grid = build_grid(input_str)
+    print(f'Part 1: {part1(grid)}')
+    print(f'Part 2: {part2(grid)}')
 
 
 if __name__ == "__main__":
-    puzzles()
+    main()

@@ -1,71 +1,70 @@
-grid = {}
-dirs = {
-    ((0, 1), "R"): (-1, 0),
-    ((0, 1), "L"): (1, 0),
-    ((0, -1), "R"): (1, 0),
-    ((0, -1), "L"): (-1, 0),
-    ((1, 0), "R"): (0, 1),
-    ((1, 0), "L"): (0, -1),
-    ((-1, 0), "R"): (0, -1),
-    ((-1, 0), "L"): (0, 1),
-}
+from typing import List
+from collections import defaultdict
+
+CLEAN = 0
+WEAKENED = 1
+INFECTED = 2
+FLAGGED = 3
 
 
-def read_input() -> (int, int):
-    lines = [line.strip() for line in open("input/day22.txt").readlines()]
-    w = len(lines[0])
-    for y in range(w):
-        for x in range(w):
-            grid[(x, y)] = lines[y][x]
-    return w // 2, w // 2
+def parse_input(filename: str) -> (dict, int):
+    lines = [line.strip() for line in open(filename).readlines()]
+    nodes = defaultdict(int)
+    for y, line in enumerate(lines):
+        for x, ch in enumerate(line):
+            if ch == '#':
+                nodes[x * 1 + y * 1j] = INFECTED
+    center = (len(lines) // 2)
+    return nodes, center * 1 + center * 1j
 
 
-def puzzle1():
-    x, y = read_input()
-    current_pos = (x, y)
-    current_dir = (0, -1)
-    count_infections = 0
-    for i in range(10000):
-        if current_pos in grid and grid[current_pos] == "#":
-            grid[current_pos] = "."
-            current_dir = dirs[(current_dir, "R")]
+def part1(nodes: dict, position: complex, iterations: int) -> int:
+    # start looking up
+    direction = -1j
+
+    num_infections = 0
+    for i in range(iterations):
+        if nodes[position] == INFECTED:
+            direction *= 1j    # rotate right
+            nodes[position] = CLEAN
         else:
-            count_infections += 1
-            grid[current_pos] = "#"
-            current_dir = dirs[(current_dir, "L")]
-        x2, y2 = current_pos[0] + current_dir[0], current_pos[1] + current_dir[1]
-        current_pos = (x2, y2)
-    print("infections:", count_infections)
+            direction *= -1j     # rotate left
+            nodes[position] = INFECTED
+            num_infections += 1
+        position += direction
+
+    return num_infections
 
 
-def puzzle2():
-    grid.clear()
-    x, y = read_input()
-    current_pos = (x, y)
-    current_dir = (0, -1)
-    count_infections = 0
-    for i in range(10000000):
-        if current_pos in grid:
-            if grid[current_pos] == "#":
-                grid[current_pos] = "F"
-                current_dir = dirs[(current_dir, "R")]
-            elif grid[current_pos] == "F":
-                grid[current_pos] = "."
-                current_dir = (-current_dir[0], -current_dir[1])
-            elif grid[current_pos] == "W":
-                count_infections += 1
-                grid[current_pos] = "#"
-            else:
-                grid[current_pos] = "W"
-                current_dir = dirs[(current_dir, "L")]
-        else:
-            grid[current_pos] = "W"
-            current_dir = dirs[(current_dir, "L")]
-        x2, y2 = current_pos[0] + current_dir[0], current_pos[1] + current_dir[1]
-        current_pos = (x2, y2)
-    print("infections:", count_infections)
+def part2(nodes: dict, position: complex, iterations: int) -> int:
+    # start looking up
+    direction = -1j
+
+    num_infections = 0
+    for i in range(iterations):
+        if nodes[position] == INFECTED:
+            direction *= 1j    # rotate right
+            nodes[position] = FLAGGED
+        elif nodes[position] == CLEAN:
+            direction *= -1j     # rotate left
+            nodes[position] = WEAKENED
+        elif nodes[position] == WEAKENED:
+            nodes[position] = INFECTED
+            num_infections += 1
+        elif nodes[position] == FLAGGED:
+            direction *= -1
+            nodes[position] = CLEAN
+        position += direction
+
+    return num_infections
+
+
+def main():
+    nodes, center = parse_input('input/day22.txt')
+    print(f'Part 1: {part1(nodes, center, 10000)}')
+    nodes, center = parse_input('input/day22.txt')
+    print(f'Part 2: {part2(nodes, center, 10000000)}')
 
 
 if __name__ == "__main__":
-    puzzle1()
-    puzzle2()
+    main()

@@ -1,48 +1,48 @@
-def generate(previous: int, fact: int) -> int:
-    return previous * fact % 2147483647
+import progressbar
 
 
-def is_pair(number1: int, number2: int) -> bool:
-    binary1 = format(number1, "0>32b")
-    binary2 = format(number2, "0>32b")
-    return binary1[-16:] == binary2[-16:]
+def part1(a: int, b: int) -> int:
+    factor_a, factor_b = 16807, 48271
+    div_by = 2147483647
 
-
-def puzzle1():
-    prevA, prevB = 703, 516
     num_pairs = 0
-    for i in range(40000000):
-        if i % 4000000 == 0:
-            print(".", end="")
-        prevA = generate(prevA, 16807)
-        prevB = generate(prevB, 48271)
-        if is_pair(prevA, prevB):
-            num_pairs += 1
-    print("pairs:", num_pairs)
+    with progressbar.ProgressBar(max_value=40000000) as p:
+        for i in range(40000000):
+            p.update(i)
+            a = (a * factor_a) % div_by
+            b = (b * factor_b) % div_by
+            if bin(a)[-16:] == bin(b)[-16:]:
+                num_pairs += 1
+    return num_pairs
 
 
-def puzzle2():
-    prevA, prevB = 703, 516
-    # prevA, prevB = 65, 8921
+def part2(a: int, b: int) -> int:
+    factor_a, factor_b = 16807, 48271
+    div_by = 2147483647
+
     num_pairs = 0
-    i = 0
-    while i < 5000000:
-        if i % 1000000 == 0:
-            print(i)
-        while True:
-            prevA = generate(prevA, 16807)
-            if prevA % 4 == 0:
-                break
-        while True:
-            prevB = generate(prevB, 48271)
-            if prevB % 8 == 0:
-                break
-        i += 1
-        if is_pair(prevA, prevB):
-            num_pairs += 1
-    print("pairs:", num_pairs)
+    with progressbar.ProgressBar(max_value=5000000) as p:
+        for i in range(5000000):
+            p.update(i)
+            while True:
+                a = (a * factor_a) % div_by
+                if a % 4 == 0:
+                    break
+            while True:
+                b = (b * factor_b) % div_by
+                if b % 8 == 0:
+                    break
+            if bin(a)[-16:] == bin(b)[-16:]:
+                num_pairs += 1
+    return num_pairs
+
+
+def main():
+    a, b = 703, 516
+    # a, b = 65, 8921
+    print(f'Part 1: {part1(a, b)}')
+    print(f'Part 2: {part2(a, b)}')
 
 
 if __name__ == "__main__":
-    puzzle1()
-    puzzle2()
+    main()

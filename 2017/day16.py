@@ -1,52 +1,79 @@
-def read_input() -> list:
-    instruction_strings = open("input/day16.txt").readline().strip().split(",")
+from typing import List, Tuple
+
+
+def parse_input(filename: str) -> List[Tuple]:
+    instruction_strings = open(filename).read().strip().split(',')
     instructions = []
-
-    for s in instruction_strings:
-        if s[0] == "x":
-            instruction = ["x"] + [int(p) for p in s[1:].split("/")]
-        if s[0] == "p":
-            instruction = ["p"] + [p for p in s[1:].split("/")]
-        if s[0] == "s":
-            instruction = ["s", int(s[1:]), None]
-        instructions.append(instruction)
-
+    for instruction in instruction_strings:
+        op = instruction[0]
+        if op == 's':
+            p1 = int(instruction[1:])
+            p2 = 0
+        if op == 'x':
+            p1, p2 = [int(d) for d in instruction[1:].split('/')]
+        if op == 'p':
+            p1, p2 = instruction[1:].split('/')
+        instructions.append((op, p1, p2))
     return instructions
 
 
-def execute_instructions(state: list, reps: int, instructions: list) -> str:
+def spin(programs: List[str], p: int) -> List[str]:
+    return programs[-p:] + programs[:-p]
+
+
+def swap(programs: List[str], a: int, b: int):
+    programs[a], programs[b] = programs[b], programs[a]
+
+
+def swap_by_name(programs: List[str], p1: str, p2: str):
+    i1 = programs.index(p1)
+    i2 = programs.index(p2)
+    swap(programs, i1, i2)
+
+
+def run(instructions: List[Tuple], programs: List[str]) -> List[str]:
+    for instruction in instructions:
+        op, p1, p2 = instruction
+        if op == 's':
+            programs = spin(programs, p1)
+        if op == 'x':
+            swap(programs, p1, p2)
+        if op == 'p':
+            swap_by_name(programs, p1, p2)
+    return programs
+
+
+def part1(instructions: List[Tuple], programs: List[str]) -> str:
+    programs = run(instructions, programs)
+    return ''.join(programs)
+
+
+def part2(instructions: List[Tuple], programs: List[str]) -> str:
     seen = []
+    i = 0
+    while True:
+        state = ''.join(programs)
+        if state in seen:
+            break
+        seen.append(state)
+        programs = run(instructions, programs)
+        i += 1
 
-    for rep in range(reps):
-        s = "".join(state)
-        if s in seen:
-            return seen[reps % rep]
-        seen.append(s)
+    for j in range(1000000000 % i):
+        programs = run(instructions, programs)
 
-        for i in instructions:
-            op, p1, p2 = i
-            if op == "s":
-                state = state[-p1:] + state[:-p1]
-            if op == "x":
-                state[p1], state[p2] = state[p2], state[p1]
-            if op == "p":
-                p1_index, p2_index = state.index(p1), state.index(p2)
-                state[p1_index], state[p2_index] = state[p2_index], state[p1_index]
-
-    return "".join(state)
+    return ''.join(programs)
 
 
-def puzzles():
-    instructions = read_input()
-    programs = "abcdefghijklmnop"
-    programs = [ch for ch in programs]
-    result = execute_instructions(programs, 1, instructions)
-    print(result)
-    programs = "abcdefghijklmnop"
-    programs = [ch for ch in programs]
-    result = execute_instructions([ch for ch in programs], 1000000000, instructions)
-    print(result)
+def main():
+    # instructions = parse_input('input/day16_test.txt')
+    # programs = list('abcde')
+    instructions = parse_input('input/day16.txt')
+    programs = list('abcdefghijklmnop')
+    print(f'Part 1: {part1(instructions, programs)}')
+    programs = list('abcdefghijklmnop')
+    print(f'Part 2: {part2(instructions, programs)}')
 
 
 if __name__ == "__main__":
-    puzzles()
+    main()

@@ -1,53 +1,94 @@
-from functools import reduce
+from typing import List
 
 
-def calc_knot_hash(nums: list, lengths: list, pos: int, skip: int) -> (int, int):
-    for l in lengths:
-        to_reverse = []
-        for i in range(l):
-            n = (pos + i) % 256
-            to_reverse.append(nums[n])
-        to_reverse.reverse()
-        for i in range(l):
-            n = (pos + i) % 256
-            nums[n] = to_reverse[i]
-        pos = (pos + l + skip) % 256
+def parse_input(filename: str) -> List[int]:
+    return [int(d) for d in open(filename).read().strip().split(',')]
+
+
+def knot_hash(numbers: List[int], lengths: List[int]) -> List[int]:
+    num_elements = len(numbers)
+
+    current = 0
+    skip = 0
+
+    for length in lengths:
+        sub_list = numbers[current: current + length]
+        sl_length = len(sub_list)
+        if sl_length < length:
+            sub_list += numbers[:length - sl_length]
+        sub_list.reverse()
+
+        if sl_length < length:
+            before = sub_list[-(length - sl_length):]
+            after = sub_list[:sl_length]
+            mid = numbers[length - sl_length: -sl_length]
+        else:
+            before = numbers[:current]
+            after = numbers[current + length:]
+            mid = sub_list
+        numbers = before + mid + after
+        current = (current + length + skip) % num_elements
         skip += 1
-
-    return pos, skip
-
-
-def puzzle1():
-    input_string = open("input/day10.txt").read().strip()
-    lengths = [int(n) for n in input_string.split(",")]
-
-    nums = [n for n in range(256)]
-    calc_knot_hash(nums, lengths, 0, 0)
-
-    print("puzzle 1:", nums[0] * nums[1])
+    return numbers
 
 
-def puzzle2():
-    input_string = open("input/day10.txt").read().strip()
-    lengths = [ord(char) for char in input_string]
-    lengths.extend([17, 31, 73, 47, 23])
-    nums = [n for n in range(256)]
-    pos, skip = 0, 0
+def part1(num_elements: int, lengths: List[int]) -> int:
+    numbers = [i for i in range(num_elements)]
+    numbers = knot_hash(numbers, lengths)
+    return numbers[0] * numbers[1]
 
-    for _ in range(64):
-        pos, skip = calc_knot_hash(nums, lengths, pos, skip)
 
-    dense = []
+def part2(input_str: str) -> str:
+    lengths = []
+    for ch in input_str:
+        lengths.append(ord(ch))
+    lengths += [17, 31, 73, 47, 23]
+
+    num_elements = 256
+    numbers = [i for i in range(num_elements)]
+
+    current = 0
+    skip = 0
+
+    for i in range(64):
+        for length in lengths:
+            sub_list = numbers[current: current + length]
+            sl_length = len(sub_list)
+            if sl_length < length:
+                sub_list += numbers[:length - sl_length]
+            sub_list.reverse()
+
+            if sl_length < length:
+                before = sub_list[-(length - sl_length):]
+                after = sub_list[:sl_length]
+                mid = numbers[length - sl_length: -sl_length]
+            else:
+                before = numbers[:current]
+                after = numbers[current + length:]
+                mid = sub_list
+            numbers = before + mid + after
+            current = (current + length + skip) % num_elements
+            skip += 1
+
+    dense_hash = []
     for i in range(16):
-        sub_slice = nums[16 * i : 16 * i + 16]
-        dense.append("%02x" % reduce((lambda x, y: x ^ y), sub_slice))
-    print("puzzle 2:", "".join(dense))
+        hash_val = numbers.pop(0)
+        for j in range(15):
+            hash_val ^= numbers.pop(0)
+        dense_hash.append(hash_val)
+
+    hex_output = ''
+    for digit in dense_hash:
+        hex_output += str(hex(digit))[2:]
+    return hex_output
 
 
-def puzzles():
-    puzzle1()
-    puzzle2()
+def main():
+    lengths = parse_input('input/day10.txt')
+    print(f'Part 1: {part1(256, lengths)}')
+    input_str = open('input/day10.txt').read().strip()
+    print(f'Part 2: {part2(input_str)}')
 
 
 if __name__ == "__main__":
-    puzzles()
+    main()

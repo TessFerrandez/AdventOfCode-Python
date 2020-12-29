@@ -1,42 +1,57 @@
-import re
+from collections import defaultdict
 
 
-def get_islands(input_list: list) -> list:
-    prev_island_len = 0
-
-    while True:
-        final_groups = []
-
-        for group in input_list:
-            did_intersect = False
-            for f_group in final_groups:
-                if len(f_group.intersection(group)) > 0:
-                    f_group |= set(group)
-                    did_intersect = True
-            if not did_intersect:
-                final_groups.append(set(group))
-
-        new_len = len(final_groups)
-        if new_len != prev_island_len:
-            input_list = final_groups.copy()
-            prev_island_len = new_len
-            continue
-
-        return final_groups
+def parse_input(filename: str) -> dict:
+    programs = defaultdict(lambda: set())
+    lines = [line.strip() for line in open(filename).readlines()]
+    for line in lines:
+        p1, p2 = line.split(' <-> ')
+        p1 = int(p1)
+        p2s = [int(d) for d in p2.split(', ')]
+        programs[p1].add(p1)
+        for p in p2s:
+            programs[p1].add(p)
+            programs[p].add(p1)
+    return dict(programs)
 
 
-def puzzles():
-    programs_groups = [
-        [int(number) for number in re.findall(r"[\d]+", line)]
-        for line in open("input/day12.txt").readlines()
-    ]
-    islands = get_islands(programs_groups)
-    for island in islands:
-        if 0 in island:
-            print("Island length: ", len(island))
-            break
-    print("total islands:", len(islands))
+def get_group(programs: dict, item: int) -> dict:
+    group = set()
+    group.add(item)
+    todo = [item]
+
+    while todo:
+        current = todo.pop(0)
+        group.add(current)
+        for p in programs[current]:
+            if p not in group:
+                todo.append(p)
+    return group
+
+
+def part1(programs: dict) -> int:
+    group = get_group(programs, 0)
+    return len(group)
+
+
+def part2(programs: dict) -> int:
+    numbers = list(programs.keys())
+    num_groups = 0
+    while numbers:
+        num_groups += 1
+        base = numbers.pop(0)
+        group = get_group(programs, base)
+        for item in group:
+            if item in numbers:
+                numbers.remove(item)
+    return num_groups
+
+
+def main():
+    programs = parse_input('input/day12.txt')
+    print(f'Part 1: {part1(programs)}')
+    print(f'Part 2: {part2(programs)}')
 
 
 if __name__ == "__main__":
-    puzzles()
+    main()

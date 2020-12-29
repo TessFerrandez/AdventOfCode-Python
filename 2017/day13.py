@@ -1,52 +1,76 @@
-def update_scanners(scanners: dict):
-    for i in scanners:
-        scanner = scanners[i]
-        if scanner[1] == scanner[0] - 1 or scanner[1] == 0:
-            # change direction
-            scanner[2] = -scanner[2]
-        scanner[1] += scanner[2]
+import progressbar
 
 
-def read_input() -> dict:
-    scanners = dict()
-    scan_lines = [line.strip().split(": ") for line in open("input/day13.txt")]
-    for line in scan_lines:
-        layer, depth = line
-        scanners[int(layer)] = int(depth)
-    return scanners
+def parse_input(filename: str) -> dict:
+    lines = [line.strip() for line in open(filename).readlines()]
+    depths = {}
+    for line in lines:
+        layer, depth = line.split(': ')
+        depths[int(layer)] = int(depth)
+    return depths
 
 
-def scan(scanners: dict, delay=0) -> list:
-    max_layer = max(scanners) + 1
+def play(depths: dict) -> int:
+    current = {}
+    directions = {}
+    for depth in depths:
+        current[depth] = 0
+        directions[depth] = 1
+
     caught = []
-    for layer in range(max_layer):
-        time = layer + delay
-        if layer in scanners:
-            layer_range = scanners[layer]
-            # the layer is 0 periodically
-            # the periodicity is time % (range * 2 - 2)
-            if time % (layer_range * 2 - 2) == 0:
-                caught.append(layer)
+    max_layer = max(depths)
 
-    return caught
+    for pico_second in range(max_layer + 1):
+        if pico_second in current and current[pico_second] == 0:
+            caught.append(pico_second)
+
+        for depth in current:
+            if current[depth] == depths[depth] - 1 or (current[depth] == 0 and pico_second != 0):
+                directions[depth] = -directions[depth]
+            current[depth] += directions[depth]
+
+    return sum([c * depths[c] for c in caught])
 
 
-def puzzles():
-    scanners = read_input()
+def play_simplified(depths: dict) -> int:
+    rounds = {}
+    for depth in depths:
+        rounds[depth] = (depths[depth] - 1) * 2
 
-    # Part 1
-    caught = scan(scanners)
-    print("severity:", sum([layer * scanners[layer] for layer in caught]))
+    caught = [depth for depth in rounds if depth % rounds[depth] == 0]
+    return sum([c * depths[c] for c in caught])
 
-    # part 2
-    caught = [1]
-    i = 0
-    while caught:
-        i += 1
-        caught = scan(scanners, i)
 
-    print("delay:", i)
+def part1(depths: dict) -> int:
+    # return play(depths)
+    return play_simplified(depths)
+
+
+def play_with_delay(rounds: dict, delay: int) -> bool:
+    for depth in rounds:
+        if (depth + delay) % rounds[depth] == 0:
+            return True
+    return False
+
+
+def part2(depths: dict) -> int:
+    rounds = {}
+    for depth in depths:
+        rounds[depth] = (depths[depth] - 1) * 2
+
+    with progressbar.ProgressBar() as p:
+        delay = 0
+        while play_with_delay(rounds, delay):
+            delay += 1
+            p.update(delay)
+    return delay
+
+
+def main():
+    depths = parse_input('input/day13.txt')
+    print(f'Part 1: {part1(depths)}')
+    print(f'Part 2: {part2(depths)}')
 
 
 if __name__ == "__main__":
-    puzzles()
+    main()

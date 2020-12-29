@@ -1,117 +1,165 @@
+from typing import List, Tuple
 from collections import defaultdict
 
 
-def read_input() -> list:
-    return [line.strip().split() for line in open("input/day18.txt").readlines()]
+OK = 0
+RECEIVING = 1
+DONE = 2
 
 
-def get(value, r):
-    try:
-        return int(value)
-    except ValueError:
-        return r[value]
+class ReceiveException(Exception):
+    pass
 
 
-def puzzle1():
-    send_queue = []
-    instructions = read_input()
-    r = defaultdict(int)
-    ptr = 0
+class SendException(Exception):
+    pass
 
-    while 0 <= ptr < len(instructions):
-        instruction = instructions[ptr]
+
+class Computer:
+    def __init__(self, instructions: List[Tuple]):
+        self.registers = defaultdict(int)
+        self.instructions = instructions
+        self.instr_ptr = 0
+        self.max_ptr = len(self.instructions)
+        self.sound = 0
+
+    def get_value(self, param):
+        if param in 'abcdefghijklmnopqrstuvw':
+            return self.registers[param]
+        else:
+            return int(param)
+
+    def run(self) -> int:
+        while self.instr_ptr < self.max_ptr:
+            op, p1, p2 = self.instructions[self.instr_ptr]
+            if op == 'snd':
+                self.instr_ptr += 1
+                self.sound = self.get_value(p1)
+            elif op == 'set':
+                self.registers[p1] = self.get_value(p2)
+                self.instr_ptr += 1
+            elif op == 'add':
+                self.registers[p1] += self.get_value(p2)
+                self.instr_ptr += 1
+            elif op == 'mul':
+                self.registers[p1] *= self.get_value(p2)
+                self.instr_ptr += 1
+            elif op == 'mod':
+                self.registers[p1] %= self.get_value(p2)
+                self.instr_ptr += 1
+            elif op == 'rcv':
+                self.instr_ptr += 1
+                if self.get_value(p1) != 0:
+                    return self.sound
+            elif op == 'jgz':
+                if self.get_value(p1) > 0:
+                    self.instr_ptr += self.get_value(p2)
+                else:
+                    self.instr_ptr += 1
+        return self.sound
+
+
+class Computer2:
+    def __init__(self, instructions: List[Tuple], identifier: int):
+        self.registers = defaultdict(int)
+        self.instructions = instructions
+        self.instr_ptr = 0
+        self.max_ptr = len(self.instructions)
+        self.input = []
+        self.output = 0
+        self.status = OK
+        self.identifier = identifier
+        self.num_sent = 0
+
+    def get_value(self, param):
+        if param in 'abcdefghijklmnopqrstuvw':
+            return self.registers[param]
+        else:
+            return int(param)
+
+    def run(self):
+        while self.instr_ptr < self.max_ptr:
+            op, p1, p2 = self.instructions[self.instr_ptr]
+            if op == 'snd':
+                self.instr_ptr += 1
+                self.output = self.get_value(p1)
+                self.num_sent += 1
+                raise SendException
+            elif op == 'set':
+                self.registers[p1] = self.get_value(p2)
+                self.instr_ptr += 1
+            elif op == 'add':
+                self.registers[p1] += self.get_value(p2)
+                self.instr_ptr += 1
+            elif op == 'mul':
+                self.registers[p1] *= self.get_value(p2)
+                self.instr_ptr += 1
+            elif op == 'mod':
+                self.registers[p1] %= self.get_value(p2)
+                self.instr_ptr += 1
+            elif op == 'rcv':
+                if self.input:
+                    # other program has sent
+                    self.registers[p1] = self.input.pop(0)
+                    self.status = OK
+                    self.instr_ptr += 1
+                else:
+                    self.status = RECEIVING
+                    raise ReceiveException
+            elif op == 'jgz':
+                if self.get_value(p1) > 0:
+                    self.instr_ptr += self.get_value(p2)
+                else:
+                    self.instr_ptr += 1
+        self.status = DONE
+
+
+def parse_input(filename: str) -> List[Tuple]:
+    lines = [line.strip() for line in open(filename).readlines()]
+    instructions = []
+    for line in lines:
+        instruction = line.split(' ')
         op = instruction[0]
-        p1 = instruction[1]
-        p2 = None if len(instruction) == 2 else instruction[2]
-
-        if op == "snd":
-            send_queue.append(get(p1, r))
-        elif op == "set":
-            r[p1] = get(p2, r)
-        elif op == "add":
-            r[p1] += get(p2, r)
-        elif op == "mul":
-            r[p1] *= get(p2, r)
-        elif op == "mod":
-            r[p1] %= get(p2, r)
-        elif op == "rcv":
-            if get(p1, r) > 0:
-                r[p1] = send_queue.pop()
-                print("first sound:", r[p1])
-                break
-        elif op == "jgz":
-            if get(p1, r) > 0:
-                ptr += get(p2, r) - 1
-        ptr += 1
+        reg = instruction[1]
+        val = 0
+        if instruction[0] not in ['snd', 'rcv']:
+            val = instruction[2]
+        instructions.append((op, reg, val))
+    return instructions
 
 
-def puzzle2():
-    r1 = defaultdict(int)
-    r2 = defaultdict(int)
-    r2["p"] = 1
-    regs = [r1, r2]
+def part1(instructions: List[Tuple]) -> int:
+    computer = Computer(instructions)
+    return computer.run()
 
-    ptrs = [0, 0]
-    send_queue = [[], []]
-    state = ["ok", "ok"]  # ok, receiving, done
 
-    instructions = read_input()
-    program = 0  # current program
-    r = regs[program]
-    ptr = ptrs[program]
+def part2(instructions: List[Tuple]) -> int:
+    computers = [Computer2(instructions, 0), Computer2(instructions, 1)]
+    computers[1].registers['p'] = 1
 
-    total_sends = 0
+    current, other = 0, 1
     while True:
-        instruction = instructions[ptr]
-        op = instruction[0]
-        p1 = instruction[1]
-        p2 = None if len(instruction) == 2 else instruction[2]
+        if computers[current].status == DONE and computers[other] == DONE:
+            break
+        elif computers[current].status == RECEIVING and computers[other].status == RECEIVING:
+            break
+        try:
+            computers[current].run()
+        except SendException:
+            computers[other].input.append(computers[current].output)
+            if computers[other].status == RECEIVING:
+                computers[other].status = OK
+        except ReceiveException:
+            if not computers[current].input:
+                current, other = other, current
+    return computers[1].num_sent
 
-        if op == "snd":
-            if program == 1:
-                total_sends += 1
-            send_queue[program].append(get(p1, r))
-        elif op == "set":
-            r[p1] = get(p2, r)
-        elif op == "add":
-            r[p1] += get(p2, r)
-        elif op == "mul":
-            r[p1] *= get(p2, r)
-        elif op == "mod":
-            r[p1] %= get(p2, r)
-        elif op == "rcv":
-            if send_queue[1 - program]:
-                # other program has sent
-                state[program] = "ok"
-                r[p1] = send_queue[1 - program].pop(0)
-            else:
-                # wait and switch
-                if state[1 - program] == "done":
-                    break  # deadlocked
-                if not send_queue[program] and state[1 - program] == "receiving":
-                    break  # deadlocked
-                ptrs[program] = ptr
-                state[program] = "receiving"
-                program = 1 - program
-                ptr = ptrs[program] - 1  # will be incremented back
-                r = regs[program]
-        elif op == "jgz":
-            if get(p1, r) > 0:
-                ptr += get(p2, r) - 1
 
-        ptr += 1
-        if not 0 <= ptr < len(instructions):
-            if state[1 - program] == "done":
-                break  # both done
-            state[program] = "done"
-            ptrs[program] = ptr
-            program = 1 - program
-            ptr = ptrs[program]
-            r = regs[program]
-
-    print("program 1 sends:", total_sends)
+def main():
+    instructions = parse_input('input/day18.txt')
+    print(f'Part 1: {part1(instructions)}')
+    print(f'Part 2: {part2(instructions)}')
 
 
 if __name__ == "__main__":
-    puzzle1()
-    puzzle2()
+    main()

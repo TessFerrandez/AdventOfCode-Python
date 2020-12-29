@@ -1,60 +1,43 @@
-def read_input() -> list:
-    rows = [line[:-1] for line in open("input/day19.txt").readlines()]
-    max_len = max([len(row) for row in rows])
-    for row_n in range(len(rows)):
-        for i in range(max_len - len(rows[row_n])):
-            rows[row_n] += " "
-    return rows
+from typing import List
 
 
-def follow_path(board: list) -> (str, int):
-    max_col = len(board[0])
+def parse_input(filename: str) -> List[str]:
+    original_lines = [line.replace('\n', '') for line in open(filename).readlines()]
+    max_len = max(len(line) for line in original_lines)
+    lines = [' ' + line + ' ' * (max_len + 1 - len(line)) for line in original_lines]
+    lines.append(' ' * (max_len + 2))
+    return lines
 
-    letters = "ABCDEFGHIJKLMNOPQRSTUVXYZ"
-    path = ""
-    dirs = {"D": (0, 1), "U": (0, -1), "L": (-1, 0), "R": (1, 0)}
 
-    pos = board[0].index("|"), 0
-    d = "D"
-    i = 0
+def part1(lines: List[str]) -> (str, int):
+    pos = lines[0].index('|')
+    direction = 1j
+
+    path = ''
+    steps = 0
     while True:
-        i += 1
-        x, y = pos
-        next_x, next_y = x + dirs[d][0], y + dirs[d][1]
-        if not 0 <= x < max_col or not 0 <= y < len(board):
-            print(x, y, "out of bounds")
+        pos += direction
+        steps += 1
+        x, y = int(pos.real), int(pos.imag)
+        ch = lines[y][x]
+        if ch == '+':
+            if direction == 1 or direction == -1:
+                direction = 1j if lines[y - 1][x] == ' ' else -1j
+            elif direction == 1j or direction == -1j:
+                direction = 1 if lines[y][x - 1] == ' ' else -1
+        elif ch in 'ABCDEFGHIJKLMNOPQRSTUVWXYZ':
+            path += ch
+        elif ch == ' ':
             break
-        if board[y][x] == " ":
-            print(x, y, "space")
-            break
-        elif board[y][x] == "+":
-            # change direction
-            if d == "U" or d == "D":
-                d = "R"
-                if x - 1 >= 0:
-                    if board[y][x - 1] == "-" or board[y][x - 1] in letters:
-                        d = "L"
-            else:
-                d = "D"
-                if y - 1 >= 0:
-                    if board[y - 1][x] == "|" or board[y - 1][x] in letters:
-                        d = "U"
-            next_x, next_y = x + dirs[d][0], y + dirs[d][1]
-        elif board[y][x] in letters:
-            path += board[y][x]
-        pos = next_x, next_y
-
-    return path, i - 1
+    return path, steps
 
 
-def puzzles():
-    board = read_input()
-    # for row in board:
-    #     print(row)
-    chars, steps = follow_path(board)
-    print("path:", chars)
-    print("steps:", steps)
+def main():
+    data = parse_input('input/day19.txt')
+    path, steps = part1(data)
+    print(f'Part 1: {path}')
+    print(f'Part 2: {steps}')
 
 
 if __name__ == "__main__":
-    puzzles()
+    main()
