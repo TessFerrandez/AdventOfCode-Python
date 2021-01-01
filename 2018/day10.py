@@ -1,39 +1,74 @@
-import re
 import numpy as np
+from typing import List
+from common.helpers import extract_numbers
 import matplotlib.pyplot as plt
 
 
-def get_min_max_x_y(data, step) -> (int, int, int, int):
-    minx = min(x + step * vx for (x, y, vx, vy) in data)
-    maxx = max(x + step * vx for (x, y, vx, vy) in data)
-    miny = min(y + step * vy for (x, y, vx, vy) in data)
-    maxy = max(y + step * vy for (x, y, vx, vy) in data)
-    return minx, maxx, miny, maxy
+def parse_input(filename: str) -> List[List[int]]:
+    return [extract_numbers(line.strip()) for line in open(filename).readlines()]
 
 
-def puzzle1():
-    data = [
-        [int(num) for num in re.findall(r"-?\d+", line)]
-        for line in open("input/day10.txt").readlines()
-    ]
+def calculate_box_size(points: List[List[int]]) -> int:
+    min_x = min([p[0] for p in points])
+    max_x = max([p[0] for p in points])
+    min_y = min([p[1] for p in points])
+    max_y = max([p[1] for p in points])
+    return max_x - min_x + max_y - min_y
 
-    boxes = []
-    for i in range(20000):
-        minx, maxx, miny, maxy = get_min_max_x_y(data, i)
-        boxes.append(maxx - minx + maxy - miny)
 
-    min_box = min(boxes)
-    i = boxes.index(min_box)
-    minx, maxx, miny, maxy = get_min_max_x_y(data, i)
+def part1(points: List[List[int]]) -> int:
 
-    grid = np.zeros((maxy - miny + 1, maxx - minx + 1), int)
-    for (x, y, vx, vy) in data:
-        grid[y + i * vy - miny][x + i * vx - minx] = 1
+    # the minimum size is the place where the squares are the most
+    # concentrated - we go from big to minimum to expanding
 
-    print(i)
+    iteration = 0
+    box_size = calculate_box_size(points)
+    while True:
+        iteration += 1
+        for point in points:
+            point[0] += point[2]
+            point[1] += point[3]
+
+        new_box_size = calculate_box_size(points)
+        if new_box_size > box_size:
+            break
+        else:
+            box_size = new_box_size
+
+    # we hit the first time we expand - so roll back one
+    for point in points:
+        point[0] -= point[2]
+        point[1] -= point[3]
+    iteration -= 1
+
+    return iteration
+
+
+def draw_grid(points: List[List[int]]):
+    min_x = min([p[0] for p in points])
+    max_x = max([p[0] for p in points])
+    min_y = min([p[1] for p in points])
+    max_y = max([p[1] for p in points])
+
+    width = max_x - min_x + 1
+    height = max_y - min_y + 1
+
+    grid = np.zeros((height, width))
+    for point in points:
+        x, y, _, _ = point
+        grid[y - min_y][x - min_x] = 1
+
     plt.imshow(grid)
     plt.show()
 
 
+def main():
+    points = parse_input('input/day10.txt')
+    iteration = part1(points)
+    print('Part 1: SEE IMAGE')
+    draw_grid(points)
+    print(f'Part 2: {iteration}')
+
+
 if __name__ == "__main__":
-    puzzle1()
+    main()

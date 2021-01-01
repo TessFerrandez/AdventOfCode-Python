@@ -1,56 +1,43 @@
 import re
+import numpy as np
+from typing import List
 
 
-def puzzle1():
-    w, h = 1000, 1000
-    sheet = [[0 for x in range(w)] for y in range(h)]
-
-    with open("input/day3.txt") as f:
-        for line in f:
-            data = line.split(" ")
-            pos = [int(element) for element in data[2][:-1].split(",")]
-            area = [int(element) for element in data[3].split("x")]
-
-            for x in range(pos[0], pos[0] + area[0]):
-                for y in range(pos[1], pos[1] + area[1]):
-                    sheet[x][y] += 1
-
-    count = 0
-    for x in range(0, w):
-        for y in range(0, h):
-            if sheet[x][y] > 1:
-                count += 1
-
-    print("inches of fabric in 2 or more claims:", count)
+def parse_input(filename: str) -> List[List[int]]:
+    return [[int(d) for d in re.findall(r'\d+', line.strip())] for line in open(filename).readlines()]
 
 
-def puzzle2():
-    width, height = 1000, 1000
-    sheet = [[0 for x in range(width)] for y in range(height)]
-
-    claims = [re.split(r"[@,:x]", line) for line in open("input/day3.txt").readlines()]
-    claims = [
-        [claim[0].strip(), int(claim[1]), int(claim[2]), int(claim[3]), int(claim[4])]
-        for claim in claims
-    ]
+def part1(claims: List[List[int]]) -> int:
+    grid = np.zeros((1000, 1000))
 
     for claim in claims:
-        for x in range(claim[1], claim[1] + claim[3]):
-            for y in range(claim[2], claim[2] + claim[4]):
-                sheet[x][y] += 1
+        i, left, top, width, height = claim
+        grid[top: top + height, left: left + width] += 1
+
+    return np.count_nonzero(grid[grid > 1])
+
+
+def part2(claims: List[List[int]]) -> int:
+    grid = np.zeros((1000, 1000))
 
     for claim in claims:
-        overlaps = False
-        for x in range(claim[1], claim[1] + claim[3]):
-            for y in range(claim[2], claim[2] + claim[4]):
-                if sheet[x][y] > 1:
-                    overlaps = True
+        i, left, top, width, height = claim
+        grid[top: top + height, left: left + width] += 1
 
-        if not overlaps:
-            print("ID of non-overlapping claim:", claim[0])
-            break
+    for claim in claims:
+        i, left, top, width, height = claim
+        claim_grid = grid[top: top + height, left: left + width]
+        if np.count_nonzero(claim_grid[claim_grid > 1]) == 0:
+            return i
+
+    return 0
+
+
+def main():
+    claims = parse_input('input/day3.txt')
+    print(f'Part 1: {part1(claims)}')
+    print(f'Part 2: {part2(claims)}')
 
 
 if __name__ == "__main__":
-    puzzle1()
-    puzzle2()
+    main()

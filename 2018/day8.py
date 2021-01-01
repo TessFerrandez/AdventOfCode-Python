@@ -1,52 +1,67 @@
-from anytree import Node, RenderTree
+from typing import List
 
 
-def read_input() -> list:
-    # return [2, 3, 0, 3, 10, 11, 12, 1, 1, 0, 1, 99, 2, 1, 1, 2]
-    return [int(num) for num in open("input/day8.txt").readline().strip().split(" ")]
+def parse_input(filename: str) -> List[int]:
+    return [int(d) for d in open(filename).read().strip().split(' ')]
 
 
-def generate_doc_tree(file) -> (Node, int):
-    # read header
-    n_files, n_meta = file[0:2]
-    node = Node("this", meta=None)
-    ptr = 2
+def get_metadata(data: List[int]) -> int:
+    num_children = data.pop(0)
+    num_metadata = data.pop(0)
 
-    # read files
-    for _ in range(n_files):
-        child_node, file_len = generate_doc_tree(file[ptr:])
-        child_node.parent = node
-        ptr += file_len
+    # get the metadata values for all the children
+    total = 0
+    for _ in range(num_children):
+        total += get_metadata(data)
 
-    # read meta data
-    node.meta = file[ptr : ptr + n_meta]
-    return node, ptr + n_meta
+    # and add the meta data for this node
+    for _ in range(num_metadata):
+        total += data.pop(0)
 
-
-def get_meta_sum(node: Node) -> int:
-    meta_sum = sum(node.meta)
-    for child in node.children:
-        meta_sum += get_meta_sum(child)
-    return meta_sum
+    return total
 
 
-def get_value(node: Node) -> int:
-    if not node.children:
-        return sum(node.meta)
-
-    value = 0
-    for i in node.meta:
-        if len(node.children) > i - 1:
-            value += get_value(node.children[i - 1])
-    return value
+def part1(data: List[int]) -> int:
+    return get_metadata(data)
 
 
-def puzzles():
-    file = read_input()
-    tree, _ = generate_doc_tree(file)
-    print("meta sum:", get_meta_sum(tree))
-    print("value:", get_value(tree))
+def get_value(data: List[int]) -> int:
+    num_children = data.pop(0)
+    num_metadata = data.pop(0)
+
+    # get all children's values
+    child_values = []
+    for _ in range(num_children):
+        child_values.append(get_value(data))
+
+    # get all metadata values
+    metadata_values = []
+    for _ in range(num_metadata):
+        metadata_values.append(data.pop(0))
+
+    # if no children - return the total meta data
+    if num_children == 0:
+        return sum(metadata_values)
+
+    # else - return the values for the children pointed out by the metadata
+    total = 0
+    for child in metadata_values:
+        if 0 < child <= num_children:
+            total += child_values[child - 1]
+
+    return total
+
+
+def part2(data: List[int]) -> int:
+    return get_value(data)
+
+
+def main():
+    data = parse_input('input/day8.txt')
+    print(f'Part 1: {part1(data)}')
+    data = parse_input('input/day8.txt')
+    print(f'Part 2: {part2(data)}')
 
 
 if __name__ == "__main__":
-    puzzles()
+    main()

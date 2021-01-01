@@ -1,99 +1,91 @@
-def read_input() -> (dict, list):
-    chains = dict()
-    lines = [line.strip().split(" ") for line in open("input/day7.txt").readlines()]
+from typing import List
+from collections import defaultdict
+
+
+def parse_input(filename: str) -> dict:
+    chains = defaultdict(lambda: [])
+    lines = [line.strip().split(' ') for line in open(filename).readlines()]
     for line in lines:
         before, after = line[1], line[7]
-        if after in chains:
-            chains[after].append(before)
-        else:
-            chains[after] = [before]
-
-    steps = [c for c in "ABCDEFGHIJKLMNOPQRSTUVWXYZ"]
-    # steps = [c for c in "ABCDEF"]
-
-    # any steps with no pre-reqs
-    # are executable
-    available_steps = []
-    for i in range(len(steps)):
-        if steps[i] not in chains:
-            available_steps.append(steps[i])
-
-    return chains, available_steps
+        chains[after].append(before)
+    return chains
 
 
-def update_chains(chains: dict, step: str) -> list:
-    available_steps = []
-
-    # any steps without pre-reqs
-    # are now executable
+def update_chains(chains: dict, step: str) -> List[str]:
+    available = []
     for chain in chains:
         if step in chains[chain]:
             chains[chain].remove(step)
             if not chains[chain]:
-                if step not in available_steps:
-                    available_steps.append(chain)
-    return available_steps
+                if step not in available:
+                    available.append(chain)
+    return available
 
 
-def puzzle1():
-    chains, available_steps = read_input()
-    order = ""
+def part1(chains: dict, states: str) -> str:
+    available = [step for step in states if not chains[step]]
+    order = ''
 
-    while available_steps:
-        # execute next available step
-        available_steps.sort()
-        step = available_steps[0]
-        available_steps.pop(0)
+    while available:
+        available.sort()
+        step = available.pop(0)
         order += step
+        available += update_chains(chains, step)
 
-        available_steps += update_chains(chains, step)
-
-    print("order:", order)
+    return order
 
 
-def workers_done(workers: list) -> bool:
-    for worker in workers:
-        if worker[0] != 0:
+def elfs_done(elfs: List) -> bool:
+    for time_left, step in elfs:
+        if time_left != 0:
             return False
-        if worker[1] != ".":
+        if step != '.':
             return False
     return True
 
 
-def puzzle2(num_workers: int, delay: int):
-    chains, available_steps = read_input()
+def part2(chains: dict, states: str, num_elfs: int, delay: int) -> int:
+    available = [step for step in states if not chains[step]]
 
-    # set up available workers
-    workers = []
-    for _ in range(num_workers):
-        workers.append([0, "."])
+    elfs = []
+    for _ in range(num_elfs):
+        elfs.append([0, '.'])
 
     seconds = 0
-    while available_steps or not workers_done(workers):
-        seconds += 1
-        print(available_steps, workers)
-        for i in range(num_workers):
-            if workers[i][0] == 0:
-                # if we finished a step - release it
-                if workers[i][1] != ".":
-                    available_steps += update_chains(chains, workers[i][1])
 
-        for i in range(num_workers):
-            if workers[i][0] == 0:
-                # take on a new step
-                if available_steps:
-                    step = available_steps[0]
-                    workers[i][0] = ord(step) - 65 + delay
-                    workers[i][1] = step
-                    available_steps.pop(0)
+    while available or not elfs_done(elfs):
+        seconds += 1
+        for i in range(num_elfs):
+            time_left, step = elfs[i]
+            if time_left == 0:
+                # we finished a step - release it
+                if step != '.':
+                    available += update_chains(chains, step)
+
+        for i in range(num_elfs):
+            time_left, step = elfs[i]
+            if time_left == 0:
+                # take a new step
+                if available:
+                    step = available.pop(0)
+                    elfs[i] = [ord(step) - ord('A') + delay, step]
                 else:
-                    workers[i][1] = "."
+                    elfs[i][1] = '.'
             else:
-                workers[i][0] -= 1
-    seconds -= 1
-    print("seconds:", seconds)
+                elfs[i][0] -= 1
+
+    return seconds - 1
+
+
+def main():
+    # chains = parse_input('input/day7_test.txt')
+    # states = 'ABCDEF'
+    states = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+    chains = parse_input('input/day7.txt')
+    print(f'Part 1: {part1(chains, states)}')
+    chains = parse_input('input/day7.txt')
+    print(f'Part 2: {part2(chains, states, 5, 60)}')
 
 
 if __name__ == "__main__":
-    puzzle1()
-    puzzle2(5, 60)
+    main()

@@ -1,87 +1,66 @@
-def get_closest(coord, coords):
-    best_i = -1
-    dist_draw = False
-    best_distance = 1000000
-
-    for i in range(len(coords)):
-        distance = abs(coord[0] - coords[i][0]) + abs(coord[1] - coords[i][1])
-        if distance < best_distance:
-            best_distance = distance
-            best_i = i
-            dist_draw = False
-        elif distance == best_distance:
-            best_i = -1
-            dist_draw = True
-
-    if dist_draw:
-        return -1
-    else:
-        return best_i
+from typing import List, Tuple
+from collections import defaultdict
 
 
-def get_maxes(coords):
-    max_x, max_y = 0, 0
-    for coord in coords:
-        max_x = max(max_x, coord[0])
-        max_y = max(max_y, coord[1])
-    return max_x + 1, max_y + 1
+def parse_input(filename: str) -> List[Tuple]:
+    return [tuple([int(d) for d in line.strip().split(', ')]) for line in open(filename).readlines()]
 
 
-def puzzle1():
-    coords = [
-        [int(x) for x in line.strip().split(", ")]
-        for line in open("input/day6.txt").readlines()
-    ]
-    num_coords = len(coords)
-    coord_count = {-1: 0}
-    is_excluded = {-1: True}
+def part1(points: List[Tuple[int, int]]) -> int:
+    min_x = min(p[0] for p in points)
+    max_x = max(p[0] for p in points)
+    min_y = min(p[1] for p in points)
+    max_y = max(p[1] for p in points)
 
-    max_x, max_y = get_maxes(coords)
+    closest = defaultdict(lambda: [])
 
-    for i in range(num_coords):
-        coord_count[i] = 0
-        is_excluded[i] = False
+    # calculate the closest points
+    for y in range(min_y, max_y + 1):
+        for x in range(min_x, max_x + 1):
+            distances = [abs(y - oy) + abs(x - ox) for ox, oy in points]
+            min_distance = min(distances)
+            if distances.count(min_distance) == 1:
+                closest[points[distances.index(min_distance)]].append((x, y))
 
-    for col in range(max_x + 1):
-        for row in range(max_y):
-            closest_coord = get_closest((col, row), coords)
-            if col == 0 or col == max_x or row == 0 or row == max_y:
-                is_excluded[closest_coord] = True
-            else:
-                coord_count[closest_coord] += 1
+    # remove all infinite
+    to_remove = []
+    for c in closest:
+        for x, y in closest[c]:
+            if x == min_x or x == max_x or y == min_y or y == max_y:
+                to_remove.append(c)
+                break
 
-    for coord in is_excluded:
-        if is_excluded[coord]:
-            coord_count[coord] = 0
+    for r in to_remove:
+        del closest[r]
 
-    largest_area = max(coord_count[coord] for coord in coord_count)
-    print("largest area:", largest_area)
-
-
-def get_total_distance(this_coord, coords):
-    total_distance = 0
-    for coord in coords:
-        total_distance += abs(this_coord[0] - coord[0]) + abs(this_coord[1] - coord[1])
-    return total_distance
+    # calculate largest area
+    return max(len(closest[c]) for c in closest)
 
 
-def puzzle2():
-    coords = [
-        [int(x) for x in line.strip().split(", ")]
-        for line in open("input/day6.txt").readlines()
-    ]
-    max_x, max_y = get_maxes(coords)
+def part2(points: List[Tuple[int, int]], max_distance) -> int:
+    min_x = min(p[0] for p in points)
+    max_x = max(p[0] for p in points)
+    min_y = min(p[1] for p in points)
+    max_y = max(p[1] for p in points)
 
-    in_area = 0
-    for col in range(max_x + 1):
-        for row in range(max_y + 1):
-            total_distance = get_total_distance((col, row), coords)
-            if total_distance < 10000:
-                in_area += 1
+    num_points = 0
 
-    print("in area:", in_area)
+    # calculate the distances to all points
+    for y in range(min_y, max_y + 1):
+        for x in range(min_x, max_x + 1):
+            distances = [abs(y - oy) + abs(x - ox) for ox, oy in points]
+            total_distance = sum(distances)
+            if total_distance < max_distance:
+                num_points += 1
+
+    return num_points
+
+
+def main():
+    points = parse_input('input/day6.txt')
+    print(f'Part 1: {part1(points)}')
+    print(f'Part 2: {part2(points, 10000)}')
 
 
 if __name__ == "__main__":
-    puzzle1()
-    puzzle2()
+    main()

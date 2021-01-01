@@ -1,58 +1,94 @@
-def parse_log(log_lines):
-    guards = dict()
-    guard_minutes = dict()
-    current_guard = ""
-    sleep_start = 0
+from datetime import datetime
+from typing import List
+from collections import defaultdict, Counter
 
-    for log_line in log_lines:
 
-        parts = log_line.split(" ")
-        minute = int(parts[1][3:5])
-        command, guard_id = parts[2], parts[3]
+GUARD = 0
+SLEEP = 1
+WAKE = 2
 
-        if command == "Guard":
-            current_guard = guard_id
-        if command == "falls":
-            sleep_start = minute
-        if command == "wakes":
-            sleep_end = minute
 
-            if current_guard not in guards:
-                guards[current_guard] = sleep_end - sleep_start
-                guard_minutes[current_guard] = [0] * 60
-            else:
-                guards[current_guard] += sleep_end - sleep_start
+def parse_input(filename: str):
+    lines = [line.strip() for line in open(filename).readlines()]
+    log = []
+    for line in lines:
+        date_str, time_str, p1, p2, *p3 = line.split(' ')
+        time_stamp = datetime.strptime((date_str + ' ' + time_str)[1:-1], '%Y-%m-%d %H:%M')
+        if p1 == 'Guard':
+            action = GUARD
+            value = int(p2[1:])
+        elif p1 == 'falls':
+            action = SLEEP
+            value = time_stamp.minute
+        else:
+            action = WAKE
+            value = time_stamp.minute
+        log.append([time_stamp, action, value])
+    log.sort()
+    return log
 
-            for i in range(sleep_start, sleep_end):
-                guard_minutes[current_guard][i] += 1
 
-    max_minutes = 0
-    best_guard = ""
+def part1(guards: dict) -> int:
+
+    max_sleep = 0
+    sleepiest_guard = 0
     for guard in guards:
-        if guards[guard] > max_minutes:
-            max_minutes = guards[guard]
-            best_guard = guard
+        if len(guards[guard]) > max_sleep:
+            max_sleep = len(guards[guard])
+            sleepiest_guard = guard
 
-    print(best_guard)
-    max_guard_minutes = guard_minutes[best_guard]
-    best_hour = max_guard_minutes.index(max(max_guard_minutes))
-    print("part 1:", best_hour * int(best_guard[1:]))
+    max_count = 0
+    max_value = 0
+    counts = Counter(guards[sleepiest_guard])
+    for val in counts:
+        if counts[val] > max_count:
+            max_count = counts[val]
+            max_value = val
 
-    max_minute = 0
-    for guard in guard_minutes:
-        guard_max = max(guard_minutes[guard])
-        if guard_max > max_minute:
-            best_guard = guard
-            max_minute = guard_max
-
-    print("part 2:", guard_minutes[best_guard].index(max_minute) * int(best_guard[1:]))
+    return sleepiest_guard * max_value
 
 
-def puzzles():
-    log_lines = open("input/day4.txt").readlines()
-    log_lines = sorted(log_lines, key=lambda x: x[1:17])
-    parse_log(log_lines)
+def part2(guards: dict) -> int:
+    max_count = 0
+    max_guard = 0
+    for guard in guards:
+        counts = Counter(guards[guard])
+        max_sleep = max(counts.values())
+        if max_sleep > max_count:
+            max_count = max_sleep
+            max_guard = guard
+
+    counts = Counter(guards[max_guard])
+    for minute in counts:
+        if counts[minute] == max_count:
+            return minute * max_guard
+
+    return 0
+
+
+def parse_log(log: List[List]) -> dict:
+    current_guard = 0
+    sleep = 0
+
+    guards = defaultdict(lambda: [])
+
+    for _, action, value in log:
+        if action == GUARD:
+            current_guard = value
+        elif action == SLEEP:
+            sleep = value
+        elif action == WAKE:
+            guards[current_guard] += [d for d in range(sleep, value)]
+
+    return dict(guards)
+
+
+def main():
+    log = parse_input('input/day4.txt')
+    guards = parse_log(log)
+    print(f'Part 1: {part1(guards)}')
+    print(f'Part 2: {part2(guards)}')
 
 
 if __name__ == "__main__":
-    puzzles()
+    main()

@@ -1,85 +1,76 @@
-def get_rules():
-    rule_lines = [
-        line.strip().split(" => ") for line in open("input/day12.txt").readlines()
-    ]
-    rules = {k: v for (k, v) in rule_lines}
-    return rules
+def parse_input(filename: str) -> (str, dict):
+    lines = [line.strip() for line in open(filename).readlines()]
+    initial = lines[0][15:]
+
+    rules = {}
+    for line in lines[2:]:
+        before, after = line.split(' => ')
+        rules[before] = after
+
+    return initial, rules
 
 
-def iterate_rows(
-    initial: str, iterations: int, rules: dict, buffer_l: int, buffer_r: int, debug=True
-) -> str:
-    row = ("." * buffer_l) + initial + ("." * buffer_r)
-    for i in range(iterations):
-        if debug:
-            print(i, row)
-        next_row = ".."
-        for j in range(len(row) - 4):
-            if row[j : j + 5] in rules:
-                next_row += rules[row[j : j + 5]]
-            else:
-                next_row += "."
-        next_row += ".."
-        row = next_row
-        if debug:
-            print(get_row_sum(row))
-
-    if debug:
-        print(iterations, row)
-    return row
+def apply_rules(pots: str, rules: dict) -> str:
+    original = pots
+    for i in range(len(original) - 5):
+        if original[i: i + 5] in rules:
+            pots = pots[: i + 2] + rules[original[i: i + 5]] + pots[i + 3:]
+        else:
+            pots = pots[: i + 2] + '.' + pots[i + 3:]
+    return pots
 
 
-def get_row_sum(row):
-    sum_i = 0
-    for i in range(len(row)):
-        if row[i] == "#":
-            sum_i += i
-    return sum_i
+def part1(initial: str, rules: dict) -> int:
+    pots = ('.' * 3) + initial + ('.' * 30)
+    for i in range(20):
+        pots = apply_rules(pots, rules)
+        # print(pots)
+
+    pot_sum = 0
+    for i in range(len(pots)):
+        if pots[i] == '#':
+            pot_sum += i - 3
+    return pot_sum
 
 
-def puzzles():
-    initial_row = "#.####...##..#....#####.##.......##.#..###.#####.###.##.###.###.#...#...##.#.##.#...#..#.##..##.#.##"
-    rules = get_rules()
+def count_pots(pots: str):
+    pot_sum = 0
+    for i in range(len(pots)):
+        if pots[i] == '#':
+            pot_sum += i - 3
+    return pot_sum
 
-    # puzzle 1
-    left_buffer = 20
-    right_buffer = 40
-    row = iterate_rows(
-        initial_row, 20, rules, buffer_l=left_buffer, buffer_r=right_buffer, debug=False
-    )
-    row_sum = get_row_sum(row[left_buffer:])
-    print("20 iterations:", row_sum)
 
-    # puzzle 2
-    # visually after 71+ rows a gliding pattern emerges
-    # every row adds a sum of 72
-    left_buffer = 20
-    right_buffer = 180
-    row = iterate_rows(
-        initial_row,
-        100,
-        rules,
-        buffer_l=left_buffer,
-        buffer_r=right_buffer,
-        debug=False,
-    )
-    row_sum_100 = get_row_sum(row[left_buffer:])
-    print("100 iterations:", row_sum_100)
-    row = iterate_rows(
-        initial_row,
-        101,
-        rules,
-        buffer_l=left_buffer,
-        buffer_r=right_buffer,
-        debug=False,
-    )
-    row_sum_101 = get_row_sum(row[left_buffer:])
-    print("100 iterations:", row_sum_101)
-    print(
-        "after 50 bill:",
-        (50000000000 - 100) * (row_sum_101 - row_sum_100) + row_sum_100,
-    )
+def part2(initial: str, rules: dict) -> int:
+    # from iteration 91 and forward it just repeats
+    # moving one step forward
+
+    # calculate pots 0-90
+    pots = ('.' * 3) + initial + ('.' * 300)
+    for i in range(90):
+        pots = apply_rules(pots, rules)
+
+    # check diff between two consecutive
+    print(90, count_pots(pots), pots)
+    pots = apply_rules(pots, rules)
+    sum91 = count_pots(pots)
+    print(91, sum91, pots)
+    pots = apply_rules(pots, rules)
+    sum92 = count_pots(pots)
+    print(92, sum92, pots)
+
+    # calculate what the value would be for 50 billion
+    diff = sum92 - sum91
+    fifty_bill = (50000000000 - 91) * diff + sum91
+
+    return fifty_bill
+
+
+def main():
+    initial, rules = parse_input('input/day12.txt')
+    print(f'Part 1: {part1(initial, rules)}')
+    print(f'Part 2: {part2(initial, rules)}')
 
 
 if __name__ == "__main__":
-    puzzles()
+    main()

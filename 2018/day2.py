@@ -1,66 +1,50 @@
-def has_one_difference(string1, string2):
-    num_chars = len(string1)
-
-    diffs = 0
-    for i in range(0, num_chars):
-        if string1[i] != string2[i]:
-            diffs += 1
-        if diffs > 1:
-            return False
-
-    return diffs == 1
+from typing import List
+from collections import Counter
 
 
-def has_double(the_input):
-    alphabet = "abcdefghijklmnopqrstuvwxyz"
-    for c in alphabet:
-        if the_input.count(c) == 2:
-            return True
-    return False
+def parse_input(filename: str) -> List[str]:
+    return [line.strip() for line in open(filename).readlines()]
 
 
-def has_triple(the_input):
-    alphabet = "abcdefghijklmnopqrstuvwxyz"
-    for c in alphabet:
-        if the_input.count(c) == 3:
-            return True
-    return False
+def part1(box_ids: List[str]) -> int:
+    two_counts = 0
+    three_counts = 0
+
+    for box_id in box_ids:
+        counts = Counter(box_id)
+        if 2 in counts.values():
+            two_counts += 1
+        if 3 in counts.values():
+            three_counts += 1
+    return two_counts * three_counts
 
 
-def puzzle1():
-    doubles = 0
-    triples = 0
-    with open("input/day2.txt") as f:
-        for line in f:
-            if has_double(line):
-                doubles += 1
-            if has_triple(line):
-                triples += 1
-    print("checksum:", doubles * triples)
+def diff_by_one(str1: str, str2: str) -> str:
+    result = ''
+    for i in range(len(str1)):
+        if str1[i] != str2[i]:
+            if result != '':
+                return ''
+            result = str1[:i] + str1[i + 1:]
+    return result
 
 
-def common(string1, string2):
-    common_letters = ""
-    for i in range(len(string1)):
-        common_letters += string1[i] if string1[i] == string2[i] else ""
-    return common_letters
+def part2(box_ids: List[str]) -> str:
+    for box_id in box_ids:
+        for other in box_ids:
+            if other == box_id:
+                continue
+            result = diff_by_one(box_id, other)
+            if result != '':
+                return result
+    return ''
 
 
-def puzzle2():
-    words = []
-    with open("input/day2.txt") as f:
-        for line in f:
-            words.append(line)
-
-    num_words = len(words)
-    for i in range(num_words):
-        for j in range(i + 1, num_words):
-            result = has_one_difference(words[i], words[j])
-            if result:
-                print("common:", common(words[i], words[j]))
-                return
+def main():
+    box_ids = parse_input('input/day2.txt')
+    print(f'Part 1: {part1(box_ids)}')
+    print(f'Part 2: {part2(box_ids)}')
 
 
 if __name__ == "__main__":
-    puzzle1()
-    puzzle2()
+    main()
