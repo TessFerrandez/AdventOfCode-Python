@@ -120,6 +120,8 @@ Code for www.adventofcode.com in Python.
 
 **[Day 18](2018/day18.py)** - Settlers of The North Pole -- Morph the earth based on adjacent squares - part II repeating pattern
 
+**[Day 19](2018/day19.py)** - Go With The Flow -- Reverse engineering op code - find divisors
+
 ## 2017
 
 **[Day 1](2017/day1.py)** - Captcha -- Sum if same as next
