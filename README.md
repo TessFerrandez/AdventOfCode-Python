@@ -118,7 +118,7 @@ Code for www.adventofcode.com in Python.
 
 **[Day 17](2018/day17.py)** - Resevoir Research -- Water flow (with pygame animations)
 
-**[Day 18-1](2018/day18.py)** - Settlers of The North Pole -- Morph the earth based on adjacent squares **(PART 2 INCOMPLETE)**
+**[Day 18](2018/day18.py)** - Settlers of The North Pole -- Morph the earth based on adjacent squares - part II repeating pattern
 
 ## 2017
 

@@ -1,38 +1,52 @@
-def puzzle1(puzzle_input: str) -> str:
-    scores = "37"
-    pos1 = 0
-    pos2 = 1
-
-    for i in range(int(puzzle_input) + 10):
-        score = str(int(scores[pos1]) + int(scores[pos2]))
-        scores += score
-        score_len = len(scores)
-        pos1 = (pos1 + 1 + int(scores[pos1])) % score_len
-        pos2 = (pos2 + 1 + int(scores[pos2])) % score_len
-    return scores[int(puzzle_input) : int(puzzle_input) + 10]
+from progressbar import ProgressBar
 
 
-def puzzle2(puzzle_input: str) -> int:
-    scores = "37"
-    pos1 = 0
-    pos2 = 1
+def part1(puzzle_input: int) -> str:
+    recipes = [3, 7]
+    elf1, elf2 = 0, 1
 
-    puzzle_len = len(puzzle_input) + 1
-    while puzzle_input not in scores[-puzzle_len:]:
-        score = str(int(scores[pos1]) + int(scores[pos2]))
-        scores += score
-        score_len = len(scores)
-        pos1 = (pos1 + 1 + int(scores[pos1])) % score_len
-        pos2 = (pos2 + 1 + int(scores[pos2])) % score_len
-    return scores.index(puzzle_input)
+    while len(recipes) < (puzzle_input + 10):
+        recipe_sum = recipes[elf1] + recipes[elf2]
+        tens = recipe_sum // 10
+        ones = recipe_sum % 10
+        if tens > 0:
+            recipes.append(tens)
+        recipes.append(ones)
+        elf1 = (elf1 + recipes[elf1] + 1) % len(recipes)
+        elf2 = (elf2 + recipes[elf2] + 1) % len(recipes)
+    return ''.join([str(d) for d in recipes[puzzle_input: puzzle_input + 10]])
+
+
+def part2(puzzle_input: str) -> int:
+    puzzle_input_len = len(puzzle_input)
+
+    recipes = [3, 7]
+    elf1, elf2 = 0, 1
+
+    i = 0
+    with ProgressBar() as p:
+        while puzzle_input not in ''.join(str(d) for d in recipes[-(puzzle_input_len + 1):]):
+            recipe_sum = recipes[elf1] + recipes[elf2]
+            tens = recipe_sum // 10
+            ones = recipe_sum % 10
+            if tens > 0:
+                recipes.append(tens)
+            recipes.append(ones)
+            elf1 = (elf1 + recipes[elf1] + 1) % len(recipes)
+            elf2 = (elf2 + recipes[elf2] + 1) % len(recipes)
+            i += 1
+            p.update(i)
+    if ''.join(str(d) for d in recipes[-puzzle_input_len:]) == puzzle_input:
+        return len(recipes) - puzzle_input_len
+    else:
+        return len(recipes) - puzzle_input_len - 1
 
 
 def main():
-    puzzle_input = "320851"
-    puzzle1_result = puzzle1(puzzle_input)
-    print(f"Puzzle 1: {puzzle1_result}")
-    puzzle2_result = puzzle2(puzzle_input)
-    print(f"Puzzle 2: {puzzle2_result}")
+    puzzle_input = 320851
+    print(f'Part 1: {part1(puzzle_input)}')
+    puzzle_input = '320851'
+    print(f'Part 2: {part2(puzzle_input)}')
 
 
 if __name__ == "__main__":

@@ -70,8 +70,8 @@ def puzzle1(grid: np.array, minutes: int) -> int:
 def main():
     grid = parse_input("input/day18.txt")
     puzzle1_result = puzzle1(grid, 10)
-    print(f"Puzzle 1: {puzzle1_result}")
-    print("Puzzle 2: Takes an unreasonable long time - have to get back to this")
+    print(f"Part 1: {puzzle1_result}")
+    print("Part 2: Takes an unreasonable long time - have to get back to this")
 
 
 if __name__ == "__main__":

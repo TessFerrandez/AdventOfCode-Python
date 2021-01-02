@@ -163,8 +163,8 @@ def main():
 
         pygame.quit()
 
-    print(f"Puzzle 1: {np.sum(grid[min_y: max_y + 1, :] >= 2)}")
-    print(f"Puzzle 2: {np.sum(grid[min_y: max_y + 1, :] >= 3)}")
+    print(f"Part 1: {np.sum(grid[min_y: max_y + 1, :] >= 2)}")
+    print(f"Part 2: {np.sum(grid[min_y: max_y + 1, :] >= 3)}")
 
 
 if __name__ == "__main__":
