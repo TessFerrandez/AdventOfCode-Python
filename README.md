@@ -122,6 +122,14 @@ Code for www.adventofcode.com in Python.
 
 **[Day 19](2018/day19.py)** - Go With The Flow -- Reverse engineering op code - find divisors
 
+**[Day 20](2018/day20.py)** - A Regular Map -- Regular expression paths - find shortest path
+
+**[Day 21](2018/day21.py)** - Chronal Conversion -- Reverse engineer op code - optimize
+
+**[Day 22](2018/day22.py)** - Mode Maze -- Maze with different areas and tools - dijkstra's algorithm
+
+**[Day 23](2018/day23.py)** - Experimental Emergency Teleportation -- Range in 3D space - PART II is incomplete
+
 ## 2017
 
 **[Day 1](2017/day1.py)** - Captcha -- Sum if same as next
