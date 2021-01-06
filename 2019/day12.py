@@ -1,122 +1,126 @@
-import re
+from common.helpers import extract_numbers
+from typing import List
+
+NUM_MOONS = 4
+NUM_DIMS = 3
 
 
-def get_prime_factors(n):
-    i = 2
-    factors = []
-    while i * i <= n:
-        if n % i:
-            i += 1
-        else:
-            n //= i
-            factors.append(i)
-    if n > 1:
-        factors.append(n)
-    return factors
+def parse_input(filename: str) -> List[List[int]]:
+    return [extract_numbers(line.strip()) for line in open(filename).readlines()]
 
 
-def calculate_lcm(steps):
-    primes_per_dimension = [get_prime_factors(step) for step in steps]
-    all_primes = set([prime for primes in primes_per_dimension for prime in primes])
-
-    lcm = 1
-    for prime in all_primes:
-        amount = max(primes_per_dimension[dim].count(prime) for dim in range(3))
-        lcm *= prime ** amount
-    return lcm
-
-
-def calc_abs_sum(numbers):
-    return sum(abs(number) for number in numbers)
+def apply_gravity(moons: List[List[int]], velocities: List[List[int]]):
+    for m1 in range(NUM_MOONS):
+        for m2 in range(m1 + 1, NUM_MOONS):
+            for dim in range(NUM_DIMS):
+                if moons[m1][dim] > moons[m2][dim]:
+                    velocities[m1][dim] -= 1
+                    velocities[m2][dim] += 1
+                if moons[m1][dim] < moons[m2][dim]:
+                    velocities[m1][dim] += 1
+                    velocities[m2][dim] -= 1
 
 
-def apply_gravity(planets, velocities):
-    for p1 in range(3):
-        for p2 in range(p1 + 1, 4):
-            for axis in range(3):
-                if planets[p1][axis] > planets[p2][axis]:
-                    velocities[p1][axis] -= 1
-                    velocities[p2][axis] += 1
-                elif planets[p1][axis] < planets[p2][axis]:
-                    velocities[p1][axis] += 1
-                    velocities[p2][axis] -= 1
+def apply_velocity(moons: List[List[int]], velocities: List[List[int]]):
+    for m in range(NUM_MOONS):
+        for dim in range(NUM_DIMS):
+            moons[m][dim] += velocities[m][dim]
 
 
-def apply_gravity_per_dim(planets, velocities):
-    for p1 in range(3):
-        for p2 in range(p1 + 1, 4):
-            if planets[p1] > planets[p2]:
-                velocities[p1] -= 1
-                velocities[p2] += 1
-            elif planets[p1] < planets[p2]:
-                velocities[p1] += 1
-                velocities[p2] -= 1
+def calculate_energy(moons: List[List[int]], velocities: List[List[int]]) -> int:
+    energy = 0
+    for i in range(NUM_MOONS):
+        pot = sum(abs(d) for d in moons[i])
+        kin = sum(abs(d) for d in velocities[i])
+        total = pot * kin
+        energy += total
+    return energy
 
 
-def apply_velocity(planets, velocities):
-    for p in range(4):
-        for axis in range(3):
-            planets[p][axis] += velocities[p][axis]
+def part1(moons: List[List[int]]) -> int:
+    velocities = [[0, 0, 0] for _ in range(NUM_MOONS)]
+
+    for k in range(1000):
+        apply_gravity(moons, velocities)
+        apply_velocity(moons, velocities)
+
+    return calculate_energy(moons, velocities)
 
 
-def apply_velocity_per_dim(planets, velocities):
-    for p in range(4):
-        planets[p] += velocities[p]
+def apply_gravity_by_dim(moons: List[int], velocities: List[int]):
+    for m1 in range(NUM_MOONS):
+        for m2 in range(m1 + 1, NUM_MOONS):
+            if moons[m1] > moons[m2]:
+                velocities[m1] -= 1
+                velocities[m2] += 1
+            elif moons[m1] < moons[m2]:
+                velocities[m1] += 1
+                velocities[m2] -= 1
 
 
-def matches_start_state(planets, velocities, p_dim, v_dim, dim):
-    for i in range(4):
-        if planets[i][dim] != p_dim[i] or velocities[i][dim] != v_dim[i]:
+def apply_velocity_by_dim(moons: List[int], velocities: List[int]):
+    for moon in range(NUM_MOONS):
+        moons[moon] += velocities[moon]
+
+
+def matches_start_state(moons: List[List[int]], velocities: List[List[int]], moon_dims: List[int], velocities_dims: List[int], dim: int) -> bool:
+    for m in range(NUM_MOONS):
+        if moons[m][dim] != moon_dims[m] or velocities[m][dim] != velocities_dims[m]:
             return False
     return True
 
 
-def calculate_energy(planets, velocities):
-    pot = [calc_abs_sum(planet) for planet in planets]
-    kin = [calc_abs_sum(velocity) for velocity in velocities]
-    return sum([p * k for p, k in list(zip(pot, kin))])
+def get_prime_factors(step: int) -> List[int]:
+    i = 2
+    factors = []
+    while i * i <= step:
+        if step % i:
+            i += 1
+        else:
+            step //= i
+            factors.append(i)
+    if step > 1:
+        factors.append(step)
+    return factors
 
 
-def puzzle1():
-    planets = [
-        [int(digit) for digit in re.findall(r"[-\d]+", line)]
-        for line in open("input/day12.txt").readlines()
-    ]
-    velocities = [[0, 0, 0] for i in range(4)]
+def calculate_lcm(steps: List[int]) -> int:
+    primes_per_dim = [get_prime_factors(step) for step in steps]
+    all_primes = set([prime for primes in primes_per_dim for prime in primes])
 
-    for _ in range(1000):
-        apply_gravity(planets, velocities)
-        apply_velocity(planets, velocities)
-
-    print("total energy:", calculate_energy(planets, velocities))
+    lcm = 1
+    for prime in all_primes:
+        amount = max(primes_per_dim[dim].count(prime) for dim in range(NUM_DIMS))
+        lcm *= prime ** amount
+    return lcm
 
 
-def puzzle2():
-    planets = [
-        [int(digit) for digit in re.findall(r"[-\d]+", line)]
-        for line in open("input/day12.txt").readlines()
-    ]
-    velocities = [[0, 0, 0] for i in range(4)]
+def part2(moons: List[List[int]]) -> int:
+    velocities = [[0, 0, 0] for _ in range(NUM_MOONS)]
     steps = [0, 0, 0]
 
     for dim in range(3):
-        planet_dims = [planet[dim] for planet in planets]
+        moon_dims = [moon[dim] for moon in moons]
         velocities_dims = [velocity[dim] for velocity in velocities]
 
         while True:
-            apply_gravity_per_dim(planet_dims, velocities_dims)
-            apply_velocity_per_dim(planet_dims, velocities_dims)
+            apply_gravity_by_dim(moon_dims, velocities_dims)
+            apply_velocity_by_dim(moon_dims, velocities_dims)
 
             steps[dim] += 1
 
-            if matches_start_state(
-                planets, velocities, planet_dims, velocities_dims, dim
-            ):
+            if matches_start_state(moons, velocities, moon_dims, velocities_dims, dim):
                 break
 
-    print("steps:", calculate_lcm(steps))
+    return calculate_lcm(steps)
+
+
+def main():
+    moons = parse_input('input/day12.txt')
+    print(f'Part 1: {part1(moons)}')
+    moons = parse_input('input/day12.txt')
+    print(f'Part 2: {part2(moons)}')
 
 
 if __name__ == "__main__":
-    puzzle1()
-    puzzle2()
+    main()

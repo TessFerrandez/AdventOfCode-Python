@@ -1,24 +1,40 @@
-"""
-IntCode computer - Part II
-"""
-from IntCode import IntCode, OutputInterrupt
+from typing import List
+from Computer import Computer, OutputInterrupt
 
 
-def get_last_output(input_number):
-    computer = IntCode(open("input/day5.txt").readline())
-    computer.input_queue.append(input_number)
-    while not computer.done:
+def parse_input(filename: str) -> List[int]:
+    return [int(d) for d in open(filename).read().strip().split(',')]
+
+
+def part1(code: List[int], input_value: int) -> int:
+    computer = Computer(code)
+    computer.inputs.append(input_value)
+    while True:
         try:
             computer.run()
         except OutputInterrupt:
-            diagnostics = computer.output_queue[-1]
-    print("diagnostics:", diagnostics)
+            output = computer.outputs[-1]
+            if output != 0:
+                return output
 
 
-def puzzle1and2():
-    get_last_output(1)
-    get_last_output(5)
+def part2(code: List[int], input_value: int) -> int:
+    computer = Computer(code)
+    computer.inputs.append(input_value)
+    while True:
+        try:
+            computer.run()
+        except OutputInterrupt:
+            output = computer.outputs[-1]
+            return output
+
+
+def main():
+    code = parse_input('input/day5.txt')
+    print(f'Part 1: {part1(code, 1)}')
+    code = parse_input('input/day5.txt')
+    print(f'Part 2: {part2(code, 5)}')
 
 
 if __name__ == "__main__":
-    puzzle1and2()
+    main()

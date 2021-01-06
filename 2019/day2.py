@@ -1,38 +1,44 @@
-"""
-Create an IntCode compiler
-"""
+from typing import List
+from copy import copy
+from Computer import Computer
 
 
-from IntCode import IntCode
+def parse_input(filename: str) -> List[int]:
+    return [int(d) for d in open(filename).read().strip().split(',')]
 
 
-def calculate_output(program_string, noun, verb):
-    program = list(map(str, program_string.split(",")))
-    program[1] = noun
-    program[2] = verb
-    program = ",".join(x for x in program)
-    computer = IntCode(program)
+def part1(code: List[int]) -> int:
+    code[1] = 12
+    code[2] = 2
+
+    computer = Computer(code)
     computer.run()
-    return computer.memory[0]
+
+    return computer.code[0]
 
 
-def puzzle1():
-    program_string = open("input/day2.txt").readline()
-    result = calculate_output(program_string, "12", "2")
-    print("result for 1202:", result)
-
-
-def puzzle2():
-    program_string = open("input/day2.txt").readline()
+def part2(code: List[int]) -> int:
+    original = copy(code)
 
     for noun in range(100):
         for verb in range(100):
-            result = calculate_output(program_string, str(noun), str(verb))
+            code = copy(original)
+            code[1] = noun
+            code[2] = verb
+            computer = Computer(code)
+            computer.run()
+            result = computer.code[0]
             if result == 19690720:
-                print(str(noun) + str(verb), "produced 19690720")
-                return
+                return 100 * noun + verb
+    return 0
+
+
+def main():
+    code = parse_input('input/day2.txt')
+    print(f'Part 1: {part1(code)}')
+    code = parse_input('input/day2.txt')
+    print(f'Part 2: {part2(code)}')
 
 
 if __name__ == "__main__":
-    puzzle1()
-    puzzle2()
+    main()

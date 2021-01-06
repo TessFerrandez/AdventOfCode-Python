@@ -1,58 +1,55 @@
-"""
-Validating passwords
-"""
+from collections import Counter
 
 
-def always_increases(password):
-    last = 0
-    for digit in password:
-        if digit < last:
-            return False
-        last = digit
-    return True
-
-
-def has_double_or_more(password):
-    last = 0
-    for digit in password:
-        if last == digit:
-            return True
-        last = digit
-    return False
-
-
-def has_double(password):
-    for i in range(1, 10):
-        if password.count(i) == 2:
+def has_2_or_more_matching(pw_str: str) -> bool:
+    for i in range(5):
+        if pw_str[i] == pw_str[i + 1]:
             return True
     return False
 
 
-def is_good_password(password):
-    digits = [int(d) for d in str(password)]
-    return always_increases(digits) and has_double_or_more(digits)
+def has_exactly_2_matching(pw_str: str) -> bool:
+    counts = Counter(pw_str)
+    for i in counts:
+        if counts[i] == 2:
+            return True
+    return False
 
 
-def is_good_password_v2(password):
-    digits = [int(d) for d in str(password)]
-    return always_increases(digits) and has_double(digits)
+def part1(range_from: int, range_to: int) -> int:
+    num_passwords = 0
+
+    for password in range(range_from, range_to + 1):
+        pw_str = str(password)
+        if not pw_str == ''.join(sorted(pw_str)):
+            continue
+        if not has_2_or_more_matching(pw_str):
+            continue
+        num_passwords += 1
+
+    return num_passwords
 
 
-def puzzle1():
-    total_good = sum(
-        int(is_good_password(potential_pwd)) for potential_pwd in range(124075, 580770)
-    )
-    print(total_good, "good passwords")
+def part2(range_from: int, range_to: int) -> int:
+    num_passwords = 0
+
+    for password in range(range_from, range_to + 1):
+        pw_str = str(password)
+        if not pw_str == ''.join(sorted(pw_str)):
+            continue
+        if not has_exactly_2_matching(pw_str):
+            continue
+        num_passwords += 1
+
+    return num_passwords
 
 
-def puzzle2():
-    total_good = sum(
-        int(is_good_password_v2(potential_pwd))
-        for potential_pwd in range(124075, 580770)
-    )
-    print(total_good, "good passwords")
+def main():
+    range_from = 124075
+    range_to = 580769
+    print(f'Part 1: {part1(range_from, range_to)}')
+    print(f'Part 2: {part2(range_from, range_to)}')
 
 
 if __name__ == "__main__":
-    puzzle1()
-    puzzle2()
+    main()

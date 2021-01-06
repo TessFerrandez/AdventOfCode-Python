@@ -1,30 +1,34 @@
-"""
-Calculate the fuel needed for the santa rocket
-"""
+from typing import List
 
 
-def calculate_fuel(mass):
-    return int(mass) // 3 - 2
+def parse_input(filename: str) -> List[int]:
+    return [int(d.strip()) for d in open(filename).readlines()]
 
 
-def calculate_fuel_v2(mass):
-    fuel = calculate_fuel(mass)
-    if fuel <= 0:
-        return 0
-    fuel += calculate_fuel_v2(fuel)
-    return fuel
+def part1(modules: List[int]) -> int:
+    return sum(module // 3 - 2 for module in modules)
 
 
-def puzzle1():
-    total_fuel = sum(calculate_fuel(mass) for mass in open("input/day1.txt"))
-    print("total fuel (v1): ", total_fuel)
+def get_fuel_needed(module: int) -> int:
+    total_fuel = 0
+
+    remaining_fuel = module // 3 - 2
+    while remaining_fuel > 0:
+        total_fuel += remaining_fuel
+        remaining_fuel = remaining_fuel // 3 - 2
+
+    return total_fuel
 
 
-def puzzle2():
-    total_fuel = sum(calculate_fuel_v2(mass) for mass in open("input/day1.txt"))
-    print("total fuel (v2): ", total_fuel)
+def part2(modules: List[int]) -> int:
+    return sum(get_fuel_needed(module) for module in modules)
+
+
+def main():
+    modules = parse_input('input/day1.txt')
+    print(f'Part 1: {part1(modules)}')
+    print(f'Part 2: {part2(modules)}')
 
 
 if __name__ == "__main__":
-    puzzle1()
-    puzzle2()
+    main()

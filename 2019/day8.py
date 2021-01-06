@@ -1,51 +1,54 @@
 import numpy as np
-from collections import Counter
 import matplotlib.pyplot as plt
 
 
-def checksum(encoded_image, width, height):
-    img = np.array(list(encoded_image))
-    img = np.reshape(img, (-1, width * height))
-
-    best_layer = -1
-    min_zero = 10000
-    layer_index = 0
-    for layer in img:
-        num_zeros = Counter(layer)["0"]
-        if num_zeros < min_zero:
-            min_zero = num_zeros
-            best_layer = layer_index
-        layer_index += 1
-
-    counters = Counter(img[best_layer])
-    return counters["1"] * counters["2"]
+def parse_input(filename: str) -> str:
+    return open(filename).read().strip()
 
 
-def decode(encoded_image, width, height):
-    img = np.array(list(encoded_image))
-    img = np.reshape(img, (-1, height, width))
+def part1(data: str) -> int:
+    num_layers = len(data) // 150
 
-    new_img = np.full((height, width), 2)
-    for layer in img:
-        for x in range(0, width):
-            for y in range(0, height):
-                if new_img[y][x] == 2:
-                    if layer[y][x] == "0":
-                        new_img[y][x] = 1
-                    elif layer[y][x] == "1":
-                        new_img[y][x] = 0
-    plt.imshow(new_img)
+    fewest_zeros = float('inf')
+    best_layer = ''
+
+    for i in range(num_layers):
+        layer = data[i * 150: (i + 1) * 150]
+        num_zeros = layer.count('0')
+        if num_zeros < fewest_zeros:
+            fewest_zeros = num_zeros
+            best_layer = layer
+
+    return best_layer.count('1') * best_layer.count('2')
+
+
+def part2(data: str) -> int:
+    num_layers = len(data) // 150
+    layers = [data[i * 150: (i + 1) * 150] for i in range(num_layers)]
+
+    image = np.zeros((6, 25))
+
+    pixel = -1
+    for y in range(6):
+        for x in range(25):
+            pixel += 1
+            for layer in layers:
+                if layer[pixel] == '0':
+                    break
+                if layer[pixel] == '1':
+                    image[y][x] = 255
+                    break
+
+    plt.imshow(image)
     plt.show()
+    return 0
 
 
-def puzzle1():
-    print("checksum:", checksum(open("input/day8.txt").read(), 25, 6))
-
-
-def puzzle2():
-    decode(open("input/day8.txt").read(), 25, 6)
+def main():
+    data = parse_input('input/day8.txt')
+    print(f'Part 1: {part1(data)}')
+    print(f'Part 2: {part2(data)}')
 
 
 if __name__ == "__main__":
-    puzzle1()
-    puzzle2()
+    main()

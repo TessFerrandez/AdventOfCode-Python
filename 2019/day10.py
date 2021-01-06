@@ -1,113 +1,86 @@
-import numpy as np
+import pytest
+from typing import List, Tuple
+from math import atan2, degrees
+from collections import defaultdict, OrderedDict
 
 
-asteroids = []
+@pytest.mark.parametrize('filename, expected',
+                         [
+                             ('input/day10_test1.txt', 8),
+                             ('input/day10_test2.txt', 33),
+                         ])
+def test_part1(filename: str, expected: int):
+    data = parse_input(filename)
+    assert part1(data) == expected
 
 
-def find_asteroids():
-    lines = open("input/day10.txt").readlines()
-    row = 0
-    for line in lines:
-        col = 0
-        for char in line:
-            if char == "#":
-                asteroids.append((col, row))
-            col += 1
-        row += 1
+def parse_input(filename: str) -> List[Tuple]:
+    asteroids = []
+    lines = [line.strip() for line in open(filename).readlines()]
+    for y, line in enumerate(lines):
+        for x, ch in enumerate(line):
+            if ch == '#':
+                asteroids.append((x, y))
+    return asteroids
 
 
-def angle_between(u, v):
-    dot = u[0] * v[0] + u[1] * v[1]
-    det = u[0] * v[1] - u[1] * v[0]
-    angle = np.arctan2(det, dot)
-    return angle
+def angle_between(p1, p2):
+    x_diff = p2[0] - p1[0]
+    y_diff = p2[1] - p1[1]
+    return degrees(atan2(y_diff, x_diff))
 
 
-def get_direction_and_distance(asteroid_from, asteroid_to):
-    north = (0, 1)
-    vector_to_asteroid = (
-        asteroid_to[0] - asteroid_from[0],
-        asteroid_to[1] - asteroid_from[1],
-    )
-
-    distance = abs(vector_to_asteroid[0]) + abs(vector_to_asteroid[1])
-
-    direction = np.degrees(angle_between(north, vector_to_asteroid))
-    direction = direction - 180.0
-    if direction < 0:
-        direction += 360.0
-
-    return direction, distance
-
-
-def find_best_asteroid():
-    max_asteroids_seen = 0
+def part1(asteroids: List[Tuple]) -> (int, Tuple[int, int]):
+    max_seen = 0
     best_asteroid = (0, 0)
 
-    for asteroid_source in asteroids:
-        directions = dict()
-        for asteroid_target in asteroids:
-            if asteroid_source == asteroid_target:
-                continue
-            direction, distance = get_direction_and_distance(
-                asteroid_source, asteroid_target
-            )
-            if direction not in directions.keys():
-                directions[direction] = True
-
-        asteroids_seen = len(directions)
-        if asteroids_seen > max_asteroids_seen:
-            max_asteroids_seen = asteroids_seen
-            best_asteroid = asteroid_source
-
-    return best_asteroid, max_asteroids_seen
+    for a1 in asteroids:
+        seen = set(angle_between(a1, a2) for a2 in asteroids if a1 != a2)
+        if len(seen) > max_seen:
+            max_seen = len(seen)
+            best_asteroid = a1
+    return max_seen, best_asteroid
 
 
-def get_sorted_directions(asteroid_source):
-    directions = dict()
+def part2(asteroids: List[Tuple], outpost: Tuple[int, int]) -> int:
+    angles = defaultdict(lambda: [])
+    ox, oy = outpost
+
+    # get all asteroids - grouped by angle we see them at
     for asteroid in asteroids:
-        if asteroid == asteroid_source:
-            continue
-        angle, distance = get_direction_and_distance(asteroid_source, asteroid)
-        if angle in directions:
-            directions[angle].append((distance, asteroid))
-        else:
-            directions[angle] = [(distance, asteroid)]
+        if asteroid != outpost:
+            angles[(angle_between(asteroid, outpost) - 90 + 360) % 360].append(asteroid)
 
-    directions = [[k, v] for k, v in directions.items()]
-    for direction in directions:
-        direction[1].sort()
-    directions.sort()
-    return directions
+    # sort the asteroids for each angle based on how far they are from the outpost
+    for angle in angles:
+        angles[angle] = list(sorted(angles[angle], key=lambda a: abs(a[0] - ox) + abs(a[1] - oy)))
 
+    # get the possible angles we rotate between
+    possible_angles = list(sorted(angles.keys()))
+    num_possible = len(possible_angles)
 
-def nth_vaporized(asteroid_source, nth=200):
-    directions = get_sorted_directions(asteroid_source)
+    angle_index = 0
+    for i in range(1, 201):
+        # find the next angle with asteroids left
+        while not angles[possible_angles[angle_index]]:
+            angle_index = (angle_index + 1) % num_possible
 
-    n = 0
-    vapor_index = 0
-    vaporized = 0, (0, 0)
-    while vapor_index < nth and len(directions) > 0:
-        vapor_index += 1
-        index = n % len(directions)
-        direction = directions[index]
-        targeted_asteroids = direction[1]
-        vaporized = targeted_asteroids.pop(0)
-        if len(targeted_asteroids) == 0:
-            directions.remove(direction)
-        else:
-            n += 1
+        # vaporize the closest asteroid
+        vaporized = angles[possible_angles[angle_index]].pop(0)
+        if i == 200:
+            return vaporized[0] * 100 + vaporized[1]
 
-    return vaporized[1]
+        # move to the next angle
+        angle_index = (angle_index + 1) % num_possible
+    return 0
 
 
-def puzzles():
-    find_asteroids()
-    asteroid, number_seen = find_best_asteroid()
-    print("best asteroid is", asteroid, "where you can see", number_seen)
-    asteroid = nth_vaporized(asteroid, 200)
-    print("200th vaporized:", asteroid[0] * 100 + asteroid[1])
+def main():
+    asteroids = parse_input('input/day10.txt')
+    max_seen, best_asteroid = part1(asteroids)
+    print(f'Part 1: {max_seen}')
+    print(f'Part 2: {part2(asteroids, best_asteroid)}')
 
 
 if __name__ == "__main__":
-    puzzles()
+    main()
