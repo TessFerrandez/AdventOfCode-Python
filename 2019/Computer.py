@@ -27,7 +27,7 @@ class OutputInterrupt(Exception):
 
 class Computer:
     def __init__(self, code: List[int]):
-        self.code = code + [0] * 1000
+        self.code = code + [0] * 10000
         self.ip = 0
         self.relative = 0
         self.max_ip = len(code)

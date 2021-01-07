@@ -84,6 +84,13 @@ Code for www.adventofcode.com in Python.
 
 **[Day 14](2019/day14.py)** - Space Stoichiometry -- Create FUEL from ORE
 
+**[Day 15](2019/day15.py)** - Oxygen System -- IntCode VII -- Maze
+
+**[Day 16](2019/day16.py)** - Flawed Frequency Transmission -- Binomial code - crazy hard
+
+**[Day 17](2019/day17.py)** - Set and Forget -- IntCode VIII - vacuum cleaner
+
+
 ## 2018
 
 **[Day 1](2018/day1.py)** - Chronal Calibration -- Frequency changes
