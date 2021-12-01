@@ -1,6 +1,10 @@
 # AdventOfCode-Python
 
-Code for www.adventofcode.com in Python.
+Code for [www.adventofcode.com](www.adventofcode.com) in Python.
+
+## 2021
+
+**Day 1 [p1](2020/day1-1.py) [p2](2020/day1-2.py)** - Sonar Sweep -- Increasing numbers
 
 ## 2020
 
@@ -90,6 +94,9 @@ Code for www.adventofcode.com in Python.
 
 **[Day 17](2019/day17.py)** - Set and Forget -- IntCode VIII - vacuum cleaner
 
+**[Day 18](2019/day18.py)**
+
+**[Day 18](2019/day19.py)**
 
 ## 2018
 
