@@ -6,6 +6,8 @@ Code for [www.adventofcode.com](www.adventofcode.com) in Python.
 
 **Day 1 [p1](2020/day1-1.py) [p2](2020/day1-2.py)** - Sonar Sweep -- Increasing numbers
 
+**Day 2 [p1](2020/day2-1.py) [p2](2020/day2-2.py)** - Dive!
+
 ## 2020
 
 **[Day 1](2020/day1.py)** - Report Repair -- Find expenses adding up to 2020
