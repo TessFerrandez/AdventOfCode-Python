@@ -8,6 +8,8 @@ Code for [www.adventofcode.com](www.adventofcode.com) in Python.
 
 **Day 2 [p1](2020/day2-1.py) [p2](2020/day2-2.py)** - Dive!
 
+**Day 3 [p1](2020/day3-1.py) [p2](2020/day3-2.py)** - Binary Diagnostics!
+
 ## 2020
 
 **[Day 1](2020/day1.py)** - Report Repair -- Find expenses adding up to 2020
