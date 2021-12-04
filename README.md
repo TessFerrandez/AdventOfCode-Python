@@ -6,9 +6,11 @@ Code for [www.adventofcode.com](www.adventofcode.com) in Python.
 
 **Day 1 [p1](2020/day1-1.py) [p2](2020/day1-2.py)** - Sonar Sweep -- Increasing numbers
 
-**Day 2 [p1](2020/day2-1.py) [p2](2020/day2-2.py)** - Dive!
+**Day 2 [p1](2020/day2-1.py) [p2](2020/day2-2.py)** - Dive! -- Move submarine
 
-**Day 3 [p1](2020/day3-1.py) [p2](2020/day3-2.py)** - Binary Diagnostics!
+**Day 3 [p1](2020/day3-1.py) [p2](2020/day3-2.py)** - Binary Diagnostics! -- Most common digit
+
+**Day 4 [p1](2020/day4-1.py) [p2](2020/day4-2.py)** - Giant Squid! -- Bingo Cards
 
 ## 2020
 
