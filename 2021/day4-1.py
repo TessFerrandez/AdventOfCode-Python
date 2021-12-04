@@ -31,7 +31,7 @@ def get_numbers(lines: List[str]) -> Tuple[List[int], Dict[int, int]]:
     return numbers, call_order
 
 
-def calculate_wins(boards, numbers, call_order) -> Tuple[int, int]:
+def calculate_best_board(boards, numbers, call_order) -> Tuple[int, int]:
     wins_at = len(numbers)
     winning_board = -1
 
@@ -63,5 +63,5 @@ def calculate_board(board, wins_at, call_order):
 
 boards = get_boards(lines)
 numbers, call_order = get_numbers(lines)
-wins_at, winning_board = calculate_wins(boards, numbers, call_order)
-print(calculate_board(boards[winning_board], wins_at, call_order))
+wins_at, best_board = calculate_best_board(boards, numbers, call_order)
+print(calculate_board(boards[best_board], wins_at, call_order))
