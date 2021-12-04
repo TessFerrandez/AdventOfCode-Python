@@ -4,13 +4,13 @@ Code for [www.adventofcode.com](www.adventofcode.com) in Python.
 
 ## 2021
 
-**Day 1 [p1](2020/day1-1.py) [p2](2020/day1-2.py)** - Sonar Sweep -- Increasing numbers
+**Day 1 [p1](2021/day1-1.py) [p2](2021/day1-2.py)** - Sonar Sweep -- Increasing numbers
 
-**Day 2 [p1](2020/day2-1.py) [p2](2020/day2-2.py)** - Dive! -- Move submarine
+**Day 2 [p1](2021/day2-1.py) [p2](2021/day2-2.py)** - Dive! -- Move submarine
 
-**Day 3 [p1](2020/day3-1.py) [p2](2020/day3-2.py)** - Binary Diagnostics! -- Most common digit
+**Day 3 [p1](2021/day3-1.py) [p2](2021/day3-2.py)** - Binary Diagnostics! -- Most common digit
 
-**Day 4 [p1](2020/day4-1.py) [p2](2020/day4-2.py)** - Giant Squid! -- Bingo Cards
+**Day 4 [p1](2021/day4-1.py) [p2](2021/day4-2.py)** - Giant Squid! -- Bingo Cards
 
 ## 2020
 
