@@ -12,6 +12,8 @@ Code for [www.adventofcode.com](www.adventofcode.com) in Python.
 
 **Day 4 [p1](2021/day4-1.py) [p2](2021/day4-2.py)** - Giant Squid! -- Bingo Cards
 
+**Day 5 [p1](2021/day5-1.py) [p2](2021/day5-2.py)** - Hydrothermal Venture!
+
 ## 2020
 
 **[Day 1](2020/day1.py)** - Report Repair -- Find expenses adding up to 2020
