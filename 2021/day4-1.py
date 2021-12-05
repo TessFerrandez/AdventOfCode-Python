@@ -22,21 +22,21 @@ def get_boards(lines: List[str]) -> List[List[List[int]]]:
     return boards
 
 
-def get_numbers(lines: List[str]) -> Tuple[List[int], Dict[int, int]]:
+def get_numbers(lines: List[str]) -> Dict[int, int]:
     numbers: List[int] = [int(number) for number in lines[0].split(',')]
     call_order: Dict[int, int] = {}
     for i, number in enumerate(numbers):
         call_order[number] = i
 
-    return numbers, call_order
+    return call_order
 
 
-def calculate_best_board(boards, numbers, call_order) -> Tuple[int, int]:
-    wins_at = len(numbers)
+def calculate_best_board(boards, call_order) -> Tuple[int, int]:
+    wins_at = len(call_order.keys())
     winning_board = -1
 
     for board_i, board in enumerate(boards):
-        min_board_call = len(numbers)
+        min_board_call = len(call_order.keys())
 
         # rows
         for row in board:
@@ -62,6 +62,6 @@ def calculate_board(board, wins_at, call_order):
 
 
 boards = get_boards(lines)
-numbers, call_order = get_numbers(lines)
-wins_at, best_board = calculate_best_board(boards, numbers, call_order)
+call_order = get_numbers(lines)
+wins_at, best_board = calculate_best_board(boards, call_order)
 print(calculate_board(boards[best_board], wins_at, call_order))
