@@ -67,7 +67,7 @@ def part2(depths: dict) -> int:
 
 
 def main():
-    depths = parse_input('input/day13.txt')
+    depths = parse_input('2017/input/day13.txt')
     print(f'Part 1: {part1(depths)}')
     print(f'Part 2: {part2(depths)}')
 

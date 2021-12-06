@@ -14,6 +14,8 @@ Code for [www.adventofcode.com](www.adventofcode.com) in Python.
 
 **Day 5 [p1](2021/day5-1.py) [p2](2021/day5-2.py)** - Hydrothermal Venture!
 
+**[Day 6](2021/day6.py)** - Lanternfish -- Dynamic Programming
+
 ## 2020
 
 **[Day 1](2020/day1.py)** - Report Repair -- Find expenses adding up to 2020
@@ -104,7 +106,7 @@ Code for [www.adventofcode.com](www.adventofcode.com) in Python.
 
 **[Day 18](2019/day18.py)**
 
-**[Day 18](2019/day19.py)**
+**[Day 19](2019/day19.py)**
 
 ## 2018
 
