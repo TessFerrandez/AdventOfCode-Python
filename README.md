@@ -16,6 +16,10 @@ Code for [www.adventofcode.com](www.adventofcode.com) in Python.
 
 **[Day 6](2021/day6.py)** - Lanternfish -- Dynamic Programming
 
+**[Day 7](2021/day7.py)** - The Treachery of Whales
+
+**[Day 8](2021/day8.py)** - Seven Segment Search -- Find out what segments match
+
 ## 2020
 
 **[Day 1](2020/day1.py)** - Report Repair -- Find expenses adding up to 2020
