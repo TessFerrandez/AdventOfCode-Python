@@ -12,6 +12,9 @@ def merge(lst1, lst2):
 
 
 def get_translations(segments) -> dict:
+    """
+    Translate the segments based on rules and deductions
+    """
     lengths = defaultdict(lambda: [])
     possible = defaultdict(lambda: [])
 
@@ -60,15 +63,38 @@ def get_translations(segments) -> dict:
     return {key: value[0] for key, value in possible.items()}
 
 
+def get_translations2(segments) -> dict:
+    """
+    Translate the segments based on the frequency of the segments
+    """
+    translations = {}
+    freq_chars = {6: 'B', 4: 'E', 9: 'F'}
+
+    all_together = ''.join(segments)
+
+    frequencies = Counter(all_together)
+    one = [segment for segment in segments if len(segment) == 2][0]
+    four = [segment for segment in segments if len(segment) == 4][0]
+
+    for char in frequencies:
+        if frequencies[char] == 8:
+            translations[char] = 'C' if char in one else 'A'
+        elif frequencies[char] == 7:
+            translations[char] = 'D' if char in four else 'G'
+        else:
+            translations[char] = freq_chars[frequencies[char]]
+
+    return translations
+
+
 def translate(entry):
-    segments = entry[0]
-    translations = get_translations(segments)
-    number_strings = entry[1]
+    segments, number_strings = entry
+
+    translations = get_translations2(segments)
+
     number = ''
     for number_string in number_strings:
-        translated = ''
-        for char in number_string:
-            translated += translations[char]
+        translated = ''.join(translations[char] for char in number_string)
         number += number_of[''.join(sorted(translated))]
     return(int(number))
 
