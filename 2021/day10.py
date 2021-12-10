@@ -1,10 +1,10 @@
 from typing import List
+from functools import reduce
 
 
 sub_systems = [line.strip() for line in open('2021//input//day10.txt', 'r').readlines()]
 matching = {"(": ")", "[": "]", "{": "}", "<": ">"}
 score = {")": 3, "]": 57, "}": 1197, ">": 25137}
-missing_score = {")": 1, "]": 2, "}": 3, ">": 4}
 
 
 def find_illegal_chars(sub_system: str) -> str:
@@ -33,10 +33,8 @@ def get_missing_chars(sub_system: str) -> str:
 
 
 def calculate_missing_score(missing: str) -> int:
-    score = 0
-    for ch in missing:
-        score = score * 5 + missing_score[ch]
-    return score
+    ch_scores = {")": 1, "]": 2, "}": 3, ">": 4}
+    return reduce(lambda score, ch_score: score * 5 + ch_score, [ch_scores[ch] for ch in missing])
 
 
 def get_middle_missing_score(sub_systems: List[str]) -> int:
