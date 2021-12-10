@@ -20,6 +20,10 @@ Code for [www.adventofcode.com](www.adventofcode.com) in Python.
 
 **[Day 8](2021/day8.py)** - Seven Segment Search -- Find out what segments match
 
+**[Day 9](2021/day9.py)** - Smoke Basin -- Region coloring
+
+**[Day 10](2021/day10.py)** - Syntax Scoring -- Compiler matching
+
 ## 2020
 
 **[Day 1](2020/day1.py)** - Report Repair -- Find expenses adding up to 2020
