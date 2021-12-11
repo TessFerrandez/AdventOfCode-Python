@@ -24,7 +24,7 @@ Code for [www.adventofcode.com](www.adventofcode.com) in Python.
 
 **[Day 10](2021/day10.py)** - Syntax Scoring -- Compiler matching
 
-**[Day 11](2021/day11.py) and [Day 11 Minimal](2021/day11-minimal.py)** - Dumbo Octopus -- Grid flashing
+**[Day 11](2021/day11-dictionary.py) and [Day 11 with Numpy](2021/day11-numpy.py)** - Dumbo Octopus -- Grid flashing
 
 ## 2020
 
