@@ -180,7 +180,7 @@ Code for [www.adventofcode.com](www.adventofcode.com) in Python.
 
 **[Day 8](2017/day8.py)** - I Heard You Like Registers -- Execute jumps
 
-**[Day 9](2017/day9.py)** - Stream Processing -- <garbage> {group}
+**[Day 9](2017/day9.py)** - Stream Processing -- `<garbage>` {group}
 
 **[Day 10](2017/day10.py)** - Knot Hash -- Elves hashing function
 
