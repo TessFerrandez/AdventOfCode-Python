@@ -26,6 +26,8 @@ Code for [www.adventofcode.com](www.adventofcode.com) in Python.
 
 **[Day 11](2021/day11-dictionary.py) and [Day 11 with Numpy](2021/day11-numpy.py)** - Dumbo Octopus -- Grid flashing
 
+**[Day 12](2021/day12.py)** - Passage Pathing -- Find all paths
+
 ## 2020
 
 **[Day 1](2020/day1.py)** - Report Repair -- Find expenses adding up to 2020
