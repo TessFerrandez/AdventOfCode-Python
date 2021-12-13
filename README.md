@@ -28,6 +28,8 @@ Code for [www.adventofcode.com](www.adventofcode.com) in Python.
 
 **[Day 12](2021/day12.py) and [Superfast DFS with memoization](2021/day12-memo.py)** - Passage Pathing -- Find all paths
 
+**[Day 13](2021/day13.py)** - Transparent Origami -- Fold Grid
+
 ## 2020
 
 **[Day 1](2020/day1.py)** - Report Repair -- Find expenses adding up to 2020
