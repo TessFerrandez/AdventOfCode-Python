@@ -3,21 +3,10 @@ import matplotlib.pyplot as plt
 
 
 def parse_input():
-    points, folds = [], []
-    max_x, max_y = 0, 0
-
-    lines = [line.strip() for line in open('2021//input//day13.txt').readlines()]
-
-    for line in lines:
-        if ',' in line:
-            sx, sy = line.split(',')
-            max_x = max(max_x, int(sx))
-            max_y = max(max_y, int(sy))
-            points.append((int(sx), int(sy)))
-        if '=' in line:
-            axis = line.split('=')[0][-1]
-            value = int(line.split('=')[1])
-            folds.append((axis, value))
+    point_section, fold_section = open('2021//input//day13.txt').read().split('\n\n')
+    points = [list(map(int, line.split(','))) for line in point_section.split('\n')]
+    max_x, max_y = max(p[0] for p in points), max(p[1] for p in points)
+    folds = [(line.split('=')[0][-1], int(line.split('=')[1])) for line in fold_section.strip().split('\n')]
 
     paper = np.zeros((max_y + 1, max_x + 1))
     for point in points:
@@ -26,12 +15,11 @@ def parse_input():
     return paper, folds
 
 
-def fold_paper(paper, axis, value):
+def fold_paper(paper: np.ndarray, axis: str, value: int) -> np.ndarray:
     if axis == 'x':
-        folded_paper = paper[:, :value] + paper[:, :-value - 1:-1]
-    elif axis == 'y':
-        folded_paper = paper[:value, :] + paper[:-value - 1:-1, :]
-    return folded_paper
+        return paper[:, :value] + paper[:, :-value - 1:-1]
+    else:
+        return paper[:value, :] + paper[:-value - 1:-1, :]
 
 
 paper, folds = parse_input()
