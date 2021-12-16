@@ -16,18 +16,18 @@ def get_least_risk(risks, width, height):
     """
     Dynamic programming solution to find the least risk path.
     Assumes you will always only go east or south.
+    Starting bottom, right, just add min(east, south) to the current risk.
+    min_risk[(0, 0)] will contain the least risk path from start to end (including self)
     """
     min_risk = {}
-    # starting with the last node
+
     for x in range(width - 1, -1, -1):
         for y in range(height - 1, -1, -1):
-            # add the lowest risk of the neighbors (east and south)
-            neighbors = [min_risk[neighbor] for neighbor in [(x + 1, y), (x, y + 1)] if neighbor in min_risk]
+            neighbors = [min_risk[neighbor] for neighbor in [(x + 1, y), (x, y + 1)]
+                         if neighbor in min_risk]
             min_neighbors = min(neighbors, default=0)
             min_risk[x, y] = min_neighbors + risks[(x, y)]
 
-    # (0, 0) now contains the risk for the least risky path
-    # but need to remove it's own cost
     return min_risk[(0, 0)] - risks[(0, 0)]
 
 
@@ -50,6 +50,10 @@ def pop_item_with_lowest_risk(todo: List[Tuple[Tuple[int, int], int]]) -> Tuple[
 
 
 def get_least_risk_djikstra(risks, width, height) -> int:
+    """
+    Djiksra's algorithm to find the least risk path.
+    This allows you to travel in any direction
+    """
     path_risk = defaultdict(lambda: sys.maxsize)
     path_risk[(0, 0)] = 0
     todo = [((0, 0), 0)]
