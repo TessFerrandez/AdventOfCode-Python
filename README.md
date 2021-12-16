@@ -32,6 +32,10 @@ Code for [www.adventofcode.com](www.adventofcode.com) in Python.
 
 **[Day 14](2021/day14.py) and [an alternative DP/memoization solution](2021/day14-dp.py)** - Extended Polymerization -- Expanding strings
 
+**[Day 15](2021/day15.py)** - Chiton -- Shortest path (Dynamic Programming and Djikstra)
+
+**[Day 16 Part 1](2021/day16-1.py) and [Day 16 Part 1](2021/day16-2.py)** - Packet Decoder -- Parse packets
+
 ## 2020
 
 **[Day 1](2020/day1.py)** - Report Repair -- Find expenses adding up to 2020
