@@ -36,6 +36,8 @@ Code for [www.adventofcode.com](www.adventofcode.com) in Python.
 
 **[Day 16 Part 1](2021/day16-1.py) and [Day 16 Part 1](2021/day16-2.py)** - Packet Decoder -- Parse packets
 
+**[Day 17](2021/day17.py)** - Trick shot -- Predict trajectory
+
 ## 2020
 
 **[Day 1](2020/day1.py)** - Report Repair -- Find expenses adding up to 2020
