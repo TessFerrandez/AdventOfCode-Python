@@ -79,7 +79,7 @@ def align_scanners(scanners):
     aligned_scanners = [0]
     un_aligned_scanners = [i for i in range(1, len(scanners))]
 
-    all_changes = []
+    all_offsets = []
 
     while un_aligned_scanners:
         for i in aligned_scanners:
@@ -89,9 +89,9 @@ def align_scanners(scanners):
                 align_scanner(overlapping_scanner, offsets, orientation)
                 un_aligned_scanners.remove(overlapping_scanner)
                 aligned_scanners.append(overlapping_scanner)
-                all_changes.append(offsets)
+                all_offsets.append(offsets)
 
-    return all_changes
+    return all_offsets
 
 
 def count_beacons(scanners):
