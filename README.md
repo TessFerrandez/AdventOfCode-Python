@@ -42,6 +42,8 @@ Code for [www.adventofcode.com](www.adventofcode.com) in Python.
 
 **[Day 19](2021/day19.py)** - Beacon Scanner -- Overlapping scanners
 
+**[Day 20](2021/day20.py)** - Trench Map -- Image enhancement
+
 ## 2020
 
 **[Day 1](2020/day1.py)** - Report Repair -- Find expenses adding up to 2020
