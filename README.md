@@ -44,7 +44,9 @@ Code for [www.adventofcode.com](www.adventofcode.com) in Python.
 
 **[Day 20](2021/day20.py)** - Trench Map -- Image enhancement
 
-**[Day 21](2021/day21.py)** - Dirac Dice -- Dynamic Programming
+**[Day 21](2021/day21.py)** - Dirac Dice -- Dynamic programming
+
+**[Day 22](2021/day22.py)** - Reactor Reboot -- Overlapping cubes
 
 ## 2020
 
