@@ -48,6 +48,8 @@ Code for [www.adventofcode.com](www.adventofcode.com) in Python.
 
 **[Day 22](2021/day22.py)** - Reactor Reboot -- Overlapping cubes
 
+**[Day 23](2021/day23.py)** - Amphipod -- A* search in amphipod maze
+
 ## 2020
 
 **[Day 1](2020/day1.py)** - Report Repair -- Find expenses adding up to 2020

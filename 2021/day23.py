@@ -2,6 +2,12 @@
 Based on solution from zmerlynn
 """
 import heapq
+from alive_progress import alive_bar
+import logging
+
+
+logger = logging.getLogger()
+logger.setLevel(logging.INFO)
 
 
 HALL_LEN = 11
@@ -16,22 +22,23 @@ NO_STOP = (2, 4, 6, 8)
 
 class State:
     @classmethod
-    def from_string(cls, state_str):
+    def from_string(cls, state_str, room_size=2):
         hall_str = state_str[:HALL_LEN]
         hall = [room if room != '.' else None for room in hall_str]
 
         room_str = state_str[HALL_LEN + 1:]
         rooms = []
-        for i in range(4):
-            room0 = room_str[i * 2] if room_str[i * 2] != '.' else None
-            room1 = room_str[i * 2 + 1] if room_str[i * 2 + 1] != '.' else None
-            rooms.append((room0, room1))
+        for i in range(NUM_ROOMS):
+            pods_in_room = tuple(pod if pod != '.' else None for pod in room_str[i * room_size:(i + 1) * room_size])
+            rooms.append(pods_in_room)
 
-        return State(hall, rooms)
+        return State(hall, rooms, room_size)
 
-    def __init__(self, hall, rooms) -> None:
+    def __init__(self, hall, rooms, room_size) -> None:
         self.hall = hall
         self.rooms = rooms
+        assert room_size == 2 or room_size == 4
+        self.room_size = room_size
 
     def __eq__(self, other):
         return str(self) == str(other)
@@ -53,7 +60,12 @@ class State:
         return hall_str + "|" + room_str
 
     def final(self) -> bool:
-        return str(self) == '...........|AABBCCDD'
+        if self.room_size == 2:
+            return str(self) == '...........|AABBCCDD'
+        elif self.room_size == 4:
+            return str(self) == '...........|AAAABBBBCCCCDDDD'
+        else:
+            return False
 
     def moves_from_hall(self, hall_i):
         pod = self.hall[hall_i]
@@ -81,7 +93,7 @@ class State:
         cost += dist(hall_i, pod_room) * MOVE_COSTS[pod]
         hall = self.hall[:]
         hall[hall_i] = None
-        return [(cost, State(hall, new_rooms))]
+        return [(cost, State(hall, new_rooms, self.room_size))]
 
     def moves_from_room(self, room_i):
         possible_moves_from_room_to_hall = self.moves_from_room_to_hall(room_i)
@@ -107,30 +119,30 @@ class State:
         for stop in possible_stops:
             new_hall = self.hall[:]
             new_hall[stop] = pod
-            out.append((cost + MOVE_COSTS[pod] * dist(room_pos, stop), State(new_hall, new_rooms)))
+            out.append((cost + MOVE_COSTS[pod] * dist(room_pos, stop), State(new_hall, new_rooms, self.room_size)))
         return out
 
     def moves_from_room_to_hall(self, room_i):
         room_pos, room_pod = ROOM_AT[room_i]
-        front, back = self.rooms[room_i]
+        room = self.rooms[room_i]
 
-        # if there is nothing in the room
-        if not back and not front:
+        # check that we have occupants
+        if not room[-1]:
             return None
 
-        if back == room_pod:
-            # back already in the right place
-            if not front or front == room_pod:
-                # either empty or already in the right place
-                return None
-            # back is set, but front pod does not belong to room
-            # so it can move
-            steps = 1
-        elif not front:
-            # there is a pod in the back of the room
-            steps = 2
-        else:
-            steps = 1
+        # check if room only has correct occupants
+        only_correct = True
+        for space in room:
+            if space and space != room_pod:
+                only_correct = False
+                break
+        if only_correct:
+            return None
+
+        # get the top occupant that can move
+        steps = 1
+        while not room[steps - 1]:
+            steps += 1
 
         rooms = [list(room[:]) for room in self.rooms]
         pod = rooms[room_i][steps - 1]
@@ -145,17 +157,22 @@ class State:
         """
         room_idx = ROOMS[pod]
         room = self.rooms[room_idx]
-        steps = 2
 
+        # check if room is full
         if room[0]:
-            # Room is full.
             return None
-        if room[1]:
-            # Back of room has a pod.
-            if room[1] != pod:
-                # But not `pod`.
+
+        # check if room contains other pods
+        for space in room:
+            if space and space != pod:
                 return None
-            steps = 1
+
+        # get steps to bottom-most empty space
+        steps = 0
+        for space in room:
+            if space:
+                break
+            steps += 1
 
         # Create a new room array usable for State()
         rooms = [list(room[:]) for room in self.rooms]
@@ -200,32 +217,23 @@ def tests():
     assert dist(9, 5) == 4
 
     # moves from hall
-    print(State.from_string('B..........|AA.BCCDD').moves_from_hall(0))
-    print(State.from_string('AB.........|.A.BCCDD').moves_from_hall(1))
-    print(State.from_string('BA.........|.A.BCCDD').moves_from_hall(1))
-    print(State.from_string('.....D.....|AABBCC.D').moves_from_hall(5))
+    logging.debug(State.from_string('B..........|AA.BCCDD').moves_from_hall(0))
+    logging.debug(State.from_string('AB.........|.A.BCCDD').moves_from_hall(1))
+    logging.debug(State.from_string('BA.........|.A.BCCDD').moves_from_hall(1))
+    logging.debug(State.from_string('.....D.....|AABBCC.D').moves_from_hall(5))
 
     # moves from room to hall
-    print(State.from_string('...........|.A.BCCDD').moves_from_room_to_hall(1))
-    print(State.from_string('...........|.B.ACCDD').moves_from_room_to_hall(1))
-    print(State.from_string('...........|.BBACCDD').moves_from_room_to_hall(1))
+    logging.debug(State.from_string('...........|.A.BCCDD').moves_from_room_to_hall(1))
+    logging.debug(State.from_string('...........|.B.ACCDD').moves_from_room_to_hall(1))
+    logging.debug(State.from_string('...........|.BBACCDD').moves_from_room_to_hall(1))
 
     # moves from room
-    print(State.from_string('.C.........|BBAACCDD').moves_from_room(1))
+    logging.debug(State.from_string('.C.........|BBAACCDD').moves_from_room(1))
 
     # valid moves
-    print(State.from_string('...........|BACDBCDA').valid_moves())
-    print(State.from_string('...B.......|BACD.CDA').valid_moves())
-    print(State.from_string('...B.C.....|BA.D.CDA').valid_moves())
-    print(State.from_string('...B.......|BA.DCCDA').valid_moves())
-    print(State.from_string('...B.D.....|BA..CCDA').valid_moves())
-    print(State.from_string('.....D.....|BA.BCCDA').valid_moves())
-    print(State.from_string('.....D.D...|BA.BCC.A').valid_moves())
-    print(State.from_string('...B.D.D...|.A.BCC.A').valid_moves())
-    print(State.from_string('...B.D.D.A.|.A.BCC..').valid_moves())
-    print(State.from_string('...B.D...A.|.A.BCC.D').valid_moves())
-    print(State.from_string('...B.....A.|.A.BCCDD').valid_moves())
-    print(State.from_string('.........A.|.ABBCCDD').valid_moves())
+    logging.debug(State.from_string('...........|BACDBCDA').valid_moves())
+    logging.debug(State.from_string('...B.......|BACD.CDA').valid_moves())
+    logging.debug(State.from_string('...B.C.....|BA.D.CDA').valid_moves())
 
     # verify hash
     state1 = State.from_string('...........|BBAACCDD')
@@ -234,30 +242,51 @@ def tests():
     assert len(state_set) == 1
 
 
-def solve(input_state):
-    start = State.from_string(input_state)
+def solve(input_state, room_size=2):
+    start = State.from_string(input_state, room_size)
     visited = set()
 
     todo = [(0, start, ())]
-    while todo:
-        cost, state, path = heapq.heappop(todo)
-        if state in visited:
-            # print("already visited", state)
-            continue
 
-        print("cost", cost, "state", state)
-        visited.add(state)
+    # this is only for the progress bar
+    last_cost = 0
+    if room_size == 2:
+        max_cost = 13495
+    else:
+        max_cost = 53767
 
-        if state.final():
-            print("final", cost)
-            for step in path:
-                print(step)
-            return cost
+    with alive_bar(max_cost) as bar:
+        while todo:
+            cost, state, path = heapq.heappop(todo)
 
-        for move_cost, move_to_state in state.valid_moves():
-            heapq.heappush(todo, (cost + move_cost, move_to_state, tuple(list(path) + [state])))
+            if state in visited:
+                logging.debug("already visited", state)
+                continue
+
+            # this is only for the progress bar
+            bar(cost - last_cost)
+            last_cost = cost
+            logging.debug("cost", cost, "state", state)
+
+            visited.add(state)
+
+            if state.final():
+                logging.debug("final", cost)
+                for step in path:
+                    logging.debug(step)
+                return cost
+
+            for move_cost, move_to_state in state.valid_moves():
+                heapq.heappush(todo, (cost + move_cost, move_to_state, tuple(list(path) + [state])))
 
 
+# RUN TESTS
 # tests()
-# solve("...........|BACDBCDA")
-print("Part 1:", solve("...........|ACDCADBB"))
+
+# TEST DATA
+# print("Part 1:", solve("...........|BACDBCDA", 2))
+# print("Part 2:", solve("...........|BDDACCBDBBACDACA", 4))
+
+# REAL DATA
+print("Part 1:", solve("...........|ACDCADBB", 2))
+print("Part 2:", solve("...........|ADDCDCBCABADBACB", 4))
