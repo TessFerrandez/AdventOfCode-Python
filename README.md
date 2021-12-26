@@ -52,6 +52,8 @@ Code for [www.adventofcode.com](www.adventofcode.com) in Python.
 
 **[Day 24](2021/day24.py)** - Arithmetic Logic Unit -- Translate and optimize ALU code
 
+**[Day 25](2021/day25.py)** - Sea Cucumber -- East and Down moving sea cucumbers
+
 ## 2020
 
 **[Day 1](2020/day1.py)** - Report Repair -- Find expenses adding up to 2020
