@@ -50,6 +50,8 @@ Code for [www.adventofcode.com](www.adventofcode.com) in Python.
 
 **[Day 23](2021/day23.py)** - Amphipod -- A* search in amphipod maze
 
+**[Day 24](2021/day24.py)** - Arithmetic Logic Unit -- Translate and optimize ALU code
+
 ## 2020
 
 **[Day 1](2020/day1.py)** - Report Repair -- Find expenses adding up to 2020
