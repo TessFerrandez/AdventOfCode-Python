@@ -2,6 +2,10 @@
 
 Code for [www.adventofcode.com](www.adventofcode.com) in Python.
 
+## 2022
+
+**[Day 1](2022/day1.py)** - Calorie Counting - Sum groups of numbers
+
 ## 2021
 
 **Day 1 [p1](2021/day1-1.py) [p2](2021/day1-2.py)** - Sonar Sweep -- Increasing numbers
