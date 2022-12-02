@@ -73,7 +73,7 @@ def get_valid_rules_by_position(rules: dict, nearby: List[List[int]], ticket: Li
                 value = ticket[i]
                 c1, c2 = rules[rule][0]
                 c3, c4 = rules[rule][1]
-                if not(c1 <= value <= c2 or c3 <= value <= c4):
+                if not (c1 <= value <= c2 or c3 <= value <= c4):
                     rules_to_remove.append(rule)
                     break
         for rule in rules_to_remove:

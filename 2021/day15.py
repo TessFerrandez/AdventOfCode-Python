@@ -58,7 +58,7 @@ def get_least_risk_djikstra(risks, width, height) -> int:
     path_risk[(0, 0)] = 0
     todo = [((0, 0), 0)]
 
-    while(todo):
+    while todo:
         (x, y), risk = pop_item_with_lowest_risk(todo)
 
         for neighbor in [(x, y - 1), (x + 1, y), (x, y + 1), (x - 1, y)]:

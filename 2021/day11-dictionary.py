@@ -27,7 +27,7 @@ def step(octopuses):
     step_flashes = 0
 
     # keep flashing and increasing neighbors until no one is flashing anymore
-    while(flashes := sum(flash(octopuses, octopus) for octopus, energy in octopuses.items() if energy > 9)):
+    while (flashes := sum(flash(octopuses, octopus) for octopus, energy in octopuses.items() if energy > 9)):
         step_flashes += flashes
 
     return step_flashes
@@ -48,7 +48,7 @@ def flash(octopuses, octopus):
 print("Part 1:", sum(step(octopuses) for _ in range(100)))
 
 current_step = 100
-while(step(octopuses)) != 100:
+while step(octopuses) != 100:
     current_step += 1
 
 print("Part 2:", current_step + 1)

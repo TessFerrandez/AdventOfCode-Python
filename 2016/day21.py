@@ -6,9 +6,9 @@ def read_input() -> list:
     return [instruction.strip() for instruction in open("input/day21.txt").readlines()]
 
 
-def rotate_string(l: list, steps: int) -> list:
-    steps = steps % len(l)
-    return l[steps:] + l[:steps]
+def rotate_string(lst: list, steps: int) -> list:
+    steps = steps % len(lst)
+    return lst[steps:] + lst[:steps]
 
 
 def scramble(string: str, instructions: list) -> str:

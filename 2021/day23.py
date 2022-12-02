@@ -73,7 +73,7 @@ class State:
         # if there is no pod in the hall
         # there is no move
         if not pod:
-            return[]
+            return []
 
         pod_room = ROOM_POS[pod]
 

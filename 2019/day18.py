@@ -1,7 +1,7 @@
 from heapq import heappush, heappop
 from typing import List, Tuple
 from collections import namedtuple, deque
-from progressbar import ProgressBar
+from alive_progress import alive_bar
 
 
 def parse_input(filename: str) -> List[str]:
@@ -44,7 +44,7 @@ def part1(maze: List[str]) -> int:
     # print(f'Starting at ({x}, {y}), looking for keys: {list(all_keys)}')
     queue.append(State(x, y, set(), 0))
 
-    with ProgressBar(max_value=7400000) as p:
+    with alive_bar(7400000) as bar:
         while queue:
             x, y, keys, distance = queue.popleft()
 
@@ -55,7 +55,7 @@ def part1(maze: List[str]) -> int:
             seen.add(key)
 
             if len(seen) % 100000 == 0:
-                p.update(len(seen))
+                bar(len(seen))
 
             ch_at_pos = maze[y][x]
             if ch_at_pos == '#':
@@ -137,10 +137,10 @@ def part2(maze: List[str]) -> int:
     # and go to a full bag of keys
     queue = [(0, (('0', '1', '2', '3'), frozenset()))]
     seen = dict()
-    with ProgressBar(max_value=1836) as p:
+    with alive_bar(1836) as bar:
         while queue:
             distance, node = heappop(queue)
-            p.update(distance)
+            bar(distance)
             if node in seen:
                 continue
             seen[node] = distance
@@ -156,9 +156,9 @@ def part2(maze: List[str]) -> int:
 
 
 def main():
-    maze = parse_input('input/day18.txt')
+    maze = parse_input('2019/input/day18.txt')
     print(f'Part 1: {part1(maze)}')
-    maze = parse_input('input/day18_pt2.txt')
+    maze = parse_input('2019/input/day18_pt2.txt')
     print(f'Part 2: {part2(maze)}')
 
 

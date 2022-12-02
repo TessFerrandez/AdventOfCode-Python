@@ -37,7 +37,7 @@ def decode(entry):
         decoded = ''.join(sorted(segment_map[char] for char in number))
         result += number_of[decoded]
 
-    return(int(result))
+    return int(result)
 
 
 def part1():

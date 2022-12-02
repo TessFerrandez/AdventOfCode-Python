@@ -19,6 +19,9 @@ def play_practice_game(positions) -> int:
         player = 1 - player
         num_rolls += 3
 
+    # to appease flake 8
+    _ = roll
+
     if scores[0] >= 1000:
         return scores[1] * num_rolls
     else:
