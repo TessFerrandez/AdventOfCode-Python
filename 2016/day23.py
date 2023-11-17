@@ -36,29 +36,14 @@ def execute_program(instructions: list, r: dict):
                 dec c
                 jnz c -5
                 """
-                if (
-                    (i + 3) < len(instructions)
-                    and i - 1 >= 0
-                    and instructions[i - 1][0] == "cpy"
-                    and instructions[i + 1][0] == "dec"
-                    and instructions[i + 2][0] == "jnz"
-                    and instructions[i + 3][0] == "dec"
-                    and instructions[i + 4][0] == "jnz"
-                ):
-
+                if ((i + 3) < len(instructions) and i - 1 >= 0 and instructions[i - 1][0] == "cpy" and instructions[i + 1][0] == "dec" and instructions[i + 2][0] == "jnz" and instructions[i + 3][0] == "dec" and instructions[i + 4][0] == "jnz"):
                     cpysrc, cpydest = instructions[i - 1][1], instructions[i - 1][2]
                     dec1op = instructions[i + 1][1]
                     jnz1cond, jnz1off = instructions[i + 2][1], instructions[i + 2][2]
                     dec2op = instructions[i + 3][1]
                     jnz2cond, jnz2off = instructions[i + 4][1], instructions[i + 4][2]
 
-                    if (
-                        cpydest == dec1op
-                        and dec1op == jnz1cond
-                        and dec2op == jnz2cond
-                        and jnz1off == "-2"
-                        and jnz2off == "-5"
-                    ):
+                    if (cpydest == dec1op and dec1op == jnz1cond and dec2op == jnz2cond and jnz1off == "-2" and jnz2off == "-5"):
                         cpysrc = r[cpysrc] if cpysrc in regs else int(cpysrc)
                         r[p1] += cpysrc * r[dec2op]
                         r[dec2op] = 0

@@ -2,6 +2,10 @@ def read_data(year, day):
     return open(f"{year}\\input\\day{day}.in").read().strip()
 
 
+def read_data_no_strip(year, day):
+    return open(f"{year}\\input\\day{day}.in").read()
+
+
 def read_sample_data(year, day):
     return open(f"{year}\\input\\day{day}-sample.in").read().strip()
 
