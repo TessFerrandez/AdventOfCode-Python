@@ -2,7 +2,7 @@ from input_processing import read_data
 
 
 def parse(data):
-    return data
+    pass
 
 
 def part1(data):
@@ -18,6 +18,6 @@ def test():
 
 
 test()
-data = parse(read_data(2022, 1))
-print('Part1:', part1(data))
-print('Part2:', part2(data))
+data = read_data(2022, 23)
+print('Part1:', part1(parse(data)))
+print('Part2:', part2(parse(data)))
