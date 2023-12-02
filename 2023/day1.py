@@ -1,3 +1,4 @@
+import re
 from input_processing import read_data
 
 
@@ -5,71 +6,25 @@ def parse(data):
     return data.splitlines()
 
 
-def get_numbers(line):
-    return [int(n) for n in list(line) if n.isnumeric()]
+def get_calibration_value(line):
+    pattern = re.compile(r'\d')
+    numbers = pattern.findall(line)
+    return int(numbers[0]) * 10 + int(numbers[-1])
 
 
-def get_first_number(line):
-    if line[0].isnumeric():
-        return int(line[0])
-    if line.startswith('one'):
-        return 1
-    if line.startswith('two'):
-        return 2
-    if line.startswith('three'):
-        return 3
-    if line.startswith('four'):
-        return 4
-    if line.startswith('five'):
-        return 5
-    if line.startswith('six'):
-        return 6
-    if line.startswith('seven'):
-        return 7
-    if line.startswith('eight'):
-        return 8
-    if line.startswith('nine'):
-        return 9
-    return get_first_number(line[1:])
-
-
-def get_last_number(line):
-    if line[-1].isnumeric():
-        return int(line[-1])
-    if line.endswith('one'):
-        return 1
-    if line.endswith('two'):
-        return 2
-    if line.endswith('three'):
-        return 3
-    if line.endswith('four'):
-        return 4
-    if line.endswith('five'):
-        return 5
-    if line.endswith('six'):
-        return 6
-    if line.endswith('seven'):
-        return 7
-    if line.endswith('eight'):
-        return 8
-    if line.endswith('nine'):
-        return 9
-    return get_last_number(line[:-1])
-
-
-def get_numbers2(line):
-    first_number = get_first_number(line)
-    last_number = get_last_number(line)
-    return first_number * 10 + last_number
+def get_calibration_value_ex(line):
+    nums = {'one': '1', 'two': '2', 'three': '3', 'four': '4', 'five': '5', 'six': '6', 'seven': '7', 'eight': '8', 'nine': '9'}
+    pattern = re.compile(r'(one|two|three|four|five|six|seven|eight|nine|\d)')
+    numbers = pattern.findall(line)
+    return int(''.join(nums.get(num, num) for num in [numbers[0], numbers[-1]]))
 
 
 def part1(data):
-    all_numbers = list(map(get_numbers, data))
-    return sum(numbers[0] * 10 + numbers[-1] for numbers in all_numbers)
+    return sum(map(get_calibration_value, data))
 
 
 def part2(data):
-    return sum(map(get_numbers2, data))
+    return sum(map(get_calibration_value_ex, data))
 
 
 def test():
