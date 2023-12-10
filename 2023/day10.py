@@ -2,10 +2,6 @@
 from input_processing import read_data
 
 
-lines = open("2023/input/day10.in").read().split("\n")
-visited = set()
-
-
 def get_start(grid):
     for y in range(len(grid)):
         if "S" in grid[y]:
