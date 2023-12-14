@@ -3,12 +3,10 @@ from input_processing import read_data
 
 def parse_grid(grid_base):
     rows = grid_base.splitlines()
+    row_nums = [int(row.replace('.', '0').replace('#', '1'), 2) for row in rows]
 
-    row_nums = [sum(2 ** i for i, ch in enumerate(row[::-1]) if ch == '#') for row in rows]
-    col_nums = []
-    for col in range(len(rows[0])):
-        col_num = sum(2 ** i for i, row in enumerate(rows) if row[col] == '#')
-        col_nums.append(col_num)
+    cols = [''.join(row[col] for row in rows) for col in range(len(rows[0]))]
+    col_nums = [int(col.replace('.', '0').replace('#', '1'), 2) for col in cols]
 
     return row_nums, col_nums
 
