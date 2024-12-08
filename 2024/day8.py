@@ -14,11 +14,11 @@ def parse(data):
 
 def get_anti_nodes(antennas, antenna, width, height):
     anti_nodes = set()
-    points = antennas[antenna]
-    for i in range(len(points) - 1):
-        for j in range(i + 1, len(points)):
-            x1, y1 = points[i]
-            x2, y2 = points[j]
+    antenna_locations = antennas[antenna]
+    for i in range(len(antenna_locations) - 1):
+        for j in range(i + 1, len(antenna_locations)):
+            x1, y1 = antenna_locations[i]
+            x2, y2 = antenna_locations[j]
             dx, dy = x2 - x1, y2 - y1
             a1 = (x2 + dx, y2 + dy)
             a2 = (x1 - dx, y1 - dy)
@@ -31,16 +31,14 @@ def get_anti_nodes(antennas, antenna, width, height):
 
 def get_anti_nodes_p2(antennas, antenna, width, height):
     anti_nodes = set()
-    points = antennas[antenna]
-    for point in points:
-        anti_nodes.add(point)
+    antenna_locations = antennas[antenna]
 
-    for i in range(len(points) - 1):
-        for j in range(i + 1, len(points)):
-            x1, y1 = points[i]
-            x2, y2 = points[j]
+    for i in range(len(antenna_locations) - 1):
+        for j in range(i + 1, len(antenna_locations)):
+            x1, y1 = antenna_locations[i]
+            x2, y2 = antenna_locations[j]
             dx, dy = x2 - x1, y2 - y1
-            ax, ay = x1 + dx, y1 + dy
+            ax, ay = x1, y1
             while 0 <= ax < width and 0 <= ay < height:
                 anti_nodes.add((ax, ay))
                 ax += dx
