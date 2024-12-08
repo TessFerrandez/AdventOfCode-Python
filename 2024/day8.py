@@ -12,6 +12,11 @@ def parse(data):
     return antennas, len(data[0]), len(data)
 
 
+def in_grid(point, width, height):
+    x, y = point
+    return 0 <= x < width and 0 <= y < height
+
+
 def get_anti_nodes(antennas, antenna, width, height):
     anti_nodes = set()
     antenna_locations = antennas[antenna]
@@ -22,9 +27,9 @@ def get_anti_nodes(antennas, antenna, width, height):
             dx, dy = x2 - x1, y2 - y1
             a1 = (x2 + dx, y2 + dy)
             a2 = (x1 - dx, y1 - dy)
-            if 0 <= a1[0] < width and 0 <= a1[1] < height:
+            if in_grid(a1, width, height):
                 anti_nodes.add(a1)
-            if 0 <= a2[0] < width and 0 <= a2[1] < height:
+            if in_grid(a2, width, height):
                 anti_nodes.add(a2)
     return anti_nodes
 
@@ -39,12 +44,12 @@ def get_anti_nodes_p2(antennas, antenna, width, height):
             x2, y2 = antenna_locations[j]
             dx, dy = x2 - x1, y2 - y1
             ax, ay = x1, y1
-            while 0 <= ax < width and 0 <= ay < height:
+            while in_grid((ax, ay), width, height):
                 anti_nodes.add((ax, ay))
                 ax += dx
                 ay += dy
             ax, ay = x1 - dx, y1 - dy
-            while 0 <= ax < width and 0 <= ay < height:
+            while in_grid((ax, ay), width, height):
                 anti_nodes.add((ax, ay))
                 ax -= dx
                 ay -= dy
