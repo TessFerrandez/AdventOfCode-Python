@@ -51,7 +51,6 @@ def part2(robots, width, height):
     exit = False
 
     i = 0
-    timer = 0
     while not exit:
         canvas.fill(color)
         for event in pygame.event.get():
@@ -98,6 +97,7 @@ def part2_calc(robots, width, height):
             print("time:", time)
             done = True
     return time
+
 
 def test():
     data = '''p=0,4 v=3,-3
