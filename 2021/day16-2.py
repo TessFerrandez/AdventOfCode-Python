@@ -1,5 +1,5 @@
 from typing import Tuple, List
-import numpy as np
+import functools
 
 
 def read_input() -> str:
@@ -86,7 +86,7 @@ def process_message(message: str, indent="") -> Tuple[int, str]:
     if type == 0:
         return sum(packet_values), message
     elif type == 1:
-        return np.prod(packet_values), message
+        return functools.reduce(lambda a, b: a*b, packet_values), message
     elif type == 2:
         return min(packet_values), message
     elif type == 3:
